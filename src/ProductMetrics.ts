@@ -1,8 +1,8 @@
 import { Metric } from "./datadog";
 
 export class ProductMetrics {
-  name: string;
-  metrics: Metric[];
+  public metrics: Metric[];
+  public name: string;
 
   constructor(name: string, metrics: Metric[]) {
     this.name = name;
