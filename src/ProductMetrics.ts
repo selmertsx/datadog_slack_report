@@ -1,23 +1,41 @@
 import { Metric } from "./datadog";
 
 export class ProductMetrics {
-  public metrics: Metric[];
-  public name: string;
+  private _metrics: Metric[];
+  private _name: string;
+  private _counts: number[] | undefined;
 
   constructor(name: string, metrics: Metric[]) {
-    this.name = name;
-    this.metrics = metrics;
+    this._name = name;
+    this._metrics = metrics;
+    this._counts = undefined;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get metrics() {
+    return this._metrics;
+  }
+
+  get counts(): number[] {
+    if (!this._counts) {
+      this._counts = this.metrics.map((metric: Metric) => metric.count);
+    }
+
+    return this._counts;
   }
 
   public maxHostCount() {
-    return Math.max(...this.counts());
+    return Math.max(...this.counts);
   }
 
   public minHostCount() {
-    return Math.min(...this.counts());
+    return Math.min(...this.counts);
   }
 
-  private counts(): number[] {
-    return this.metrics.map((metric: Metric) => metric.count);
+  public sum() {
+    return this.counts.map((total, num) => total + num);
   }
 }
