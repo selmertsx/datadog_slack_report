@@ -36,6 +36,6 @@ export class ProductMetrics {
   }
 
   public sum() {
-    return this.counts.map((total, num) => total + num);
+    return this.counts.reduce((total, num) => total + num);
   }
 }

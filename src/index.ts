@@ -12,7 +12,9 @@ const slackClient = new SlackClient();
 const products: string[] = [PRODUCT];
 
 async function datadog_handler(): Promise<void> {
-  const fromTime = moment({ hour: 0, minute: 0, second: 0 }).add(-1, "days").format("X");
+  const fromTime = moment({ hour: 0, minute: 0, second: 0 })
+    .add(-1, "days")
+    .format("X");
   const toTime = moment({ hour: 23, minute: 59, second: 59 }).format("X");
 
   for (const product of products) {

@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ts-node[debug]",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/ts-node/dist/bin.js",
+      "args": [ "${relativeFile}" ],
+      "console": "integratedTerminal"
+    }
+  ]
+}
