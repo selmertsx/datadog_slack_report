@@ -12,8 +12,8 @@ const slackClient = new SlackClient();
 const products: string[] = [PRODUCT];
 
 async function datadog_handler(): Promise<void> {
-  const fromTime = moment({ hour: 0, minute: 0, second: 0 }).subtract(1, "days").format("X");
-  const toTime = moment({ hour: 23, minute: 59, second: 59 }).subtract(1, "days").format("X");
+  const fromTime = moment({ hour: 0, minute: 0, second: 0 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
+  const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
 
   for (const product of products) {
     const productMetrics: ProductMetrics = await datadogClient.countHosts(product, fromTime, toTime);
