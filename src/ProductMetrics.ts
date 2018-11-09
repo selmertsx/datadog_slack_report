@@ -27,15 +27,15 @@ export class ProductMetrics {
     return this._counts;
   }
 
-  public maxHostCount() {
+  public maxHostCount():number{
     return Math.max(...this.counts);
   }
 
-  public minHostCount() {
+  public minHostCount():number{
     return Math.min(...this.counts);
   }
 
-  public sum() {
-    return this.counts.reduce((total, num) => total + num);
+  public sum(): number {
+    return this.counts.reduce((total, num) => total + num) / 12.0;
   }
 }
