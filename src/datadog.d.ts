@@ -6,7 +6,25 @@ export interface CountHostRequest {
   api_key: string;
 }
 
-export interface Metric {
-  unixTime: number;
-  count: number;
+export interface SeriesMetrics {
+  scope: string,
+  pointlist: [
+    number[]
+  ]
+}
+
+export interface DatadogQueryReponse {
+  data: {
+    series: SeriesMetrics[]
+  }
+}
+
+export interface DatadogHostMetrics {
+  product: string,
+  pointlists: PointList[]
+}
+
+export interface PointList {
+  unixTime: number,
+  count: number
 }

@@ -1,5 +1,11 @@
 import axios, { AxiosInstance } from "axios";
-import { CountHostRequest, Metric } from "./datadog";
+import {
+  CountHostRequest,
+  SeriesMetrics,
+  DatadogQueryReponse,
+  DatadogHostMetrics,
+  PointList
+} from "./datadog";
 
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
@@ -14,10 +20,7 @@ export class DatadogClient {
     });
   }
 
-  public async countHosts(
-    from: string,
-    to: string,
-  ): Promise<any> {
+  public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
     const params: CountHostRequest = {
       api_key: API_KEY,
       application_key: APP_KEY,
@@ -26,19 +29,12 @@ export class DatadogClient {
       to,
     };
 
-    const res = await this.request.get("/query", { params });
-
-    const pointlist = res.data.series[0].pointlist;
-    return pointlist.map((point: number[]) => {
-      return { unixTime: point[0], count: point[1] };
+    const res: DatadogQueryReponse = await this.request.get("/query", { params });
+    return res.data.series.map((product: SeriesMetrics) => {
+      const pointlists: PointList[] = product.pointlist.map((point: number[]) => {
+        return { unixTime: point[0], count: point[1] };
+      });
+      return { product: product.scope, pointlists }
     });
   }
 }
-
-// NOTE: for testing
-import moment from "moment-timezone";
-const fromTime = moment({ hour: 0, minute: 0, second: 0 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
-const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
-const client = new DatadogClient();
-client.countHosts(fromTime, toTime);
-
