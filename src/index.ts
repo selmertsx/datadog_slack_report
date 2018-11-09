@@ -5,15 +5,19 @@ import { ProductMetrics } from "./ProductMetrics";
 import { SlackClient } from "./SlackClient";
 import SlackMessage from "./SlackMessage";
 
-const PRODUCT: string = process.env.PRODUCT as string;
+const PRODUCTS: string = process.env.PRODUCTS as string;
 const datadogClient = new DatadogClient();
 const attachments: MessageAttachment[] = [];
 const slackClient = new SlackClient();
-const products: string[] = [PRODUCT];
+const products: string[] = PRODUCTS.split(",");
 
 async function datadog_handler(): Promise<void> {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
   const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
+  const title = `
+  datadog monitoring daily report
+  ${moment.unix(parseInt(fromTime))} ~ ${moment.unix(parseInt(toTime))}
+  `;
 
   for (const product of products) {
     const metrics = await datadogClient.countHostsByProduct(product, fromTime, toTime);
@@ -21,7 +25,7 @@ async function datadog_handler(): Promise<void> {
     attachments.push(SlackMessage.attachments(productMetrics));
   }
 
-  await slackClient.post(attachments);
+  await slackClient.post(title, attachments);
 }
 
 datadog_handler();

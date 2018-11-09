@@ -8,8 +8,8 @@ interface SlackMessageFunctions {
 const SlackMessage: SlackMessageFunctions = {
   attachments: (productMetrics: ProductMetrics) => {
     const text: string = `
-      min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}
-      sum(host*hours):${productMetrics.sum()}
+    min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}
+    sum(host*hours):${productMetrics.sum()}
     `;
 
     return {
