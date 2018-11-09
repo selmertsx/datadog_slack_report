@@ -1,13 +1,13 @@
-import { Metric } from "./datadog";
+import { DatadogHostMetrics, PointList } from "./datadog";
 
 export class ProductMetrics {
-  private _metrics: Metric[];
+  private _metrics: PointList[];
   private _name: string;
   private _counts: number[] | undefined;
 
-  constructor(name: string, metrics: Metric[]) {
-    this._name = name;
-    this._metrics = metrics;
+  constructor(metrics: DatadogHostMetrics) {
+    this._name = metrics.product;
+    this._metrics = metrics.pointlists;
     this._counts = undefined;
   }
 
@@ -21,7 +21,7 @@ export class ProductMetrics {
 
   get counts(): number[] {
     if (!this._counts) {
-      this._counts = this.metrics.map((metric: Metric) => metric.count);
+      this._counts = this.metrics.map((metric: PointList) => metric.count);
     }
 
     return this._counts;
@@ -36,6 +36,6 @@ export class ProductMetrics {
   }
 
   public sum(): number {
-    return this.counts.reduce((total, num) => total + num) / 12.0;
+    return this.counts.reduce((total, num) => total + num);
   }
 }
