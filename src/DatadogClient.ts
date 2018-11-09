@@ -29,6 +29,7 @@ export class DatadogClient {
     };
 
     const res = await this.request.get("/query", { params });
+
     const pointlist = res.data.series[0].pointlist;
     const metrics: Metric[] = pointlist.map((point: number[]) => {
       return { unixTime: point[0], count: point[1] };

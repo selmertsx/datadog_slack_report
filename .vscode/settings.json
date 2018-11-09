@@ -1,4 +1,7 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "editor.wordWrapColumn": 120,
+  "prettier.tslintIntegration": true,
+  "[typescript]": {
+    "editor.formatOnSave": true
+  }
 }
