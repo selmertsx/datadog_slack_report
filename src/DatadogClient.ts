@@ -14,7 +14,7 @@ export class DatadogClient {
     });
   }
 
-  public async countHosts(
+  public async countHostsByProduct(
     product: string,
     from: string,
     to: string,

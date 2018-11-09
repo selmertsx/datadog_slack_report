@@ -16,10 +16,11 @@ async function datadog_handler(): Promise<void> {
   const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
 
   for (const product of products) {
-    const metrics = await datadogClient.countHosts(product, fromTime, toTime);
+    const metrics = await datadogClient.countHostsByProduct(product, fromTime, toTime);
     const productMetrics = new ProductMetrics(product, metrics);
     attachments.push(SlackMessage.attachments(productMetrics));
   }
+
   await slackClient.post(attachments);
 }
 
