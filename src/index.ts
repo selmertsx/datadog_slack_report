@@ -1,5 +1,5 @@
 import { MessageAttachment } from "@slack/client";
-import moment from "moment";
+import moment from "moment-timezone";
 import { DatadogClient } from "./DatadogClient";
 import { ProductMetrics } from "./ProductMetrics";
 import { SlackClient } from "./SlackClient";
