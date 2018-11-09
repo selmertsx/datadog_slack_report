@@ -18,12 +18,10 @@ async function datadog_handler(): Promise<void> {
   datadog monitoring daily report
   ${moment.unix(parseInt(fromTime))} ~ ${moment.unix(parseInt(toTime))}
   `;
+  const metrics = await datadogClient.countHosts(fromTime, toTime);
 
-  for (const product of products) {
-    const metrics = await datadogClient.countHostsByProduct(product, fromTime, toTime);
-    const productMetrics = new ProductMetrics(product, metrics);
-    attachments.push(SlackMessage.attachments(productMetrics));
-  }
+  const productMetrics = new ProductMetrics(product, metrics);
+  attachments.push(SlackMessage.attachments(productMetrics));
 
   await slackClient.post(title, attachments);
 }
