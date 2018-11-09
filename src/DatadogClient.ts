@@ -14,8 +14,7 @@ export class DatadogClient {
     });
   }
 
-  public async countHostsByProduct(
-    product: string,
+  public async countHosts(
     from: string,
     to: string,
   ): Promise<any> {
@@ -35,3 +34,11 @@ export class DatadogClient {
     });
   }
 }
+
+// NOTE: for testing
+import moment from "moment-timezone";
+const fromTime = moment({ hour: 0, minute: 0, second: 0 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
+const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
+const client = new DatadogClient();
+client.countHosts(fromTime, toTime);
+
