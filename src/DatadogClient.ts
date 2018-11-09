@@ -23,7 +23,7 @@ export class DatadogClient {
       api_key: API_KEY,
       application_key: APP_KEY,
       from,
-      query: `count_not_null(sum:system.cpu.user{product:${product}} by {host})`,
+      query: `count:system.cpu.user{*} by {product}.rollup(count, 3600)`,
       to,
     };
 

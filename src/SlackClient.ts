@@ -1,7 +1,7 @@
 import { MessageAttachment, WebAPICallResult, WebClient } from "@slack/client";
 
 export class SlackClient {
-  private readonly channelID: string = process.env.TEST_CHANNEL_ID as string;
+  private readonly channelID: string = process.env.CHANNEL_ID as string;
   private readonly token: string = process.env.SlackToken as string;
   private readonly client: WebClient;
 
