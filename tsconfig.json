@@ -2,11 +2,22 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "commonjs",
+    "lib": [
+      "es5",
+      "es2015",
+      "es2016.array.include",
+      "esnext.asynciterable"
+    ],
     "strict": true,
-    "outDir": "./.build",
+    "outDir": "./",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "allowJs": true
   },
-  "include": [ "src/**/*" ]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

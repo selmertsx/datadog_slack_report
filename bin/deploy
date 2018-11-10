@@ -1,0 +1,15 @@
+#!/bin/sh -eu
+cd "$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' $0)")" || exit 1
+cd ../
+BASE_DIR="$PWD"
+
+npm run build
+gcloud beta functions deploy datadog_handler \
+  --timeout=540s \
+  --memory=512MB \
+  --region=asia-northeast1 \
+  --stage-bucket=datadog_report \
+  --trigger-event=google.pubsub.topic.publish \
+  --trigger-resource=datadog_report \
+  --runtime=nodejs8
+  --set-env-vars APP_KEY=$APP_KEY API_KEY=$API_KEY SlackToken=$SlackToken CHANNEL_ID=$CHANNEL_ID
