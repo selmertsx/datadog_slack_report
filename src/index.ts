@@ -10,7 +10,7 @@ import { DatadogHostMetrics } from './datadog';
 const datadogClient = new DatadogClient();
 const slackClient = new SlackClient();
 
-export async function datadog_handler(): Promise<void> {
+export async function datadog_handler(data: any): Promise<void> {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
   const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
   const title = `
@@ -27,5 +27,3 @@ export async function datadog_handler(): Promise<void> {
 
   await slackClient.post(title, attachments);
 }
-
-datadog_handler();
