@@ -5,12 +5,11 @@ interface SlackMessageFunctions {
   attachments(productMetrics: ProductMetrics): MessageAttachment;
 }
 
-const SlackMessage: SlackMessageFunctions = {
+export const SlackMessage: SlackMessageFunctions = {
   attachments: (productMetrics: ProductMetrics) => {
-    const text: string = `
-    min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}
-    sum(host*hours):${productMetrics.sum()}
-    `;
+    const text: string =
+      "min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n"
+      + "sum(host*hours):${productMetrics.sum()}";
 
     return {
       text,
@@ -19,4 +18,3 @@ const SlackMessage: SlackMessageFunctions = {
   },
 };
 
-export = SlackMessage;
