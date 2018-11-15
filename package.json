@@ -13,7 +13,9 @@
     "@types/axios": "^0.14.0",
     "@types/moment": "^2.13.0",
     "@types/moment-timezone": "^0.5.9",
+    "@types/node": "^10.12.3",
     "prettier-tslint": "^0.4.0",
+    "source-map-support": "^0.5.9",
     "ts-loader": "^5.3.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
@@ -23,11 +25,9 @@
   },
   "dependencies": {
     "@slack/client": "^4.8.0",
-    "@types/node": "^10.12.3",
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
-    "querystring": "^0.2.0",
-    "source-map-support": "^0.5.9"
+    "querystring": "^0.2.0"
   }
 }
