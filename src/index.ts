@@ -5,7 +5,7 @@ import { ProductMetrics } from "./ProductMetrics";
 import { SlackClient } from "./SlackClient";
 import SlackMessage from "./SlackMessage";
 import { DatadogHostMetrics } from './datadog';
-
+import "source-map-support/register";
 
 const datadogClient = new DatadogClient();
 const slackClient = new SlackClient();

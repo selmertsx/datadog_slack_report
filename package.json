@@ -27,6 +27,7 @@
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "source-map-support": "^0.5.9"
   }
 }
