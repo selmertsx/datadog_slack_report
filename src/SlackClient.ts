@@ -1,6 +1,7 @@
 import { MessageAttachment, WebAPICallResult, WebClient } from "@slack/client";
 
 export class SlackClient {
+  static username: string = "Datadog按分計算Bot";
   private readonly channelID: string = process.env.CHANNEL_ID as string;
   private readonly token: string = process.env.SlackToken as string;
   private readonly client: WebClient;
@@ -14,7 +15,7 @@ export class SlackClient {
       attachments,
       channel: this.channelID,
       text,
-      username: "Datadog按分計算Bot",
+      username: SlackClient.username,
     });
   }
 }
