@@ -2,5 +2,8 @@
 node_modules
 .build
 .DS_Store
-index.js
 .env.yaml
+
+# ignore code created by webpack
+index.js
+index.js.map
