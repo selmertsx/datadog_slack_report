@@ -25,8 +25,8 @@ const metrics: DatadogHostMetrics = {
 const title = metrics.product;
 const productMetrics = new ProductMetrics(metrics);
 const text: string =
-  "min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n"
-  + "sum(host*hours):${productMetrics.sum()}";
+  `min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n`
+  + `sum(host*hours):${productMetrics.sum()}`;
 
 describe("attachments", () => {
   it("normal condition", () => {
