@@ -13,4 +13,3 @@ gcloud beta functions deploy datadog_handler \
   --trigger-resource=datadog_report \
   --env-vars-file .env.yaml \
   --runtime=nodejs8
-
