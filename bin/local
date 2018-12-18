@@ -1,0 +1,8 @@
+#!/bin/sh -eu
+cd "$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' $0)")" || exit 1
+cd ../
+BASE_DIR="$PWD"
+
+npm run build
+npx functions deploy datadog_handler --trigger-topic=datadog_report
+npx functions call datadog_handler
