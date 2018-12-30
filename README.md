@@ -1,6 +1,10 @@
 # datadog_slack_report
 Datadogで監視しているサーバー台数をいい感じにまとめてslack通知してくれる Cloud Function
 
+## 初期設定
+
+`cp .env.yaml.sample .env.yaml`
+
 ## Localでの動作確認方法
 
 ```
