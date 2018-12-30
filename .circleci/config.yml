@@ -16,9 +16,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
-          environment:
-            JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
-          command: npm test -- --ci --reporters=default --reporters=jest-junit --coverage --runInBand
+          command: npm test -- --ci
       - run:
           description: tslint
           command: node_modules/tslint/bin/tslint -p tsconfig.json
