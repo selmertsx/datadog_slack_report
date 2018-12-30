@@ -27,11 +27,11 @@ export class ProductMetrics {
     return this._counts;
   }
 
-  public maxHostCount():number{
+  public maxHostCount(): number {
     return Math.max(...this.counts);
   }
 
-  public minHostCount():number{
+  public minHostCount(): number {
     return Math.min(...this.counts);
   }
 
