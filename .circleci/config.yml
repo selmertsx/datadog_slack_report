@@ -1,0 +1,29 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: node:8.11.2
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
+
+      - run: npm i
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - run:
+          environment:
+            JEST_JUNIT_OUTPUT: reports/junit/js-test-results.xml
+          command: npm test -- --ci --reporters=default --reporters=jest-junit --coverage --runInBand
+      - run:
+          description: tslint
+          command: node_modules/tslint/bin/tslint -p tsconfig.json
+      - run:
+          description: webpack build
+          command: npm run build
+      - store_test_results:
+          path: reports/junit
