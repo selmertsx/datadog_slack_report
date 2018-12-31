@@ -4,6 +4,7 @@ import { SlackMessage } from "../src/SlackMessage";
 
 import moment from "moment";
 
+// tslint:disable: object-literal-sort-keys
 const firstTime = moment({
   years: 2018,
   months: 11,
@@ -21,6 +22,7 @@ const lastTime = moment({
   minutes: 0,
   seconds: 0,
 }).format("x");
+/* tslint:enable:object-literal-sort-keys */
 
 const maxHostCount = 40;
 const minHostCount = 20;
