@@ -17,6 +17,7 @@
     "@types/moment-timezone": "^0.5.9",
     "@types/node": "^10.12.18",
     "jest": "^23.6.0",
+    "prettier": "^1.16.1",
     "prettier-tslint": "^0.4.1",
     "source-map-support": "^0.5.9",
     "ts-jest": "^23.10.5",
