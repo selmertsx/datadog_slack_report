@@ -5,7 +5,7 @@ import { SlackMessage } from "../src/SlackMessage";
 import moment from "moment";
 
 // tslint:disable: object-literal-sort-keys
-const firstTime = moment({
+const fromTime = moment({
   years: 2018,
   months: 11,
   days: 18,
@@ -14,7 +14,7 @@ const firstTime = moment({
   seconds: 0,
 }).format("x");
 
-const lastTime = moment({
+const toTime = moment({
   years: 2018,
   months: 11,
   days: 18,
@@ -30,26 +30,39 @@ const metrics: DatadogHostMetrics = {
   pointlists: [
     {
       count: minHostCount,
-      unixTime: parseInt(firstTime, 10),
+      unixTime: parseInt(fromTime, 10),
     },
     {
       count: maxHostCount,
-      unixTime: parseInt(lastTime, 10),
+      unixTime: parseInt(toTime, 10),
     },
   ],
   product: "sample",
 };
 
-const title = metrics.product;
-const productMetrics = new ProductMetrics(metrics);
-const text: string =
-  `min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n` +
-  `sum(host*hours):${productMetrics.sum()}`;
-
 describe("attachments", () => {
   it("normal condition", () => {
-    const message = SlackMessage.attachments(productMetrics);
-    expect(message.title).toEqual(title);
-    expect(message.text).toEqual(text);
+    const productMetrics = new ProductMetrics(metrics);
+    const attachmentText: string =
+      `min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n` +
+      `sum(host*hours):${productMetrics.sum()}`;
+
+    const attachments = SlackMessage.attachments(productMetrics);
+    expect(attachments.title).toEqual(metrics.product);
+    expect(attachments.text).toEqual(attachmentText);
+  });
+});
+
+describe("text", () => {
+  it("normal condition", () => {
+    const expected = `
+    datadog monitoring daily report
+    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(
+      parseInt(toTime, 10),
+    )}
+    `;
+
+    const text = SlackMessage.text(fromTime, toTime);
+    expect(text).toEqual(expected);
   });
 });
