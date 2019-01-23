@@ -4,14 +4,21 @@ import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, PointList, S
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
 
+interface RequestParams {
+  baseURL: string;
+  timeout: number;
+}
+
+const requestParams: RequestParams = {
+  baseURL: "https://api.datadoghq.com/api/v1/",
+  timeout: 1000000,
+};
+
 export class DatadogClient {
-  public request: AxiosInstance;
+  private request: AxiosInstance;
 
   constructor() {
-    this.request = axios.create({
-      baseURL: "https://api.datadoghq.com/api/v1/",
-      timeout: 1000000,
-    });
+    this.request = axios.create(requestParams);
   }
 
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
@@ -26,6 +33,7 @@ export class DatadogClient {
     const res: DatadogQueryReponse = await this.request.get("/query", {
       params,
     });
+
     return res.data.series.map((product: SeriesMetrics) => {
       const pointlists: PointList[] = product.pointlist.map((point: number[]) => ({
         unixTime: point[0],
