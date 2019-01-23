@@ -8,6 +8,7 @@
   "rules": {
     "prettier": [true,  { "printWidth": 120, "trailingComma": "es5" }],
     "arrow-return-shorthand": [true, "multiline"],
+    "variable-name": false,
     "no-console": false,
     "no-namespace": false,
     "newline-per-chained-call": false,

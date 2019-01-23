@@ -10,10 +10,7 @@ export class SlackClient {
     this.client = new WebClient(this.token);
   }
 
-  public post(
-    text: string,
-    attachments: MessageAttachment[],
-  ): Promise<WebAPICallResult> {
+  public post(text: string, attachments: MessageAttachment[]): Promise<WebAPICallResult> {
     return this.client.chat.postMessage({
       attachments,
       channel: this.channelID,
