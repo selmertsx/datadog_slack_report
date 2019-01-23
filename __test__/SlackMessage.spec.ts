@@ -57,9 +57,7 @@ describe("text", () => {
   it("normal condition", () => {
     const expected = `
     datadog monitoring daily report
-    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(
-      parseInt(toTime, 10),
-    )}
+    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(parseInt(toTime, 10))}
     `;
 
     const text = SlackMessage.text(fromTime, toTime);
