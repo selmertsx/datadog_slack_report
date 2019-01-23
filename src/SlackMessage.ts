@@ -21,9 +21,7 @@ export const SlackMessage: SlackMessageFunctions = {
   text(fromTime: string, toTime: string): string {
     return `
     datadog monitoring daily report
-    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(
-      parseInt(toTime, 10),
-    )}
+    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(parseInt(toTime, 10))}
     `;
   },
 };
