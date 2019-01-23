@@ -21,11 +21,7 @@ export async function datadog_handler(data: any): Promise<void> {
     .subtract(1, "days")
     .format("X");
 
-  const title = `
-  datadog monitoring daily report
-  ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(parseInt(toTime, 10))}
-  `;
-
+  const title = SlackMessage.text(fromTime, toTime);
   const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(
     fromTime,
     toTime,
