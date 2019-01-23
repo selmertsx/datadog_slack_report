@@ -14,6 +14,12 @@ const requestParams: RequestParams = {
   timeout: 1000000,
 };
 
+const getRequestParams = {
+  api_key: API_KEY,
+  application_key: APP_KEY,
+  query: "count:system.cpu.user{*} by {product}.rollup(count, 3600)",
+};
+
 export class DatadogClient {
   private request: AxiosInstance;
 
@@ -22,17 +28,8 @@ export class DatadogClient {
   }
 
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
-    const params: CountHostRequest = {
-      api_key: API_KEY,
-      application_key: APP_KEY,
-      from,
-      query: `count:system.cpu.user{*} by {product}.rollup(count, 3600)`,
-      to,
-    };
-
-    const res: DatadogQueryReponse = await this.request.get("/query", {
-      params,
-    });
+    const params: CountHostRequest = { ...getRequestParams, from, to };
+    const res: DatadogQueryReponse = await this.request.get("/query", { params });
 
     return res.data.series.map((product: SeriesMetrics) => {
       const pointlists: PointList[] = product.pointlist.map((point: number[]) => ({
