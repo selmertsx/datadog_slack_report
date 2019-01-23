@@ -16,13 +16,13 @@ export async function datadog_handler(data: any): Promise<void> {
     .subtract(1, "days")
     .format("X");
 
-  const toTime = moment({ hour: 23, minute: 59, second: 59 }).tz("Asia/Tokyo").subtract(1, "days").format("X");
+  const toTime = moment({ hour: 23, minute: 59, second: 59 })
+    .tz("Asia/Tokyo")
+    .subtract(1, "days")
+    .format("X");
 
   const title = SlackMessage.text(fromTime, toTime);
-  const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(
-    fromTime,
-    toTime,
-  );
+  const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
   const attachments: MessageAttachment[] = [];
   for (const metrics of hostMetrics) {
     const productMetrics = new ProductMetrics(metrics);
