@@ -1,5 +1,4 @@
-import { Datastore } from "@google-cloud/datastore";
-const projectId = process.env.PROJECT_ID;
+import { Firestore } from "@google-cloud/firestore";
 
 /**
  * 監視したいプロダクト、ホスト数を保存するDataStore
@@ -10,18 +9,19 @@ const projectId = process.env.PROJECT_ID;
 export class Plan {
   // 完全に動作確認のためのコード
   public async getHostCount() {
-    const datastore = new Datastore({ projectId });
-    const kind = "Task";
-    const name = "sampletask1";
-    const taskKey = datastore.key([kind, name]);
-    const task = {
-      key: taskKey,
-      data: {
-        description: "Buy Milk",
-      },
-    };
+    const firestore = new Firestore();
+    const document = firestore.doc("posts/intro-to-firestore");
+    await document.set({
+      title: "Welcome to Firestore",
+      body: "Hello world",
+    });
 
-    await datastore.save(task);
+    await document.update({
+      body: "My first Firestore app",
+    });
+
+    const doc = await document.get();
+    console.log(doc);
   }
 }
 
