@@ -4,6 +4,8 @@ const projectId = process.env.PROJECT_ID;
 /**
  * 監視したいプロダクト、ホスト数を保存するDataStore
  * 雑にPlanという名前にした。もう少し解像度が上がったら、そのときに適切な名前をつける
+ * Datastoreを使おうと思ったら、この記事にFireStoreの方が新しいよってことが書いてあった。
+ * https://cloud.google.com/datastore/docs/firestore-or-datastore?hl=ja
  */
 export class Plan {
   // 完全に動作確認のためのコード
