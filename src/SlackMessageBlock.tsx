@@ -1,3 +1,4 @@
+/** @jsx JSXSlack.h */
 import JSXSlack, { Block, Section } from "@speee-js/jsx-slack";
 
 export function slackMessageBlock() {
