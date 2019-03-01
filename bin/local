@@ -4,5 +4,6 @@ cd ../
 BASE_DIR="$PWD"
 
 npm run build
+npx functions start --verbose
 npx functions deploy datadog_handler --trigger-topic=datadog_report
 npx functions call datadog_handler
