@@ -4,21 +4,18 @@ import moment from "moment-timezone";
 import { DatadogHostMetrics } from "./datadog";
 import { ProductMetrics } from "./ProductMetrics";
 
-// TODO: SlackMessage classを消してここにロジックを寄せる
 // TODO: 返り値を指定する
+// NOTE: ProductMetricsはコレクションパターンをすると良さそう
 export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics: DatadogHostMetrics[]) {
   const messages = [];
   for (const metrics of hostMetrics) {
     const productMetrics = new ProductMetrics(metrics);
-    const text =
-      `min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n` +
-      `sum(host*hours):${productMetrics.sum()}`;
-
     const message = (
       <blockquote>
         <b> {productMetrics.name} </b>
         <br />
-        {text}
+        min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}
+        sum(host*hours):${productMetrics.sum()}
       </blockquote>
     );
     messages.push(message);
