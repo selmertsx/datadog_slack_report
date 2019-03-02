@@ -11,20 +11,12 @@ export class SlackClient {
     this.client = new WebClient(this.token);
   }
 
-  public post(text: string, attachments: MessageAttachment[]): Promise<WebAPICallResult> {
+  public post(fromTime: string, toTime: string, attachments: MessageAttachment[]) {
     return this.client.chat.postMessage({
-      attachments,
       channel: this.channelID,
-      text,
+      text: "",
+      blocks: slackMessageBlock(fromTime, toTime, attachments),
       username: SlackClient.username,
-    });
-  }
-
-  public testPost(fromTime: string, toTime: string) {
-    return this.client.chat.postMessage({
-      channel: this.channelID,
-      text: "hogehoge",
-      blocks: slackMessageBlock(fromTime, toTime),
     });
   }
 }

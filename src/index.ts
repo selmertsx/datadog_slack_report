@@ -21,7 +21,6 @@ export async function datadog_handler(data: any): Promise<void> {
     .subtract(1, "days")
     .format("X");
 
-  const title = SlackMessage.text(fromTime, toTime);
   const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
   const attachments: MessageAttachment[] = [];
   for (const metrics of hostMetrics) {
@@ -29,6 +28,5 @@ export async function datadog_handler(data: any): Promise<void> {
     attachments.push(SlackMessage.attachments(productMetrics));
   }
 
-  // await slackClient.post(title, attachments);
-  await slackClient.testPost(fromTime, toTime);
+  await slackClient.post(fromTime, toTime, attachments);
 }

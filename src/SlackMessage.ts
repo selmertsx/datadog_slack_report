@@ -4,7 +4,6 @@ import { ProductMetrics } from "./ProductMetrics";
 import moment from "moment-timezone";
 
 interface SlackMessageFunctions {
-  text(fromTime: string, toTime: string): string;
   attachments(productMetrics: ProductMetrics): MessageAttachment;
 }
 
@@ -17,11 +16,5 @@ export const SlackMessage: SlackMessageFunctions = {
       text,
       title: productMetrics.name,
     };
-  },
-  text(fromTime: string, toTime: string): string {
-    return `
-    datadog monitoring daily report
-    ${moment.unix(parseInt(fromTime, 10))} ~ ${moment.unix(parseInt(toTime, 10))}
-    `;
   },
 };

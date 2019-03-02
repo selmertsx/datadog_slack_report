@@ -1,19 +1,29 @@
 /** @jsx JSXSlack.h */
+import { MessageAttachment } from "@slack/client";
 import JSXSlack, { Block, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 
-export function slackMessageBlock(fromTime: string, toTime: string) {
+// TODO: SlackMessage classは削除してもいいかも知れないな。
+export function slackMessageBlock(fromTime: string, toTime: string, attachments: MessageAttachment[]) {
+  const messages = [];
+  for (const attachment of attachments) {
+    const message = (
+      <blockquote>
+        <b> {attachment.title} </b>
+        <br />
+        {attachment.text}
+      </blockquote>
+    );
+    messages.push(message);
+  }
+
   return JSXSlack(
     <Block>
       <Section>
         <p>datadog monitoring daily report</p>
         <br />
         {moment.unix(parseInt(fromTime, 10)).toString()} ~ {moment.unix(parseInt(toTime, 10)).toString()}
-        <blockquote>
-          <b>product:xxx</b>
-          <br />
-          <i>Build JSON for Slack Block Kit from JSX</i>
-        </blockquote>
+        {messages}
       </Section>
     </Block>
   );
