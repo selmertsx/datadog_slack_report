@@ -30,9 +30,10 @@
     "tslint": "^5.13.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.2.4",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "@google-cloud/datastore": "^3.1.1",
