@@ -18,4 +18,11 @@ export class SlackClient {
       username: SlackClient.username,
     });
   }
+
+  public testPost(block: any) {
+    return this.client.chat.postMessage({
+      channel: this.channelID,
+      blocks: block,
+    });
+  }
 }

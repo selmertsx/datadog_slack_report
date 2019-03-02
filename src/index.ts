@@ -29,5 +29,6 @@ export async function datadog_handler(data: any): Promise<void> {
     attachments.push(SlackMessage.attachments(productMetrics));
   }
 
-  await slackClient.post(title, attachments);
+  // await slackClient.post(title, attachments);
+  await slackClient.testPost(block);
 }
