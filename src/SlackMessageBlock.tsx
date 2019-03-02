@@ -1,18 +1,24 @@
 /** @jsx JSXSlack.h */
-import { MessageAttachment } from "@slack/client";
 import JSXSlack, { Block, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
+import { DatadogHostMetrics } from "./datadog";
+import { ProductMetrics } from "./ProductMetrics";
 
 // TODO: SlackMessage classを消してここにロジックを寄せる
 // TODO: 返り値を指定する
-export function slackMessageBlock(fromTime: string, toTime: string, attachments: MessageAttachment[]) {
+export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics: DatadogHostMetrics[]) {
   const messages = [];
-  for (const attachment of attachments) {
+  for (const metrics of hostMetrics) {
+    const productMetrics = new ProductMetrics(metrics);
+    const text =
+      `min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}\n` +
+      `sum(host*hours):${productMetrics.sum()}`;
+
     const message = (
       <blockquote>
-        <b> {attachment.title} </b>
+        <b> {productMetrics.name} </b>
         <br />
-        {attachment.text}
+        {text}
       </blockquote>
     );
     messages.push(message);
@@ -22,7 +28,6 @@ export function slackMessageBlock(fromTime: string, toTime: string, attachments:
     <Block>
       <Section>
         <p>datadog monitoring daily report</p>
-        <br />
         {moment.unix(parseInt(fromTime, 10)).toString()} ~ {moment.unix(parseInt(toTime, 10)).toString()}
         {messages}
       </Section>
