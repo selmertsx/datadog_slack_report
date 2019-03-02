@@ -3,6 +3,7 @@ cd "$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' $0)")" || ex
 cd ../
 BASE_DIR="$PWD"
 
-npm run build
+npm run build:dev
+npx functions start --verbose
 npx functions deploy datadog_handler --trigger-topic=datadog_report
 npx functions call datadog_handler

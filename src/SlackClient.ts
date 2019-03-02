@@ -1,4 +1,4 @@
-import { MessageAttachment, WebAPICallResult, WebClient } from "@slack/client";
+import { WebClient } from "@slack/client";
 
 export class SlackClient {
   private static username: string = "Datadog按分計算Bot";
@@ -10,11 +10,11 @@ export class SlackClient {
     this.client = new WebClient(this.token);
   }
 
-  public post(text: string, attachments: MessageAttachment[]): Promise<WebAPICallResult> {
+  public post(blocks: any) {
     return this.client.chat.postMessage({
-      attachments,
       channel: this.channelID,
-      text,
+      text: "",
+      blocks,
       username: SlackClient.username,
     });
   }

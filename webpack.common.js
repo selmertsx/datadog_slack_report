@@ -12,13 +12,19 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: [
+          { loader: 'babel-loader' },
+          { loader: 'ts-loader' },
+        ],
+        exclude: /node_modules/
       }
     ]
   },
   resolve: {
     extensions: [
       '.ts',
+      '.tsx',
+      '.jsx',
       '.js',
       '.json'
     ],

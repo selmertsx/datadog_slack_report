@@ -12,7 +12,8 @@
     "outDir": "./",
     "esModuleInterop": true,
     "noImplicitAny": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react"
   },
   "include": [
     "src/**/*.ts"

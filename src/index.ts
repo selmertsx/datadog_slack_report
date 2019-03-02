@@ -3,9 +3,8 @@ import moment from "moment-timezone";
 import "source-map-support/register";
 import { DatadogHostMetrics } from "./datadog";
 import { DatadogClient } from "./DatadogClient";
-import { ProductMetrics } from "./ProductMetrics";
 import { SlackClient } from "./SlackClient";
-import { SlackMessage } from "./SlackMessage";
+import { slackMessageBlock } from "./SlackMessageBlock";
 
 const datadogClient = new DatadogClient();
 const slackClient = new SlackClient();
@@ -21,13 +20,7 @@ export async function datadog_handler(data: any): Promise<void> {
     .subtract(1, "days")
     .format("X");
 
-  const title = SlackMessage.text(fromTime, toTime);
   const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
-  const attachments: MessageAttachment[] = [];
-  for (const metrics of hostMetrics) {
-    const productMetrics = new ProductMetrics(metrics);
-    attachments.push(SlackMessage.attachments(productMetrics));
-  }
-
-  await slackClient.post(title, attachments);
+  const blocks = slackMessageBlock(fromTime, toTime, hostMetrics);
+  await slackClient.post(blocks);
 }
