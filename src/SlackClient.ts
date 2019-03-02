@@ -20,11 +20,11 @@ export class SlackClient {
     });
   }
 
-  public testPost() {
+  public testPost(fromTime: string, toTime: string) {
     return this.client.chat.postMessage({
       channel: this.channelID,
       text: "hogehoge",
-      blocks: slackMessageBlock(),
+      blocks: slackMessageBlock(fromTime, toTime),
     });
   }
 }
