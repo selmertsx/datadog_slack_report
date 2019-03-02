@@ -3,7 +3,8 @@ import { MessageAttachment } from "@slack/client";
 import JSXSlack, { Block, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 
-// TODO: SlackMessage classは削除してもいいかも知れないな。
+// TODO: SlackMessage classを消してここにロジックを寄せる
+// TODO: 返り値を指定する
 export function slackMessageBlock(fromTime: string, toTime: string, attachments: MessageAttachment[]) {
   const messages = [];
   for (const attachment of attachments) {

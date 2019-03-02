@@ -6,6 +6,7 @@ import { DatadogClient } from "./DatadogClient";
 import { ProductMetrics } from "./ProductMetrics";
 import { SlackClient } from "./SlackClient";
 import { SlackMessage } from "./SlackMessage";
+import { slackMessageBlock } from "./SlackMessageBlock";
 
 const datadogClient = new DatadogClient();
 const slackClient = new SlackClient();
@@ -28,5 +29,6 @@ export async function datadog_handler(data: any): Promise<void> {
     attachments.push(SlackMessage.attachments(productMetrics));
   }
 
-  await slackClient.post(fromTime, toTime, attachments);
+  const blocks = slackMessageBlock(fromTime, toTime, attachments);
+  await slackClient.post(blocks);
 }

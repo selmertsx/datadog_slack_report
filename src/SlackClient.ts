@@ -1,5 +1,4 @@
-import { MessageAttachment, WebAPICallResult, WebClient } from "@slack/client";
-import { slackMessageBlock } from "./SlackMessageBlock";
+import { WebClient } from "@slack/client";
 
 export class SlackClient {
   private static username: string = "Datadog按分計算Bot";
@@ -11,11 +10,11 @@ export class SlackClient {
     this.client = new WebClient(this.token);
   }
 
-  public post(fromTime: string, toTime: string, attachments: MessageAttachment[]) {
+  public post(blocks: any) {
     return this.client.chat.postMessage({
       channel: this.channelID,
       text: "",
-      blocks: slackMessageBlock(fromTime, toTime, attachments),
+      blocks,
       username: SlackClient.username,
     });
   }
