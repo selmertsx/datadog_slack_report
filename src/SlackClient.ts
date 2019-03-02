@@ -1,4 +1,5 @@
 import { MessageAttachment, WebAPICallResult, WebClient } from "@slack/client";
+import { slackMessageBlock } from "./SlackMessageBlock";
 
 export class SlackClient {
   private static username: string = "Datadog按分計算Bot";
@@ -19,10 +20,11 @@ export class SlackClient {
     });
   }
 
-  public testPost(block: any) {
+  public testPost() {
     return this.client.chat.postMessage({
       channel: this.channelID,
-      blocks: block,
+      text: "hogehoge",
+      blocks: slackMessageBlock(),
     });
   }
 }
