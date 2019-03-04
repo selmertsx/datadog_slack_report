@@ -1,4 +1,3 @@
-import { MessageAttachment } from "@slack/client";
 import moment from "moment-timezone";
 import "source-map-support/register";
 import { DatadogHostMetrics } from "./datadog";
