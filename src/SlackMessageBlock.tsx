@@ -14,8 +14,8 @@ export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics:
       <blockquote>
         <b> {productMetrics.name} </b>
         <br />
-        min:${productMetrics.minHostCount()} ~ max:${productMetrics.maxHostCount()}
-        sum(host*hours):${productMetrics.sum()}
+        min:{productMetrics.minHostCount()} ~ max:{productMetrics.maxHostCount()}
+        sum(host*hours):{productMetrics.sum()}
       </blockquote>
     );
     messages.push(message);
