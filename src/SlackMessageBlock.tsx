@@ -4,7 +4,6 @@ import moment from "moment-timezone";
 import { DatadogHostMetrics } from "./datadog";
 import { ProductMetrics } from "./ProductMetrics";
 
-// TODO: 返り値を指定する
 // NOTE: ProductMetricsはコレクションパターンをすると良さそう
 export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics: DatadogHostMetrics[]) {
   const messages = [];

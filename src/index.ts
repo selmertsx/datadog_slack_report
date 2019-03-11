@@ -8,7 +8,7 @@ import { slackMessageBlock } from "./SlackMessageBlock";
 const datadogClient = new DatadogClient();
 const slackClient = new SlackClient();
 
-export async function datadog_handler(data: any): Promise<void> {
+export async function datadog_handler(): Promise<void> {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
     .subtract(1, "days")
