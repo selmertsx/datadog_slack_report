@@ -18,15 +18,17 @@ export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics:
         sum(host*hours):{productMetrics.sum()}
       </Field>
     );
-
     messages.push(message);
   }
+
+  const from = moment.unix(parseInt(fromTime, 10)).format("LLL").toString();
+  const to = moment.unix(parseInt(toTime, 10)).format('LLL').toString()
 
   return JSXSlack(
     <Block>
       <Section>
         <b>datadog monitoring daily report</b> <br />
-        {moment.unix(parseInt(fromTime, 10)).toString()} ~ {moment.unix(parseInt(toTime, 10)).toString()}
+        {from} ~ {to}
       </Section>
       <Divider />
       <Section> {messages} </Section>
