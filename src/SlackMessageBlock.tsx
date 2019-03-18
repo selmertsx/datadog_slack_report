@@ -1,5 +1,5 @@
 /** @jsx JSXSlack.h */
-import JSXSlack, { Block, Section } from "@speee-js/jsx-slack";
+import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 import { DatadogHostMetrics } from "./datadog";
 import { ProductMetrics } from "./ProductMetrics";
@@ -10,23 +10,26 @@ export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics:
   for (const metrics of hostMetrics) {
     const productMetrics = new ProductMetrics(metrics);
     const message = (
-      <blockquote>
+      <Field>
         <b> {productMetrics.name} </b>
         <br />
-        min:{productMetrics.minHostCount()} ~ max:{productMetrics.maxHostCount()}
+        min:{productMetrics.minHostCount()} <br />
+        max:{productMetrics.maxHostCount()} <br />
         sum(host*hours):{productMetrics.sum()}
-      </blockquote>
+      </Field>
     );
+
     messages.push(message);
   }
 
   return JSXSlack(
     <Block>
       <Section>
-        <p>datadog monitoring daily report</p>
+        <b>datadog monitoring daily report</b> <br />
         {moment.unix(parseInt(fromTime, 10)).toString()} ~ {moment.unix(parseInt(toTime, 10)).toString()}
-        {messages}
       </Section>
+      <Divider />
+      <Section> {messages} </Section>
     </Block>
   );
 }
