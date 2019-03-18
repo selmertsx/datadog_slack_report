@@ -1,12 +1,13 @@
 {
   "defaultSeverity": "error",
+  "rulesDirectory": ["tslint-plugin-prettier"],
   "extends": [
     "tslint:recommended",
     "tslint-config-prettier"
   ],
   "jsRules": {},
   "rules": {
-    "prettier": [true,  { "printWidth": 120, "trailingComma": "es5" }],
+    "prettier": [true, { "printWidth": 120, "trailingComma": "es5" }],
     "arrow-return-shorthand": [true, "multiline"],
     "variable-name": false,
     "no-console": false,
@@ -14,6 +15,5 @@
     "newline-per-chained-call": false,
     "object-literal-sort-keys": false,
     "interface-name": [true, "never-prefix"]
-  },
-  "rulesDirectory": ["tslint-plugin-prettier"]
+  }
 }

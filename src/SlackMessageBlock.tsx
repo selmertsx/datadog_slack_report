@@ -3,6 +3,14 @@ import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 import { DatadogHostMetrics } from "./datadog";
 import { ProductMetrics } from "./ProductMetrics";
+moment.locale("ja");
+
+function parseTime(time: string) {
+  return moment
+    .unix(parseInt(time, 10))
+    .format("LLL")
+    .toString();
+}
 
 // NOTE: ProductMetricsはコレクションパターンをすると良さそう
 export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics: DatadogHostMetrics[]) {
@@ -21,14 +29,11 @@ export function slackMessageBlock(fromTime: string, toTime: string, hostMetrics:
     messages.push(message);
   }
 
-  const from = moment.unix(parseInt(fromTime, 10)).format("LLL").toString();
-  const to = moment.unix(parseInt(toTime, 10)).format('LLL').toString()
-
   return JSXSlack(
     <Block>
       <Section>
         <b>datadog monitoring daily report</b> <br />
-        {from} ~ {to}
+        {parseTime(fromTime)} ~ {parseTime(toTime)}
       </Section>
       <Divider />
       <Section> {messages} </Section>
