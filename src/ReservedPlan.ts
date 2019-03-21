@@ -1,4 +1,3 @@
-import { Datastore } from "@google-cloud/datastore";
 const projectId = process.env.PROJECT_ID;
 
 /**
@@ -7,24 +6,9 @@ const projectId = process.env.PROJECT_ID;
  */
 export class ReservedPlan {
   // 完全に動作確認のためのコード
-  public async getHostCount() {
-    const datastore = new Datastore({ projectId });
-    const kind = "Task";
-    const name = "sampletask1";
-    const taskKey = datastore.key([kind, name]);
-    const task = {
-      key: taskKey,
-      data: {
-        description: "Buy Milk",
-      },
-    };
+  public async getHostCount() {}
 
-    await datastore.save(task);
-  }
-
-  public async postHostCount(productName: string, hostNumber: number) {
-    const datastore = new Datastore({ projectId });
-  }
+  public async postHostCount(productName: string, hostNumber: number) {}
 }
 
 const plan = new ReservedPlan();
