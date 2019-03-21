@@ -8,8 +8,8 @@ export class ReservedPlan {
   // 完全に動作確認のためのコード
   public async getHostCount() {
     const firestore = new Firestore();
-    const document = firestore.doc("datadog/plan");
-    document.get();
+    const doc = firestore.doc("datadog/plan");
+    return await doc.get();
   }
 
   public async postHostCount(productName: string, hostNumber: number) {}
