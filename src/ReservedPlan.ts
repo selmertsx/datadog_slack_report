@@ -1,5 +1,4 @@
 import { Firestore } from "@google-cloud/firestore";
-const projectId = process.env.PROJECT_ID;
 
 /**
  * 監視したいプロダクト、ホスト数を保存するDatastoreにアクセスする
