@@ -1,3 +1,4 @@
+import { Firestore } from "@google-cloud/firestore";
 const projectId = process.env.PROJECT_ID;
 
 /**
