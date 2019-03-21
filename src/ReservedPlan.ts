@@ -21,6 +21,10 @@ export class ReservedPlan {
 
     await datastore.save(task);
   }
+
+  public async postHostCount(productName: string, hostNumber: number) {
+    const datastore = new Datastore({ projectId });
+  }
 }
 
 const plan = new ReservedPlan();
