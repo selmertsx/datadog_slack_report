@@ -5,7 +5,8 @@ export class Products {
   public static create(plans: ReservedPlan[], hostMetrics: DatadogHostMetrics[]): Products {
     const result = new Products();
     for (const plan of plans) {
-      const pointlists = hostMetrics.filter(metric => metric.product === plan.productName)[0].pointlists;
+      const productMetrics = hostMetrics.filter(metrics => metrics.product === plan.productName);
+      const pointlists = productMetrics !== [] ? productMetrics[0].pointlists : [];
       const product = new Product(plan.productName, plan.plannedHostCount, pointlists);
       result.list.set(plan.productName, product);
     }
