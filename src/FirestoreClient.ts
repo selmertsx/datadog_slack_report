@@ -30,4 +30,9 @@ export class FirestoreClient {
     const doc = this.firestore.collection("datadog").doc(plan.name);
     return doc.set({ host_number: plan.hostNumber });
   }
+
+  public async deleteReservedPlan(planName: string) {
+    const doc = this.firestore.collection("datadog").doc(planName);
+    return doc.delete();
+  }
 }
