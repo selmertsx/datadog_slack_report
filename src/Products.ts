@@ -6,11 +6,12 @@ export class Products {
   public static create(plans: ReservedPlan[], hostMetrics: DatadogHostMetrics[]): Products {
     const result = new Products();
     for (const plan of plans) {
-      const product = new Product();
+      const pointlists = hostMetrics.filter(metric => metric.product === plan.name)[0].pointlists;
+      const product = new Product(plan.name, plan.hostNumber, pointlists);
       result.list.set(plan.name, product);
     }
     return result;
   }
 
-  private list: Map<string, Product> = new Map();
+  public list: Map<string, Product> = new Map();
 }
