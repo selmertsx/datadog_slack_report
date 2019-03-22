@@ -22,6 +22,12 @@ export class FirestoreClient {
     const doc = firestore.collection("datadog").doc(plan.name);
     return doc.create({ name: plan.name, host_number: plan.hostNumber });
   }
+
+  public async updateReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
+    const firestore = new Firestore();
+    const doc = firestore.collection("datadog").doc(plan.name);
+    return doc.set({ host_number: plan.hostNumber });
+  }
 }
 
 const client = new FirestoreClient();
