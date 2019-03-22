@@ -1,14 +1,13 @@
 import moment from "moment";
-import { DatadogHostMetrics } from "../src/datadog";
+import { DatadogHostMetrics, ReservedPlan } from "../src/datadog";
 import { Product } from "../src/Product";
 import { Products } from "../src/Products";
-import { ReservedPlan } from "../src/ReservedPlan";
 
 // tslint:disable: object-literal-sort-keys
 const firstTime = moment({ years: 2018, months: 11, days: 18, hours: 9, minutes: 0, seconds: 0 }).format("x");
 const lastTime = moment({ years: 2018, months: 11, days: 18, hours: 10, minutes: 0, seconds: 0 }).format("x");
-const sampleA = { maxHostCount: 40, minHostCount: 20, name: "sampleA", planedHostNumber: 30 };
-const sampleB = { maxHostCount: 30, minHostCount: 20, name: "sampleB", planedHostNumber: 30 };
+const sampleA = { maxHostCount: 40, minHostCount: 20, name: "sampleA", plannedHostCount: 30 };
+const sampleB = { maxHostCount: 30, minHostCount: 20, name: "sampleB", plannedHostCount: 30 };
 // tslint:enable: object-literal-sort-keys
 const sampleAMetrics = {
   pointlists: [
@@ -29,18 +28,18 @@ const sampleBMetrics = {
 const metrics: DatadogHostMetrics[] = [sampleAMetrics, sampleBMetrics];
 
 const reservedPlans: ReservedPlan[] = [
-  new ReservedPlan(sampleA.name, sampleA.planedHostNumber),
-  new ReservedPlan(sampleB.name, sampleB.planedHostNumber),
+  { productName: sampleA.name, plannedHostCount: sampleA.plannedHostCount },
+  { productName: sampleB.name, plannedHostCount: sampleB.plannedHostCount },
 ];
 
 describe("create", () => {
   test("", () => {
     const products = Products.create(reservedPlans, metrics);
     expect(products.list.get(sampleA.name)).toEqual(
-      new Product(sampleA.name, sampleA.planedHostNumber, sampleAMetrics.pointlists)
+      new Product(sampleA.name, sampleA.plannedHostCount, sampleAMetrics.pointlists)
     );
     expect(products.list.get(sampleB.name)).toEqual(
-      new Product(sampleB.name, sampleB.planedHostNumber, sampleBMetrics.pointlists)
+      new Product(sampleB.name, sampleB.plannedHostCount, sampleBMetrics.pointlists)
     );
   });
 });
