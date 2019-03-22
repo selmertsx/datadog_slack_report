@@ -12,7 +12,14 @@ export class ReservedPlan {
     return await doc.get();
   }
 
-  public async postHostCount(productName: string, hostNumber: number) {}
+  public async postHostCount(productName: string, hostNumber: number) {
+    const firestore = new Firestore();
+    const doc = firestore.doc("datadog/plan");
+    return doc.create({
+      product_name: productName,
+      host_number: hostNumber,
+    });
+  }
 }
 
 const plan = new ReservedPlan();
