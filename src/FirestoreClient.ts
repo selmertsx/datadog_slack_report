@@ -6,9 +6,22 @@ import { ReservedPlan } from "./ReservedPlan";
  * 雑にPlanという名前にした。もう少し解像度が上がったら、そのときに適切な名前をつける
  */
 export class FirestoreClient {
+  public static instance() {
+    if (!this._instance) {
+      this._instance = new FirestoreClient();
+    }
+    return this._instance;
+  }
+  private static _instance: FirestoreClient;
+
+  private firestore: Firestore;
+
+  constructor() {
+    this.firestore = new Firestore();
+  }
+
   public async getReservedPlans(): Promise<ReservedPlan[]> {
-    const firestore = new Firestore();
-    const docs = await firestore.collection("datadog").get();
+    const docs = await this.firestore.collection("datadog").get();
     const results: ReservedPlan[] = [];
     docs.forEach(doc => {
       const data = doc.data();
@@ -18,16 +31,15 @@ export class FirestoreClient {
   }
 
   public async postReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
-    const firestore = new Firestore();
-    const doc = firestore.collection("datadog").doc(plan.name);
+    const doc = this.firestore.collection("datadog").doc(plan.name);
     return doc.create({ name: plan.name, host_number: plan.hostNumber });
   }
 
   public async updateReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
-    const firestore = new Firestore();
-    const doc = firestore.collection("datadog").doc(plan.name);
+    const doc = this.firestore.collection("datadog").doc(plan.name);
     return doc.set({ host_number: plan.hostNumber });
   }
 }
 
-const client = new FirestoreClient();
+const client = FirestoreClient.instance();
+client.getReservedPlans().then(console.log);
