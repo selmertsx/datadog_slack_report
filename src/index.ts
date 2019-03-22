@@ -2,6 +2,8 @@ import moment from "moment-timezone";
 import "source-map-support/register";
 import { DatadogHostMetrics } from "./datadog";
 import { DatadogClient } from "./DatadogClient";
+import { FirestoreClient } from "./FirestoreClient";
+import { ReservedPlan } from "./ReservedPlan";
 import { SlackClient } from "./SlackClient";
 import { slackMessageBlock } from "./SlackMessageBlock";
 
@@ -22,4 +24,15 @@ export async function datadog_handler(): Promise<void> {
   const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
   const blocks = slackMessageBlock(fromTime, toTime, hostMetrics);
   await slackClient.post(blocks);
+}
+
+export async function update_reserved_plan(req: any, res: any): Promise<void> {
+  const client = FirestoreClient.instance();
+  const plan = new ReservedPlan("sample", 40);
+  try {
+    await client.updateReservedPlan(plan);
+    res.status(200).send("ok");
+  } catch (err) {
+    res.status(500).send(err);
+  }
 }
