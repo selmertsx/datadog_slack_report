@@ -26,7 +26,7 @@ export async function datadog_handler(): Promise<void> {
   await slackClient.post(blocks);
 }
 
-// cloud functionsの HTTP RequestってPOSTやPATCHに対応してたっけ？対応してたらファンクション名変えても良さそう。
+// cloud functionsの HTTP RequestってPOSTやPATCHに対応してたらファンクション名変える
 export async function update_reserved_plan(req: any, res: any): Promise<void> {
   const client = new FirestoreClient();
   const plan = new ReservedPlan("sample", 40);
@@ -38,6 +38,7 @@ export async function update_reserved_plan(req: any, res: any): Promise<void> {
   }
 }
 
+// cloud functionsの HTTP RequestってPOSTやPATCHに対応してたらファンクション名変える
 export async function create_reserved_plan(req: any, res: any): Promise<void> {
   const client = new FirestoreClient();
   const plan = new ReservedPlan("sample", 40);
