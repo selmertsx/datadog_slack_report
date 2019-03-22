@@ -1,4 +1,4 @@
-import { Firestore } from "@google-cloud/firestore";
+import { Firestore, WriteResult } from "@google-cloud/firestore";
 import { ReservedPlan } from "./ReservedPlan";
 
 /**
@@ -6,29 +6,22 @@ import { ReservedPlan } from "./ReservedPlan";
  * 雑にPlanという名前にした。もう少し解像度が上がったら、そのときに適切な名前をつける
  */
 export class FirestoreClient {
-  public async getHostCount(): Promise<ReservedPlan[]> {
+  public async getReservedPlans(): Promise<ReservedPlan[]> {
     const firestore = new Firestore();
     const docs = await firestore.collection("datadog").get();
     const results: ReservedPlan[] = [];
     docs.forEach(doc => {
-      results.push(new ReservedPlan(doc.id, doc.data().host_number));
+      const data = doc.data();
+      results.push(new ReservedPlan(data.name, data.host_number));
     });
     return results;
   }
 
-  public async postHostCount(productName: string, hostNumber: number) {
+  public async postReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
     const firestore = new Firestore();
-    const doc = firestore.doc("datadog/plan");
-    return doc.create({
-      product_name: productName,
-      host_number: hostNumber,
-    });
+    const doc = firestore.collection("datadog").doc(plan.name);
+    return doc.create({ name: plan.name, host_number: plan.hostNumber });
   }
 }
 
 const client = new FirestoreClient();
-
-client
-  .getHostCount()
-  .then(console.log)
-  .catch(console.error);
