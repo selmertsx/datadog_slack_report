@@ -1,15 +1,19 @@
 import { Firestore } from "@google-cloud/firestore";
+import { ReservedPlan } from "./ReservedPlan";
 
 /**
  * 監視したいプロダクト、ホスト数を保存するDatastoreにアクセスする
  * 雑にPlanという名前にした。もう少し解像度が上がったら、そのときに適切な名前をつける
  */
 export class FirestoreClient {
-  // 完全に動作確認のためのコード
-  public async getHostCount() {
+  public async getHostCount(): Promise<ReservedPlan[]> {
     const firestore = new Firestore();
     const docs = await firestore.collection("datadog").get();
-    docs.forEach(doc => {});
+    const results: ReservedPlan[] = [];
+    docs.forEach(doc => {
+      results.push(new ReservedPlan(doc.id, doc.data().host_number));
+    });
+    return results;
   }
 
   public async postHostCount(productName: string, hostNumber: number) {
