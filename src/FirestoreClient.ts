@@ -6,16 +6,7 @@ import { ReservedPlan } from "./ReservedPlan";
  * 雑にPlanという名前にした。もう少し解像度が上がったら、そのときに適切な名前をつける
  */
 export class FirestoreClient {
-  public static instance() {
-    if (!this._instance) {
-      this._instance = new FirestoreClient();
-    }
-    return this._instance;
-  }
-  private static _instance: FirestoreClient;
-
   private firestore: Firestore;
-
   constructor() {
     this.firestore = new Firestore();
   }
@@ -40,6 +31,3 @@ export class FirestoreClient {
     return doc.set({ host_number: plan.hostNumber });
   }
 }
-
-const client = FirestoreClient.instance();
-client.getReservedPlans().then(console.log);
