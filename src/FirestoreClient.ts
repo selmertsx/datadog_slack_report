@@ -1,5 +1,5 @@
 import { Firestore, WriteResult } from "@google-cloud/firestore";
-import { ReservedPlan } from "./ReservedPlan";
+import { ReservedPlan } from "./datadog";
 
 /**
  * 監視したいプロダクト、ホスト数を保存するDatastoreにアクセスする
@@ -16,19 +16,19 @@ export class FirestoreClient {
     const results: ReservedPlan[] = [];
     docs.forEach(doc => {
       const data = doc.data();
-      results.push(new ReservedPlan(data.name, data.host_number));
+      results.push({ productName: data.name, plannedHostCount: data.host_number });
     });
     return results;
   }
 
-  public async postReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
-    const doc = this.firestore.collection("datadog").doc(plan.name);
-    return doc.create({ name: plan.name, host_number: plan.hostNumber });
+  public async postReservedPlan(productName: string, plannedHostCount: number): Promise<WriteResult> {
+    const doc = this.firestore.collection("datadog").doc(productName);
+    return doc.create({ name: productName, host_number: plannedHostCount });
   }
 
-  public async updateReservedPlan(plan: ReservedPlan): Promise<WriteResult> {
-    const doc = this.firestore.collection("datadog").doc(plan.name);
-    return doc.set({ host_number: plan.hostNumber });
+  public async updateReservedPlan(productName: string, plannedHostCount: number): Promise<WriteResult> {
+    const doc = this.firestore.collection("datadog").doc(productName);
+    return doc.set({ host_number: plannedHostCount });
   }
 
   public async deleteReservedPlan(planName: string) {

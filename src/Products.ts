@@ -1,6 +1,5 @@
-import { DatadogHostMetrics } from "./datadog";
+import { DatadogHostMetrics, ReservedPlan } from "./datadog";
 import { Product } from "./Product";
-import { ReservedPlan } from "./ReservedPlan";
 
 export class Products {
   public static create(plans: ReservedPlan[], hostMetrics: DatadogHostMetrics[]): Products {

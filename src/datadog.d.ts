@@ -7,24 +7,27 @@ export interface CountHostRequest {
 }
 
 export interface SeriesMetrics {
-  scope: string,
-  pointlist: [
-    number[]
-  ]
+  scope: string;
+  pointlist: [number[]];
 }
 
 export interface DatadogQueryReponse {
   data: {
-    series: SeriesMetrics[]
-  }
+    series: SeriesMetrics[];
+  };
 }
 
 export interface DatadogHostMetrics {
-  product: string,
-  pointlists: PointList[]
+  product: string;
+  pointlists: PointList[];
 }
 
 export interface PointList {
-  unixTime: number,
-  count: number
+  unixTime: number;
+  count: number;
+}
+
+export interface ReservedPlan {
+  productName: string;
+  plannedHostCount: number;
 }
