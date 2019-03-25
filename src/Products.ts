@@ -14,4 +14,8 @@ export class Products {
   }
 
   public list: Map<string, Product> = new Map();
+
+  public overPeriod() {
+    return [];
+  }
 }
