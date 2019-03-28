@@ -9,7 +9,7 @@
       "esnext.asynciterable"
     ],
     "strict": true,
-    "outDir": "./",
+    "outDir": ".build",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "allowJs": true,
