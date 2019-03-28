@@ -1,4 +1,4 @@
-import { DatadogHostMetrics, ReservedPlan } from "./datadog";
+import { DatadogHostMetrics, PointList, ReservedPlan } from "./datadog";
 import { Product } from "./Product";
 
 export class Products {
@@ -16,6 +16,12 @@ export class Products {
   public list: Map<string, Product> = new Map();
 
   public overPeriod() {
-    return [];
+    const products: Product[] = Array.from(this.list.values());
+    const totalDesiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
+    const totalMetrics = products.map(product => product.metrics);
+    totalMetrics.map((metrics: PointList[]) => {
+      metrics.
+    });
+    return products;
   }
 }
