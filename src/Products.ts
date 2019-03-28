@@ -18,10 +18,14 @@ export class Products {
   public overPeriod() {
     const products: Product[] = Array.from(this.list.values());
     const totalDesiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
-    const totalMetrics = products.map(product => product.metrics);
-    totalMetrics.map((metrics: PointList[]) => {
-      metrics.
-    });
-    return products;
+    const metrics = products.map(product => product.metrics).reduce((acc, e) => acc.concat(e));
+    const metricMap = new Map();
+    for (const metric of metrics) {
+      const count = metricMap.get(metric.unixTime);
+      const setCount = count ? metric.count + count : metric.count;
+      metricMap.set(metric.unixTime, setCount);
+    }
+    
+    return ;
   }
 }
