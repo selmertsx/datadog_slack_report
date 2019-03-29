@@ -6,8 +6,10 @@ export class Products {
     const result = new Products();
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
-      const product = new Product(plan.productName, plan.plannedHostCount, productMetrics!.pointlists);
-      result.list.set(plan.productName, product);
+      if (productMetrics) {
+        const product = new Product(plan.productName, plan.plannedHostCount, productMetrics.pointlists);
+        result.list.set(plan.productName, product);
+      }
     }
     return result;
   }
@@ -17,12 +19,14 @@ export class Products {
   public overPeriod() {
     const products: Product[] = Array.from(this.list.values());
     const desiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
-    const metrics = products.map(product => product.metrics).reduce((acc, e) => acc.concat(e));
+    const productMetricsList = products.map(product => product.metrics);
     const metricMap = new Map();
-    for (const metric of metrics) {
-      const count = metricMap.get(metric.unixTime);
-      const setCount = count ? metric.count + count : metric.count;
-      metricMap.set(metric.unixTime, setCount);
+    for (const metrics of productMetricsList) {
+      for (const unixTime of metrics.keys()) {
+        const count = metricMap.get(unixTime);
+        const setCount = count ? metrics.get(unixTime) + count : metrics.get(unixTime);
+        metricMap.set(unixTime, setCount);
+      }
     }
 
     return Array.from(metricMap.entries())
