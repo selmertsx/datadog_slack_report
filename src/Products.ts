@@ -16,6 +16,7 @@ export class Products {
 
   public list: Map<string, Product> = new Map();
 
+  // TODO: Refactoring
   public overPeriod() {
     const products: Product[] = Array.from(this.list.values());
     const desiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
