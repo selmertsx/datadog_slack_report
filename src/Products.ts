@@ -6,11 +6,7 @@ export class Products {
     const result = new Products();
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
-      const pointlists = new Map();
-      for (const pointlist of productMetrics!.pointlists) {
-        pointlists.set(pointlist.unixTime, pointlist.count);
-      }
-      const product = new Product(plan.productName, plan.plannedHostCount, pointlists);
+      const product = new Product(plan.productName, plan.plannedHostCount, productMetrics!.pointlists);
       result.list.set(plan.productName, product);
     }
     return result;

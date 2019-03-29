@@ -17,9 +17,14 @@ export interface DatadogQueryReponse {
   };
 }
 
+type unixTime = number;
+type hostNumber = number;
+
+export interface Metrics extends Map<unixTime, hostNumber> {}
+
 export interface DatadogHostMetrics {
   product: string;
-  pointlists: Map<number, number>;
+  pointlists: Metrics;
 }
 
 export interface ReservedPlan {
