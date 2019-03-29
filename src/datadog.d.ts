@@ -19,12 +19,7 @@ export interface DatadogQueryReponse {
 
 export interface DatadogHostMetrics {
   product: string;
-  pointlists: PointList[];
-}
-
-export interface PointList {
-  unixTime: number;
-  count: number;
+  pointlists: Map<number, number>;
 }
 
 export interface ReservedPlan {

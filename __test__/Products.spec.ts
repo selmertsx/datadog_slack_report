@@ -9,35 +9,36 @@ const lastTime = moment({ years: 2018, months: 11, days: 18, hours: 10, minutes:
 const sampleA = { maxHostCount: 40, minHostCount: 20, name: "sampleA", plannedHostCount: 30 };
 const sampleB = { maxHostCount: 30, minHostCount: 20, name: "sampleB", plannedHostCount: 30 };
 // tslint:enable: object-literal-sort-keys
+
 const sampleAMetrics = {
-  pointlists: [
-    { count: sampleA.maxHostCount, unixTime: parseInt(firstTime, 10) },
-    { count: sampleA.minHostCount, unixTime: parseInt(lastTime, 10) },
-  ],
+  pointlists: new Map([
+    [parseInt(firstTime, 10), sampleA.maxHostCount],
+    [parseInt(lastTime, 10), sampleA.minHostCount],
+  ]),
   product: sampleA.name,
 };
 
 const sampleBMetrics = {
-  pointlists: [
-    { count: sampleB.maxHostCount, unixTime: parseInt(firstTime, 10) },
-    { count: sampleB.minHostCount, unixTime: parseInt(lastTime, 10) },
-  ],
+  pointlists: new Map([
+    [parseInt(firstTime, 10), sampleB.maxHostCount],
+    [parseInt(lastTime, 10), sampleB.minHostCount],
+  ]),
   product: sampleB.name,
 };
 
 const sampleAMetricsUnderLimit = {
-  pointlists: [
-    { count: sampleA.minHostCount, unixTime: parseInt(firstTime, 10) },
-    { count: sampleA.minHostCount, unixTime: parseInt(lastTime, 10) },
-  ],
+  pointlists: new Map([
+    [parseInt(firstTime, 10), sampleA.minHostCount],
+    [parseInt(lastTime, 10), sampleA.minHostCount],
+  ]),
   product: sampleA.name,
 };
 
 const sampleBMetricsUnderLimit = {
-  pointlists: [
-    { count: sampleB.minHostCount, unixTime: parseInt(firstTime, 10) },
-    { count: sampleB.minHostCount, unixTime: parseInt(lastTime, 10) },
-  ],
+  pointlists: new Map([
+    [parseInt(firstTime, 10), sampleB.minHostCount],
+    [parseInt(lastTime, 10), sampleB.minHostCount],
+  ]),
   product: sampleB.name,
 };
 
