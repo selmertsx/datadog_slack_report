@@ -33,9 +33,14 @@ export class Products {
 
     return result;
   }
-
-  public overProduct(unixTime: number) {
-    const result = new Map();
+  /**
+   * Return Product Map object that exceeded their plan in given time
+   *
+   * @param unixTime - time params to get products that exceeded the applied plan.
+   * @return Map<string, number> string is product name. number is `measuredHostCount - plannedHostCount`
+   */
+  public overProduct(unixTime: number): Map<string, number> {
+    const result = new Map<string, number>();
     for (const product of this.productList) {
       const overCount = product.overCount(unixTime);
       if (overCount > 0) {
