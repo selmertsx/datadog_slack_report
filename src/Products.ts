@@ -20,12 +20,11 @@ export class Products {
   public overPeriod() {
     const products: Product[] = Array.from(this.list.values());
     const desiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
-    const productMetricsList = products.map(product => product.metrics);
     const metricMap = new Map();
-    for (const metrics of productMetricsList) {
-      for (const unixTime of metrics.keys()) {
+    for (const product of products) {
+      for (const unixTime of product.metrics.keys()) {
         const count = metricMap.get(unixTime);
-        const setCount = count ? metrics.get(unixTime) + count : metrics.get(unixTime);
+        const setCount = count ? product.metrics.get(unixTime) + count : product.metrics.get(unixTime);
         metricMap.set(unixTime, setCount);
       }
     }
@@ -40,7 +39,9 @@ export class Products {
     const products: Product[] = Array.from(this.list.values());
     for (const product of products) {
       const overCount = product.overCount(unixTime);
-      if (overCount > 0) { result.set(product.name, overCount); }
+      if (overCount > 0) {
+        result.set(product.name, overCount);
+      }
     }
     return result;
   }
