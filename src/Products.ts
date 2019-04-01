@@ -36,6 +36,7 @@ export class Products {
   }
 
   public overProduct(unixTime: number) {
-    return {};
+    const result = new Map();
+    return result;
   }
 }
