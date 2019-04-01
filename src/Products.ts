@@ -39,11 +39,8 @@ export class Products {
     const result = new Map();
     const products: Product[] = Array.from(this.list.values());
     for (const product of products) {
-      const hostCount = product.metrics.get(unixTime);
-      const setCount = (hostCount ? hostCount : 0) - product.desiredHostCount;
-      if (setCount > 0) {
-        result.set(product.name, setCount);
-      }
+      const overCount = product.overCount(unixTime);
+      if (overCount > 0) { result.set(product.name, overCount); }
     }
     return result;
   }
