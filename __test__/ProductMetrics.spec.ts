@@ -11,10 +11,7 @@ const maxHostCount = 40;
 const minHostCount = 20;
 
 const metrics: DatadogHostMetrics = {
-  pointlists: [
-    { count: minHostCount, unixTime: parseInt(firstTime, 10) },
-    { count: maxHostCount, unixTime: parseInt(lastTime, 10) },
-  ],
+  pointlists: new Map([[parseInt(firstTime, 10), minHostCount], [parseInt(lastTime, 10), maxHostCount]]),
   product: "sample",
 };
 

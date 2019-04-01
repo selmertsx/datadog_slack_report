@@ -1,10 +1,10 @@
-import { DatadogHostMetrics, PointList } from "./datadog";
+import { DatadogHostMetrics, Metrics } from "./datadog";
 
 /**
  * @todo This class can be replaced with Products class, if datadog_report function will be able to report in detail
  */
 export class ProductMetrics {
-  public metrics: PointList[];
+  public metrics: Metrics;
   public name: string;
   private counts: number[] | undefined;
 
@@ -16,7 +16,7 @@ export class ProductMetrics {
 
   get hostCounts(): number[] {
     if (!this.counts) {
-      this.counts = this.metrics.map((metric: PointList) => metric.count);
+      this.counts = Array.from(this.metrics.values());
     }
 
     return this.counts;
