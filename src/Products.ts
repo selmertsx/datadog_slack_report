@@ -20,8 +20,10 @@ export class Products {
 
   public list: Map<string, Product> = new Map();
 
-  // TODO: Refactoring
-  public overPeriod() {
+  /**
+   * @return {number[]} unix time list that sum of the monitored host counts was larger than the applied plan.
+   */
+  public overPeriod(): number[] {
     const desiredHostCount = this.productList.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
     const metricsMap = this.sumMetricsForEachPeriod();
     const result: number[] = [];
@@ -36,8 +38,8 @@ export class Products {
   /**
    * Return Product Map object that exceeded their plan in given time
    *
-   * @param unixTime - time params to get products that exceeded the applied plan.
-   * @return Map<string, number> string is product name. number is `measuredHostCount - plannedHostCount`
+   * @param {number} unixTime - params to get products that exceeded the applied plan.
+   * @return {Map<string, number>} string is product name. number is `measuredHostCount - plannedHostCount`
    */
   public overProduct(unixTime: number): Map<string, number> {
     const result = new Map<string, number>();
