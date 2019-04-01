@@ -7,4 +7,8 @@ export class Product {
     const hostCount = this.metrics.get(unixTime);
     return (hostCount ? hostCount : 0) - this.desiredHostCount;
   }
+
+  public unixTimes(): number[] {
+    return Array.from(this.metrics.keys());
+  }
 }

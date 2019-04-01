@@ -14,21 +14,16 @@ export class Products {
     return result;
   }
 
+  get productList(): Product[] {
+    return Array.from(this.list.values());
+  }
+
   public list: Map<string, Product> = new Map();
 
   // TODO: Refactoring
   public overPeriod() {
-    const products: Product[] = Array.from(this.list.values());
-    const desiredHostCount = products.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
-    const metricMap = new Map();
-    for (const product of products) {
-      for (const unixTime of product.metrics.keys()) {
-        const count = metricMap.get(unixTime);
-        const setCount = count ? product.metrics.get(unixTime) + count : product.metrics.get(unixTime);
-        metricMap.set(unixTime, setCount);
-      }
-    }
-
+    const desiredHostCount = this.productList.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
+    const metricMap = this.sumMetricsForEachPeriod();
     return Array.from(metricMap.entries())
       .filter(arr => arr[1] > desiredHostCount)
       .map(arr => arr[0]);
@@ -36,11 +31,22 @@ export class Products {
 
   public overProduct(unixTime: number) {
     const result = new Map();
-    const products: Product[] = Array.from(this.list.values());
-    for (const product of products) {
+    for (const product of this.productList) {
       const overCount = product.overCount(unixTime);
       if (overCount > 0) {
         result.set(product.name, overCount);
+      }
+    }
+    return result;
+  }
+
+  private sumMetricsForEachPeriod(): Map<number, number> {
+    const result = new Map();
+    for (const product of this.productList) {
+      for (const unixTime of product.unixTimes()) {
+        const count = result.get(unixTime);
+        const setCount = count ? product.metrics.get(unixTime) + count : product.metrics.get(unixTime);
+        result.set(unixTime, setCount);
       }
     }
     return result;
