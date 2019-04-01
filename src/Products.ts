@@ -23,10 +23,15 @@ export class Products {
   // TODO: Refactoring
   public overPeriod() {
     const desiredHostCount = this.productList.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
-    const metricMap = this.sumMetricsForEachPeriod();
-    return Array.from(metricMap.entries())
-      .filter(arr => arr[1] > desiredHostCount)
-      .map(arr => arr[0]);
+    const metricsMap = this.sumMetricsForEachPeriod();
+    const result: number[] = [];
+    metricsMap.forEach((totalHostCount, unixTime) => {
+      if (totalHostCount > desiredHostCount) {
+        result.push(unixTime);
+      }
+    });
+
+    return result;
   }
 
   public overProduct(unixTime: number) {
