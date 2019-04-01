@@ -79,12 +79,14 @@ describe("overProduct", () => {
     const products = Products.create(reservedPlans, metrics);
     const firstUnixTime = parseInt(firstTime, 10);
     const overNumber = sampleA.maxHostCount - sampleA.plannedHostCount;
-    expect(products.overProduct(firstUnixTime)).toEqual(["sampleA"]);
+    const productMap = new Map([["sampleA", overNumber]]);
+    expect(products.overProduct(firstUnixTime)).toEqual(productMap);
   });
 
   test("if datadog host metrics under planned number in given unix time", () => {
     const products = Products.create(reservedPlans, metrics);
     const lastUnixTime = parseInt(lastTime, 10);
-    expect(products.overProduct(lastUnixTime)).toHaveLength(0);
+    const productMap = new Map();
+    expect(products.overProduct(lastUnixTime)).toEqual(productMap);
   });
 });
