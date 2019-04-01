@@ -34,4 +34,8 @@ export class Products {
       .filter(arr => arr[1] > desiredHostCount)
       .map(arr => arr[0]);
   }
+
+  public overProduct(unixTime: number) {
+    return {};
+  }
 }
