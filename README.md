@@ -1,4 +1,5 @@
 # datadog_slack_report
+
 Datadogで監視しているサーバー台数をいい感じにまとめてslack通知してくれる Cloud Function
 
 ## 環境変数の設定
@@ -24,7 +25,10 @@ $ npx functions call datadog_handler
 現状は上記のコマンドをまとめて、`bin/local` に格納している。
 操作が終わったら `npx functions stop` を実行する。
 
-## 備考
+## Datadog APIの制限
 
-このコードはOSSとしての正しさよりも、僕の興味を満たすためであったり、学習であったり、心理的安全性のために書かれています。
-なので、ちゃんとメンテナンスするつもりはありませんし、コミットメッセージに気を使うこともありません。
+https://docs.datadoghq.com/ja/api/?lang=console#metrics-query
+
+> Any query used for a graph can be used here. See here for more details. The time between from and to should be less than 24 hours. If it is longer, you will receive points with less granularity.
+
+上記の問題から、DatadogのAPIは常に24時間未満の範囲で実行しなければならない。
