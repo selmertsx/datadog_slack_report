@@ -36,7 +36,7 @@ export class DatadogClient {
       for (const metrics of productsMetrics.pointlist) {
         pointlists.set(metrics[0], metrics[1]);
       }
-      return { product: productsMetrics.scope, pointlists };
+      return { product: productsMetrics.scope.replace(/^product:/, ""), pointlists };
     });
   }
 }
