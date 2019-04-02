@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 
 import { Billing } from "./Billing";
 
@@ -20,6 +20,8 @@ const toTime = parseInt(
 
 const billing = new Billing();
 
-async () => {
+async function main() {
   await billing.calculate(fromTime, toTime);
-};
+}
+
+main();

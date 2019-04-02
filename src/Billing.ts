@@ -15,9 +15,9 @@ export class Billing {
    * @param toTime
    */
 
-  public calculate(fromTime: number, toTime: number): BillingReport[] {
+  public async calculate(fromTime: number, toTime: number): Promise<BillingReport[]> {
     const client = new FirestoreClient();
-    const response = client.getReservedPlans();
+    const response = await client.getReservedPlans();
     console.log(response);
     return [new BillingReport("sample")];
   }
