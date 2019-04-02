@@ -1,6 +1,7 @@
 import { BillingReport } from "./BillingReport";
 import { DatadogClient } from "./DatadogClient";
 import { FirestoreClient } from "./FirestoreClient";
+import { Products } from "./Products";
 
 export class Billing {
   /**
@@ -18,11 +19,11 @@ export class Billing {
 
   public async calculate(fromTime: string, toTime: string): Promise<BillingReport[]> {
     const fireStoreClient = new FirestoreClient();
-    const fireStoreResponse = await fireStoreClient.getReservedPlans();
+    const reservedPlans = await fireStoreClient.getReservedPlans();
     const datadogClient = new DatadogClient();
-    const datadogResponse = await datadogClient.countHosts(fromTime, toTime);
-    console.log(fireStoreResponse);
-    console.log(datadogResponse);
+    const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
+    const products = Products.create(reservedPlans, datadogHostMetrics);
+    console.log(products);
     return [new BillingReport("sample")];
   }
 }
