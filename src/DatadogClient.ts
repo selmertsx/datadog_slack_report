@@ -1,3 +1,10 @@
+/**
+ * https://docs.datadoghq.com/ja/api/?lang=console#metrics-query
+ *
+ * Any query used for a graph can be used here. See here for more details.
+ * The time between from and to should be less than 24 hours. If it is longer, you will receive points with less granularity.
+ */
+
 import axios, { AxiosInstance } from "axios";
 import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, SeriesMetrics } from "./datadog";
 
