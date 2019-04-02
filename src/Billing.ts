@@ -1,4 +1,5 @@
 import { BillingReport } from "./BillingReport";
+import { FirestoreClient } from "./FirestoreClient";
 
 export class Billing {
   /**
@@ -15,6 +16,9 @@ export class Billing {
    */
 
   public calculate(fromTime: number, toTime: number): BillingReport[] {
+    const client = new FirestoreClient();
+    const response = client.getReservedPlans();
+    console.log(response);
     return [new BillingReport("sample")];
   }
 }
