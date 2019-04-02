@@ -23,7 +23,14 @@ export class Billing {
     const datadogClient = new DatadogClient();
     const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
     const products = Products.create(reservedPlans, datadogHostMetrics);
-    console.log(products);
+
+    for (const period of products.overPeriod()) {
+      console.log(period);
+      const maps = products.overProduct(period);
+      const arr = Array.from(maps.entries());
+      console.log(arr);
+    }
+
     return [new BillingReport("sample")];
   }
 }
