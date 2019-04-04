@@ -9,7 +9,7 @@ export class BillingReport {
     private fromTime: string,
     private toTime: string,
     private overPeriods: number[],
-    private productReport: ProductReport[]
+    private productReports: ProductReport[]
   ) {}
 
   private monitoredTime(): string {
@@ -30,12 +30,29 @@ export class BillingReport {
   }
 
   public slackMessageDetail() {
+    const productDetails = [];
+    for(const report of this.productReports){
+      const message = (
+        <Field>
+        <b> {report.name} </b>
+        <br />
+        予定監視ホスト数: {report.plannedHost} <br />
+        超過分(超過ホスト数×超過時間): {report.exceedHostCount} <br />
+      </Field>
+      )
+      productDetails.push(message);
+    }
+
     return JSXSlack(
       <Block>
         <Section>
-          <b>datadog monitoring daily report</b> <br />
+          <b>Datadog監視レポート</b> <br />
           {this.monitoredTime()} <br />
+          {this.exceedHours()}時間分、予定以上に取得されています <br />
+          内訳は下記の通りです。
         </Section>
+        <Divider />
+        <Section> {productDetails} </Section>
       </Block>
     )
   }
