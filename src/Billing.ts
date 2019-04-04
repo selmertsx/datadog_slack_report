@@ -28,6 +28,6 @@ export class Billing {
 
     const products = Products.create(reservedPlans, datadogHostMetrics);
     const overProductMaps = products.overProductsMap();
-    return new BillingReport(overProductMaps);
+    return new BillingReport(fromTime, toTime, overProductMaps);
   }
 }
