@@ -38,6 +38,7 @@ export class BillingReport {
         <br />
         予定監視ホスト数: {report.plannedHost} <br />
         超過分(超過ホスト数×超過時間): {report.exceedHostCount} <br />
+        追加請求分(単位$): { report.exceedHostCount * 0.03  } <br />
       </Field>
       )
       productDetails.push(message);
