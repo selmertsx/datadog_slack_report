@@ -21,4 +21,8 @@ export class BillingReport {
 
     return `${fromTime} ~ ${toTime}`;
   }
+
+  public exceedHours() {
+    return this.overPeriods.length;
+  }
 }
