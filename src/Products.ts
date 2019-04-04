@@ -24,7 +24,7 @@ export class Products {
    *
    * @returns {Map<unixTime, ProductHostMap>} - The keys are unix times which exceeds the planned number of monitoring hosts.
    */
-  public overProducts(): ProductReport[] {
+  public overPlanProducts(): ProductReport[] {
     const result: ProductReport[] = [];
     const periods = this.overPeriod();
 

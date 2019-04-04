@@ -27,7 +27,7 @@ export class Billing {
     const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
 
     const products = Products.create(reservedPlans, datadogHostMetrics);
-    const productReport = products.overProducts();
+    const productReport = products.overPlanProducts();
     return new BillingReport(fromTime, toTime, productReport);
   }
 }
