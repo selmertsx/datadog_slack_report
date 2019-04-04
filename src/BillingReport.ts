@@ -2,7 +2,12 @@ import moment from "moment-timezone";
 import { ProductReport } from "./datadog";
 
 export class BillingReport {
-  constructor(private fromTime: string, private toTime: string, private productReport: ProductReport[]) {}
+  constructor(
+    private fromTime: string,
+    private toTime: string,
+    private overPeriods: number[],
+    private productReport: ProductReport[]
+  ) {}
 
   public monitoredTime(): string {
     const fromTime = moment

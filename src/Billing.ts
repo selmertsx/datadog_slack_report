@@ -28,6 +28,7 @@ export class Billing {
 
     const products = Products.create(reservedPlans, datadogHostMetrics);
     const productReport = products.overPlanProducts();
-    return new BillingReport(fromTime, toTime, productReport);
+    const overPeriods = products.overPeriod();
+    return new BillingReport(fromTime, toTime, overPeriods, productReport);
   }
 }
