@@ -1,10 +1,11 @@
-import { DatadogHostMetrics, OverProductsMap, ProductHostMap, ReservedPlan } from "./datadog";
+import { DatadogHostMetrics, ProductReport, ReservedPlan } from "./datadog";
 import { Product } from "./Product";
 
 export class Products {
   get productList(): Product[] {
     return Array.from(this.list.values());
   }
+
   public static create(plans: ReservedPlan[], hostMetrics: DatadogHostMetrics[]): Products {
     const result = new Products();
     for (const plan of plans) {
@@ -23,30 +24,21 @@ export class Products {
    *
    * @returns {Map<unixTime, ProductHostMap>} - The keys are unix times which exceeds the planned number of monitoring hosts.
    */
-  public overProductsMap(): OverProductsMap {
-    const overPeriods = this.overPeriod();
-    const result: Map<number, ProductHostMap> = new Map();
-    for (const unixtime of overPeriods) {
-      result.set(unixtime, this.overProduct(unixtime));
-    }
+  public overProducts(): ProductReport[] {
+    const result: ProductReport[] = [];
+    const periods = this.overPeriod();
 
-    return result;
-  }
-
-  /**
-   * Return Product Map object that exceeded their plan in given time
-   *
-   * @param {number} unixTime - params to get products that exceeded the applied plan. e.g. 1554105212 (2019/04/01 16:53:32)
-   * @return {Map<string, number>} - The key is product name. The value is `measuredHostCount - plannedHostCount` e.g. Map<"sampleProductA", 20>
-   */
-  private overProduct(unixTime: number): ProductHostMap {
-    const result = new Map<string, number>();
     for (const product of this.productList) {
-      const overCount = product.overCount(unixTime);
-      if (overCount > 0) {
-        result.set(product.name, overCount);
+      const exceedHostCount = periods.map(period => product.overCount(period)).reduce((acc, cur) => acc + cur);
+      if (exceedHostCount > 0) {
+        result.push({
+          exceedHostCount,
+          name: product.name,
+          plannedHost: product.desiredHostCount,
+        });
       }
     }
+
     return result;
   }
 

@@ -1,8 +1,8 @@
 import moment from "moment-timezone";
-import { OverProductsMap } from "./datadog";
+import { ProductReport } from "./datadog";
 
 export class BillingReport {
-  constructor(private fromTime: string, private toTime: string, private overProductsMap: OverProductsMap) {}
+  constructor(private fromTime: string, private toTime: string, private productReport: ProductReport[]) {}
 
   public monitoredTime(): string {
     const fromTime = moment

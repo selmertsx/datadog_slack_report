@@ -42,3 +42,9 @@ type productName = string;
 export interface ProductHostMap extends Map<productName, hostNumber> {}
 
 export interface OverProductsMap extends Map<number, ProductHostMap> {}
+
+export interface ProductReport {
+  name: string;
+  exceedHostCount: number;
+  plannedHost: number;
+}
