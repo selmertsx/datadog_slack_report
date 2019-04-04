@@ -58,20 +58,3 @@ export async function delete_reserved_plan(req: any, res: any): Promise<void> {
     return res.status(500).send(err);
   }
 }
-
-// 予定を超過したプロダクトを通知する
-export async function over_limit_products(): Promise<void> {
-  const fromTime = moment({ hour: 0, minute: 0, second: 0 })
-    .tz("Asia/Tokyo")
-    .subtract(1, "days")
-    .format("X");
-
-  const toTime = moment({ hour: 23, minute: 59, second: 59 })
-    .tz("Asia/Tokyo")
-    .subtract(1, "days")
-    .format("X");
-
-  const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
-  const client = new FirestoreClient();
-  const plans: ReservedPlan[] = await client.getReservedPlans();
-}
