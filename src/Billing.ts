@@ -19,17 +19,15 @@ export class Billing {
    * @todo https://docs.datadoghq.com/ja/api/?lang=console#metrics-query より、fromTimeとtoTimeの間は24時間未満でなければならない。inputとして24時間以上のデータが入ってきたら、エラーを出す仕組みを作る。
    */
 
-  public async calculate(fromTime: string, toTime: string): Promise<BillingReport[]> {
+  public async calculate(fromTime: string, toTime: string): Promise<BillingReport> {
     const fireStoreClient = new FirestoreClient();
     const reservedPlans = await fireStoreClient.getReservedPlans();
+
     const datadogClient = new DatadogClient();
     const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
+
     const products = Products.create(reservedPlans, datadogHostMetrics);
-
-    for (const period of products.overPeriod()) {
-      const overMonitordCount = products.overProduct(period);
-    }
-
-    return [new BillingReport("sample")];
+    const overProductMaps = products.overProductsMap();
+    return new BillingReport(overProductMaps);
   }
 }

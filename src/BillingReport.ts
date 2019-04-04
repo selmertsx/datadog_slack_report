@@ -1,3 +1,5 @@
+import { OverProductsMap } from "./datadog";
+
 export class BillingReport {
-  constructor(public name: string) {}
+  constructor(private overProductsMap: OverProductsMap) {}
 }
