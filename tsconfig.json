@@ -16,7 +16,7 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts", "src/BillingReport.tsx"
   ],
   "exclude": [
     "node_modules",

@@ -1,3 +1,6 @@
+/** @jsx JSXSlack.h */
+import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
+
 import moment from "moment-timezone";
 import { ProductReport } from "./datadog";
 
@@ -9,7 +12,7 @@ export class BillingReport {
     private productReport: ProductReport[]
   ) {}
 
-  public monitoredTime(): string {
+  private monitoredTime(): string {
     const fromTime = moment
       .unix(parseInt(this.fromTime, 10))
       .format("LLL")
@@ -22,7 +25,18 @@ export class BillingReport {
     return `${fromTime} ~ ${toTime}`;
   }
 
-  public exceedHours() {
+  private exceedHours() {
     return this.overPeriods.length;
+  }
+
+  public slackMessageDetail() {
+    return JSXSlack(
+      <Block>
+        <Section>
+          <b>datadog monitoring daily report</b> <br />
+          {this.monitoredTime()} <br />
+        </Section>
+      </Block>
+    )
   }
 }

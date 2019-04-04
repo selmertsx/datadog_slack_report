@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import "source-map-support/register";
+import { Billing } from "./Billing";
 import { DatadogHostMetrics, ReservedPlan } from "./datadog";
 import { DatadogClient } from "./DatadogClient";
 import { FirestoreClient } from "./FirestoreClient";
@@ -20,9 +21,9 @@ export async function datadog_handler(): Promise<void> {
     .subtract(1, "days")
     .format("X");
 
-  const hostMetrics: DatadogHostMetrics[] = await datadogClient.countHosts(fromTime, toTime);
-  const blocks = slackMessageBlock(fromTime, toTime, hostMetrics);
-  await slackClient.post(blocks);
+  const billing = new Billing();
+  const report = await billing.calculate(fromTime, toTime);
+  await slackClient.post(report.slackMessageDetail());
 }
 
 // cloud functionsの HTTP RequestがPATCHに対応してたらファンクション名変える
