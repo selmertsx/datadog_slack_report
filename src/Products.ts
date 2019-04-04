@@ -1,4 +1,4 @@
-import { DatadogHostMetrics, ReservedPlan } from "./datadog";
+import { DatadogHostMetrics, ProductHostMap, ReservedPlan } from "./datadog";
 import { Product } from "./Product";
 
 export class Products {
@@ -41,7 +41,7 @@ export class Products {
    * @param {number} unixTime - params to get products that exceeded the applied plan. e.g. 1554105212 (2019/04/01 16:53:32)
    * @return {Map<string, number>} - string is product name. number is `measuredHostCount - plannedHostCount` e.g. Map<"sampleProductA", 20>
    */
-  public overProduct(unixTime: number): Map<string, number> {
+  public overProduct(unixTime: number): ProductHostMap {
     const result = new Map<string, number>();
     for (const product of this.productList) {
       const overCount = product.overCount(unixTime);
