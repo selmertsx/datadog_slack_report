@@ -6,7 +6,7 @@ import { SlackClient } from "./SlackClient";
 
 const slackClient = new SlackClient();
 
-export async function datadog_handler(): Promise<WebAPICallResult> {
+export async function datadog_handler() {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
     .subtract(1, "days")
@@ -20,7 +20,7 @@ export async function datadog_handler(): Promise<WebAPICallResult> {
   const billing = new Billing();
   try {
     const report = await billing.calculate(fromTime, toTime);
-    return await slackClient.post(report.slackMessageDetail());
+    return console.log(report);
   } catch (err) {
     throw new Error(err);
   }

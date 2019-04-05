@@ -12,11 +12,14 @@ export class Billing {
    */
 
   public async calculate(fromTime: string, toTime: string): Promise<BillingReport> {
-    const fireStoreClient = new FirestoreClient();
-    const reservedPlans = await fireStoreClient.getReservedPlans();
-
+    console.log("hogeA");
     const datadogClient = new DatadogClient();
     const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
+    console.log(datadogHostMetrics);
+
+    const fireStoreClient = new FirestoreClient();
+    const reservedPlans = await fireStoreClient.getReservedPlans();
+    console.log(reservedPlans);
 
     const products = Products.create(reservedPlans, datadogHostMetrics);
     const productReport = products.overPlanProducts();
