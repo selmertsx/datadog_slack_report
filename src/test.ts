@@ -16,8 +16,12 @@ const billing = new Billing();
 
 async function main() {
   const report = await billing.calculate(fromTime, toTime);
-  const slackClient = new SlackClient();
-  await slackClient.post(report.slackMessageDetail());
+  try {
+    const slackClient = new SlackClient();
+    await slackClient.post(report.slackMessageDetail());
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 main();
