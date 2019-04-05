@@ -17,6 +17,10 @@ export async function datadog_handler(): Promise<void> {
     .format("X");
 
   const billing = new Billing();
-  const report = await billing.calculate(fromTime, toTime);
-  await slackClient.post(report.slackMessageDetail());
+  try {
+    const report = await billing.calculate(fromTime, toTime);
+    await slackClient.post(report.slackMessageDetail());
+  } catch (err) {
+    console.log(err);
+  }
 }
