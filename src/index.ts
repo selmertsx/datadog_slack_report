@@ -1,3 +1,4 @@
+import { WebAPICallResult } from "@slack/client";
 import moment from "moment-timezone";
 import "source-map-support/register";
 import { Billing } from "./Billing";
@@ -5,7 +6,7 @@ import { SlackClient } from "./SlackClient";
 
 const slackClient = new SlackClient();
 
-export async function datadog_handler(): Promise<void> {
+export async function datadog_handler(): Promise<WebAPICallResult> {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
     .subtract(1, "days")
@@ -19,8 +20,8 @@ export async function datadog_handler(): Promise<void> {
   const billing = new Billing();
   try {
     const report = await billing.calculate(fromTime, toTime);
-    await slackClient.post(report.slackMessageDetail());
+    return await slackClient.post(report.slackMessageDetail());
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
