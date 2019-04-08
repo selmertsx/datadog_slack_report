@@ -13,7 +13,7 @@ const toTime = moment({ hour: 23, minute: 59, second: 59 })
   .format("X");
 
 const billing = new Billing();
-
+/*
 async function main() {
   const report = await billing.calculate(fromTime, toTime);
   try {
@@ -25,3 +25,4 @@ async function main() {
 }
 
 main();
+*/
