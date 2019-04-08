@@ -11,3 +11,9 @@ Resources:
       Description: 'Datadog Billing Report'
       MemorySize: 256
       Timeout: 50
+      Events:
+        DatadogReport:
+          Type: Api
+          Properties:
+            Path: /datadog_reports
+            Method: get
