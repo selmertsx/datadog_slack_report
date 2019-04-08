@@ -1,14 +1,14 @@
 {
   "body": "eyJ0ZXN0IjoiYm9keSJ9",
   "resource": "/{proxy+}",
-  "path": "/path/to/resource",
-  "httpMethod": "POST",
+  "path": "/datadog_report",
+  "httpMethod": "GET",
   "isBase64Encoded": true,
   "queryStringParameters": {
     "foo": "bar"
   },
   "pathParameters": {
-    "proxy": "/path/to/resource"
+    "proxy": "/datadog_report"
   },
   "stageVariables": {
     "baz": "qux"
@@ -53,9 +53,9 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/prod/path/to/resource",
+    "path": "/datadog_report",
     "resourcePath": "/{proxy+}",
-    "httpMethod": "POST",
+    "httpMethod": "GET",
     "apiId": "1234567890",
     "protocol": "HTTP/1.1"
   }

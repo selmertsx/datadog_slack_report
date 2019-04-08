@@ -15,5 +15,5 @@ Resources:
         DatadogReport:
           Type: Api
           Properties:
-            Path: /datadog_reports
+            Path: /datadog_report
             Method: get
