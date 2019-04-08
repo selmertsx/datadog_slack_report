@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'Datadog Billing Report'
+Resources:
+  DatadogReport:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.datadog_handler
+      Runtime: nodejs8.10
+      CodeUri: .
+      Description: 'Datadog Billing Report'
+      MemorySize: 256
+      Timeout: 50
+      Events:
+        DatadogReport:
+          Type: Api
+          Properties:
+            Path: /datadog_report
+            Method: get
