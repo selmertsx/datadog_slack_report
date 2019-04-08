@@ -12,7 +12,6 @@ const toTime = moment({ hour: 23, minute: 59, second: 59 })
   .subtract(1, "days")
   .format("X");
 
-/*
 const billing = new Billing();
 async function main() {
   const report = await billing.calculate(fromTime, toTime);
@@ -23,15 +22,4 @@ async function main() {
     console.log(err);
   }
 }
-main();
-*/
-
-import { DynamoDBClient } from "./DynamoDBClient";
-const client = new DynamoDBClient();
-
-async function main() {
-  const res = await client.getReservedPlans();
-  console.log(res);
-}
-
 main();

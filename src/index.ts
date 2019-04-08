@@ -5,8 +5,6 @@ import "source-map-support/register";
 import { Billing } from "./Billing";
 import { SlackClient } from "./SlackClient";
 
-const slackClient = new SlackClient();
-
 export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
@@ -18,20 +16,18 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     .subtract(1, "days")
     .format("X");
 
-  const billing = new Billing();
   try {
-    // const report = await billing.calculate(fromTime, toTime);
-    const result = {
-      status: 200,
-      message: 'OK!!!!!'
-    };
+    const billing = new Billing();
+    const report = await billing.calculate(fromTime, toTime);
+    const slackClient = new SlackClient();
+    await slackClient.post(report.slackMessageDetail());
 
     callback(null, {
       statusCode: 200,
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
+        "Content-Type": "application/json;charset=UTF-8",
       },
-      body: JSON.stringify(result)
+      body: JSON.stringify({ status: 200, message: "OK" }),
     });
   } catch (err) {
     throw new Error(err);
