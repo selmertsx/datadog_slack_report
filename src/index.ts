@@ -23,15 +23,15 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     // const report = await billing.calculate(fromTime, toTime);
     const result = {
       status: 200,
-      message: "OK!!!!!",
+      message: 'OK!!!!!'
     };
 
     callback(null, {
       statusCode: 200,
       headers: {
-        "Content-Type": "application/json;charset=UTF-8",
+        'Content-Type': 'application/json;charset=UTF-8'
       },
-      body: JSON.stringify(result),
+      body: JSON.stringify(result)
     });
   } catch (err) {
     throw new Error(err);
