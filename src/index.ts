@@ -6,7 +6,7 @@ import { SlackClient } from "./SlackClient";
 
 const slackClient = new SlackClient();
 
-export async function datadog_handler() {
+export async function datadog_handler(event, context) {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
     .subtract(1, "days")
