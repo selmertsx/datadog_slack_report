@@ -11,5 +11,9 @@ module.exports = {
     "json",
     "node"
   ],
-  collectCoverageFrom: ["src/**/*.{ts,js}"]
+  collectCoverageFrom: ["src/**/*.{ts,js}"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "src"
+  ]
 }
