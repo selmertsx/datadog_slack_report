@@ -26,46 +26,12 @@ async function main() {
 main();
 */
 
-import AWS from "aws-sdk";
-import { DynamoDB } from "aws-sdk";
+import { DynamoDBClient } from "./DynamoDBClient";
+const client = new DynamoDBClient();
 
-const dynamo = new AWS.DynamoDB({
-  endpoint: "http://localhost:8000",
-  region: "ap-north-east1",
-});
+async function main() {
+  const res = await client.getReservedPlans();
+  console.log(res);
+}
 
-const params: DynamoDB.Types.PutItemInput = {
-  TableName: "DatadogPlan",
-  Item: { Product: { S: "uzou" }, PlanedHostCount: { N: "30" } },
-};
-
-const getParams = {
-  Key: {
-    Product: {
-      S: "uzou",
-    },
-  },
-  TableName: "DatadogPlan",
-};
-
-dynamo.listTables({}, function(err, data) {
-  if (err) {
-    console.log(err, err.stack);
-  } else {
-    console.log(data);
-  }
-});
-
-// put Item
-/*
-dynamo.putItem(params, (err, data) => {
-  console.log(err);
-  console.log(data);
-});
-
-// get Item
-dynamo.getItem(getParams, (err, data) => {
-  console.log(err);
-  console.log(data);
-});
-*/
+main();
