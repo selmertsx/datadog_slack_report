@@ -13,17 +13,17 @@ SlackToken: xxx # SlackのToken
 CHANNEL_ID: xxx # Slackで通知したいchannel ID
 ```
 
+## DynamoDB Localのdocker imageを作成する
+
+DynamoDB LocalをsharedDbオプションを付けて起動したかったので、このようにした。
+
 ## Localでの動作確認方法
 
 ```
 $ npm run build
-$ npx functions start
-$ npx functions deploy datadog_handler --trigger-topic=datadog_report
-$ npx functions call datadog_handler
+$ docker run -it -p 8000:8000 --name dynamodb_local dynamodb-local
+$ sam local invoke DatadogReport -e events/event_apigateway.json
 ```
-
-現状は上記のコマンドをまとめて、`bin/local` に格納している。
-操作が終わったら `npx functions stop` を実行する。
 
 ## Datadog APIの制限
 

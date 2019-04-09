@@ -1,4 +1,3 @@
-import { WebAPICallResult } from "@slack/client";
 import { APIGatewayEvent, Callback, Context } from "aws-lambda";
 import moment from "moment-timezone";
 import "source-map-support/register";
