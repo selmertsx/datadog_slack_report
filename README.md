@@ -15,7 +15,11 @@ CHANNEL_ID: xxx # Slackで通知したいchannel ID
 
 ## DynamoDB Localのdocker imageを作成する
 
-DynamoDB LocalをsharedDbオプションを付けて起動したかったので、このようにした。
+DynamoDB LocalをsharedDbオプションを付けて起動したかったので、手元でbuildするようにした。
+
+```
+docker build . -t dynamodb_local
+```
 
 ## Localでの動作確認方法
 
