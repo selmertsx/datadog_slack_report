@@ -30,7 +30,7 @@ export class BillingReport {
   }
 
   private productDetailMessage(){
-    const results = [];
+    const result = [];
     for(const report of this.productReports){
       const message = (
         <Field>
@@ -41,9 +41,10 @@ export class BillingReport {
         追加請求分(単位$): { report.exceedHostCount * 0.03  } <br />
       </Field>
       )
-      results.push(message);
+      result.push(message);
     }
-    return (<Section>{results}</Section>);
+
+    return ( result.length === 0 ) ? [] : (<Section>{result}</Section>)
   }
 
   private headerMessage(){
@@ -52,7 +53,7 @@ export class BillingReport {
       <Section>
         <b>Datadog監視レポート</b> <br />
         {this.monitoredTime()} <br />
-        この期間において、予定を超過した数のホストは監視されました
+        上記の期間において予定を超過した数のホストは監視されませんでした
       </Section>
     ):(
       <Section>
