@@ -48,25 +48,21 @@ export class BillingReport {
 
   private headerMessage(){
     const exceedHours = this.exceedHours();
-    let result;
-    if(exceedHours === 0) {
-      result = (
-        <Section>
+    const result = (exceedHours === 0) ? (
+      <Section>
         <b>Datadog監視レポート</b> <br />
         {this.monitoredTime()} <br />
         この期間において、予定を超過した数のホストは監視されました
-        </Section>
-      )
-    } else {
-      result = (
-        <Section>
-          <b>Datadog監視レポート</b> <br />
-          {this.monitoredTime()} <br />
-          {exceedHours}時間分、予定した数のホストを超過して監視しました <br/>
-          内訳は下記のようになります。
-        </Section>
-      )
-    }
+      </Section>
+    ):(
+      <Section>
+        <b>Datadog監視レポート</b> <br />
+        {this.monitoredTime()} <br />
+        {exceedHours}時間分、予定した数のホストを超過して監視しました <br/>
+        内訳は下記のようになります。
+      </Section>
+    )
+
     return result;
   }
 
