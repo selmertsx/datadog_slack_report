@@ -35,10 +35,23 @@ aws dynamodb batch-write-item --request-items file://$(pwd)/tmp/datadog-import.j
 ```
 
 ## Localでの動作確認方法
+### DynamoDB Localの起動
 
 ```
-$ npm run build
 $ docker run -it -p 8000:8000 --name dynamodb_local dynamodb-local
+```
+
+### DynamoDBのデータをGUIから確認する
+
+```
+npm run dynamodb-admin
+```
+
+https://www.npmjs.com/package/dynamodb-admin
+
+### Lambdaの起動
+```
+$ npm run build
 $ sam local invoke DatadogReport -e events/event_apigateway.json
 ```
 

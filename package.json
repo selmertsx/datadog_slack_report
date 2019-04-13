@@ -7,16 +7,8 @@
     "build": "webpack --config webpack.prod.js",
     "build:dev": "webpack --config webpack.dev.js",
     "test": "jest",
-    "start": "better-npm-run start",
+    "dynamodb-admin": "DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin",
     "pre-start": "npm install"
-  },
-  "betterScripts": {
-    "start": {
-      "command": "dynamodb-admin",
-      "env": {
-        "DYNAMO_ENDPOINT": "http://localhost:8000"
-      }
-    }
   },
   "author": "",
   "license": "ISC",
