@@ -29,8 +29,8 @@ export class BillingReport {
     return this.overPeriods.length;
   }
 
-  public slackMessageDetail() {
-    const productDetails = [];
+  private productDetailMessage(){
+    const results = [];
     for(const report of this.productReports){
       const message = (
         <Field>
@@ -41,19 +41,41 @@ export class BillingReport {
         追加請求分(単位$): { report.exceedHostCount * 0.03  } <br />
       </Field>
       )
-      productDetails.push(message);
+      results.push(message);
     }
+    return (<Section>{results}</Section>);
+  }
 
-    return JSXSlack(
-      <Block>
+  private headerMessage(){
+    const exceedHours = this.exceedHours();
+    let result;
+    if(exceedHours === 0) {
+      result = (
+        <Section>
+        <b>Datadog監視レポート</b> <br />
+        {this.monitoredTime()} <br />
+        この期間において、予定を超過した数のホストは監視されました
+        </Section>
+      )
+    } else {
+      result = (
         <Section>
           <b>Datadog監視レポート</b> <br />
           {this.monitoredTime()} <br />
-          {this.exceedHours()}時間分、予定以上に取得されています <br />
-          内訳は下記の通りです。
+          {exceedHours}時間分、予定した数のホストを超過して監視しました <br/>
+          内訳は下記のようになります。
         </Section>
+      )
+    }
+    return result;
+  }
+
+  public slackMessageDetail() {
+    return JSXSlack(
+      <Block>
+        { this.headerMessage() }
         <Divider />
-        <Section> {productDetails} </Section>
+        { this.productDetailMessage() }
       </Block>
     )
   }
