@@ -29,7 +29,7 @@ export class Products {
     const periods = this.overPeriod();
 
     for (const product of this.productList) {
-      const exceedHostCount = periods.map(period => product.overCount(period)).reduce((acc, cur) => acc + cur);
+      const exceedHostCount = periods.map(period => product.overCount(period)).reduce((acc, cur) => acc + cur, 0);
       if (exceedHostCount > 0) {
         result.push({
           exceedHostCount,
@@ -46,7 +46,9 @@ export class Products {
    * @return {number[]} unix time list that sum of the monitored host counts was larger than the applied plan.
    */
   public overPeriod(): number[] {
-    const desiredHostCount = this.productList.map(product => product.desiredHostCount).reduce((sum, num) => sum + num);
+    const desiredHostCount = this.productList
+      .map(product => product.desiredHostCount)
+      .reduce((sum, num) => sum + num, 0);
     const metricsMap = this.sumMetricsForEachPeriod();
     const result: number[] = [];
     metricsMap.forEach((totalHostCount, unixTime) => {

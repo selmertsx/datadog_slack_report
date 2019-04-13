@@ -21,6 +21,19 @@ DynamoDB LocalをsharedDbオプションを付けて起動したかったので�
 docker build . -t dynamodb_local
 ```
 
+## テストデータの投入
+
+```
+aws dynamodb create-table \
+  --table-name DatadogPlan \
+  --attribute-definitions \
+    AttributeName=Product,AttributeType=S \
+  --key-schema AttributeName=Product,KeyType=HASH \
+  --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
+  --endpoint-url http://localhost:8000
+aws dynamodb batch-write-item --request-items file://$(pwd)/tmp/datadog-import.json  --endpoint-url http://localhost:8000
+```
+
 ## Localでの動作確認方法
 
 ```
