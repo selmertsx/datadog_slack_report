@@ -63,7 +63,7 @@ describe("create", () => {
 });
 
 describe("overPlanProducts", () => {
-  test("if datadog host metrics exceed planed number in given unix time", () => {
+  test("if datadog host metrics exceed planed number", () => {
     const products = Products.create(reservedPlans, metrics);
     const expectedResponse: ProductReport[] = [
       {
@@ -73,6 +73,11 @@ describe("overPlanProducts", () => {
       },
     ];
     expect(products.overPlanProducts()).toEqual(expectedResponse);
+  });
+
+  test("if datadog host metrics does not exceed planned number", () => {
+    const products = Products.create(reservedPlans, metricsUnderLimit);
+    expect(products.overPlanProducts()).toEqual([]);
   });
 });
 
