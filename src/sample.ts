@@ -4,12 +4,12 @@ import { SlackClient } from "./SlackClient";
 
 const fromTime = moment({ hour: 0, minute: 0, second: 0 })
   .tz("Asia/Tokyo")
-  .subtract(1, "days")
+  .subtract(3, "days")
   .format("X");
 
 const toTime = moment({ hour: 23, minute: 59, second: 59 })
   .tz("Asia/Tokyo")
-  .subtract(1, "days")
+  .subtract(3, "days")
   .format("X");
 
 const billing = new Billing();
