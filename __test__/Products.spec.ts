@@ -1,5 +1,5 @@
 import moment from "moment";
-import { DatadogHostMetrics, ReservedPlan } from "../src/datadog";
+import { DatadogHostMetrics, ProductReport, ReservedPlan } from "../src/datadog";
 import { Product } from "../src/Product";
 import { Products } from "../src/Products";
 
@@ -62,6 +62,20 @@ describe("create", () => {
   });
 });
 
+describe("overPlanProducts", () => {
+  test("if datadog host metrics exceed planed number in given unix time", () => {
+    const products = Products.create(reservedPlans, metrics);
+    const expectedResponse: ProductReport[] = [
+      {
+        name: sampleA.name,
+        plannedHost: sampleA.plannedHostCount,
+        exceedHostCount: sampleA.maxHostCount - sampleA.plannedHostCount,
+      },
+    ];
+    expect(products.overPlanProducts()).toEqual(expectedResponse);
+  });
+});
+
 describe("overPeriod", () => {
   test("if datadog host metrics exceed planed number", () => {
     const products = Products.create(reservedPlans, metrics);
@@ -73,22 +87,3 @@ describe("overPeriod", () => {
     expect(products.overPeriod()).toHaveLength(0);
   });
 });
-
-/*
-describe("overProduct", () => {
-  test("if datadog host metrics exceed planed number in given unix time", () => {
-    const products = Products.create(reservedPlans, metrics);
-    const firstUnixTime = parseInt(firstTime, 10);
-    const overNumber = sampleA.maxHostCount - sampleA.plannedHostCount;
-    const productMap = new Map([["sampleA", overNumber]]);
-    expect(products.overProduct(firstUnixTime)).toEqual(productMap);
-  });
-
-  test("if datadog host metrics under planned number in given unix time", () => {
-    const products = Products.create(reservedPlans, metrics);
-    const lastUnixTime = parseInt(lastTime, 10);
-    const productMap = new Map();
-    expect(products.overProducts(lastUnixTime)).toEqual(productMap);
-  });
-});
-*/
