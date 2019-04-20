@@ -1,4 +1,4 @@
-import { DatadogHostMetrics, ProductReport, ReservedPlan } from "./datadog";
+import { DatadogHostMetrics, ProductReport, ReservedPlan } from "./typings/datadog";
 import { Product } from "./Product";
 
 export class Products {

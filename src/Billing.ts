@@ -8,7 +8,8 @@ export class Billing {
    * @param fromTime
    * @param toTime
    *
-   * @todo https://docs.datadoghq.com/ja/api/?lang=console#metrics-query より、fromTimeとtoTimeの間は24時間未満でなければならない。inputとして24時間以上のデータが入ってきたら、エラーを出す仕組みを作る。
+   * @todo https://docs.datadoghq.com/ja/api/?lang=console#metrics-query より
+   * fromTimeとtoTimeの間は24時間未満でなければならない。inputとして24時間以上のデータが入ってきたら、エラーを出す仕組みを作る。
    */
 
   public async calculate(fromTime: string, toTime: string): Promise<BillingReport> {

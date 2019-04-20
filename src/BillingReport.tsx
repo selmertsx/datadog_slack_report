@@ -2,7 +2,7 @@
 import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 
 import moment from "moment-timezone";
-import { ProductReport } from "./datadog";
+import { ProductReport } from "./typings/datadog";
 
 export class BillingReport {
   constructor(

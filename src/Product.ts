@@ -1,4 +1,4 @@
-import { Metrics } from "./datadog";
+import { Metrics } from "./typings/datadog";
 
 export class Product {
   constructor(public name: string, public desiredHostCount: number, public metrics: Metrics) {}

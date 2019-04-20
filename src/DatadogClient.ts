@@ -6,7 +6,7 @@
  */
 
 import axios, { AxiosInstance } from "axios";
-import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, SeriesMetrics } from "./datadog";
+import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, SeriesMetrics } from "./typings/datadog";
 
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;

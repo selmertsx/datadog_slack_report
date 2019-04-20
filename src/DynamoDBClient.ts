@@ -1,5 +1,5 @@
 import { DynamoDB } from "aws-sdk";
-import { ReservedPlan } from "./datadog";
+import { ReservedPlan } from "./typings/datadog";
 
 export class DynamoDBClient {
   private client = new DynamoDB.DocumentClient({
