@@ -1,6 +1,6 @@
 # datadog_slack_report
 
-Datadogで監視しているサーバー台数をいい感じにまとめてslack通知してくれる Cloud Function
+Datadogで監視しているサーバー台数をいい感じにまとめてslack通知してくれる AWS Lambda Function
 
 ## 環境変数の設定
 
@@ -31,6 +31,7 @@ aws dynamodb create-table \
   --key-schema AttributeName=Product,KeyType=HASH \
   --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
   --endpoint-url http://localhost:8000
+
 aws dynamodb batch-write-item --request-items file://$(pwd)/tmp/datadog-import.json  --endpoint-url http://localhost:8000
 ```
 
