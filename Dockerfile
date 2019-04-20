@@ -1,4 +1,4 @@
 FROM amazon/dynamodb-local
 
 ENTRYPOINT ["java"]
-CMD ["-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb"]
+RUN mkdir data && chown -R 1000 data
