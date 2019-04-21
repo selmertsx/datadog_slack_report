@@ -13,12 +13,11 @@ SlackToken: xxx # SlackのToken
 CHANNEL_ID: xxx # Slackで通知したいchannel ID
 ```
 
-## DynamoDB Localのdocker imageを作成する
+## DynamoDB Localの環境構築
 
-DynamoDB LocalをsharedDbオプションを付けて起動したかったので、手元でbuildするようにした。
 
 ```
-docker build . -t dynamodb_local
+docker-compose up
 ```
 
 ## テストデータの投入
@@ -36,12 +35,6 @@ aws dynamodb batch-write-item --request-items file://$(pwd)/tmp/datadog-import.j
 ```
 
 ## Localでの動作確認方法
-### DynamoDB Localの起動
-
-```
-$ docker run -it -p 8000:8000 --name dynamodb_local dynamodb-local
-```
-
 ### DynamoDBのデータをGUIから確認する
 
 ```
