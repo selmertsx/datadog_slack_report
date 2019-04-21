@@ -4,8 +4,8 @@ services:
   dynamodb:
     image: amazon/dynamodb-local
     build: ./
-    volumes:
-      - ./tmp:/data:rw
     ports:
       - 8000:8000
-    command: -jar DynamoDBLocal.jar -sharedDb -dbPath ./data
+    command: -jar DynamoDBLocal.jar -dbPath /data
+    volumes:
+      - ./data:/data
