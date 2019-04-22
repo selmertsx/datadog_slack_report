@@ -6,6 +6,11 @@ services:
     build: ./
     ports:
       - 8000:8000
-    command: -jar DynamoDBLocal.jar -dbPath /data
+    command: -jar DynamoDBLocal.jar -dbPath /data -sharedDb
     volumes:
       - ./data:/data
+    networks:
+      - lambda-local
+networks:
+  lambda-local:
+    external: true

@@ -19,7 +19,6 @@ export class DynamoDBClient {
           data.Items.forEach(item => {
             results.push({ productName: item.Product, plannedHostCount: item.PlannedHostCount });
           });
-
           resolve(results);
         }
       });
