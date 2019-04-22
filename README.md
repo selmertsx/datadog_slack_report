@@ -9,7 +9,7 @@ Datadogで監視しているサーバー台数をいい感じにまとめてslac
 ```
 APP_KEY: xxx # DatadogのAPP Key
 API_KEY: xxx # DatadogのAPI Key
-SlackToken: xxx # SlackのToken
+SLACK_TOKEN: xxx # SlackのToken
 CHANNEL_ID: xxx # Slackで通知したいchannel ID
 ```
 

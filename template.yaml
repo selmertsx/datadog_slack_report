@@ -17,3 +17,22 @@ Resources:
           Properties:
             Path: /datadog_report
             Method: get
+      Environment:
+        Variables:
+          APP_KEY: !Ref APP_KEY
+          API_KEY: !Ref API_KEY
+          SLACK_TOKEN: !Ref SLACK_TOKEN
+          CHANNEL_ID: !Ref CHANNEL_ID
+Parameters:
+  APP_KEY:
+    Default: ""
+    Type: String
+  API_KEY:
+    Default: ""
+    Type: String
+  SLACK_TOKEN:
+    Default: ""
+    Type: String
+  CHANNEL_ID:
+    Default: ""
+    Type: String
