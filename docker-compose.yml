@@ -1,7 +1,8 @@
 version: "3"
 
 services:
-  dynamodb:
+  dynamodb-local:
+    container_name: dynamodb
     image: amazon/dynamodb-local
     build: ./
     ports:

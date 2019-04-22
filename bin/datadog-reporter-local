@@ -4,4 +4,4 @@ cd "$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' $0)")" || ex
 cd ../
 BASE_DIR="$PWD"
 npm run build:dev
-sam local invoke DatadogReport -e events/event_apigateway.json --env-vars .env.json
+sam local invoke --docker-network lambda-local -e events/event_apigateway.json --env-vars .env.json DatadogReport

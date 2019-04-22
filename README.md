@@ -17,6 +17,7 @@ CHANNEL_ID: xxx # Slackで通知したいchannel ID
 
 
 ```
+docker network create lambda-local
 docker-compose up
 ```
 
@@ -44,9 +45,9 @@ npm run dynamodb-admin
 https://www.npmjs.com/package/dynamodb-admin
 
 ### Lambdaの起動
+
 ```
-$ npm run build
-$ sam local invoke DatadogReport -e events/event_apigateway.json
+$ bin/datadog-reporter local
 ```
 
 ## Datadog APIの制限

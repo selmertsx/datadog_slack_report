@@ -3,7 +3,7 @@ import { ReservedPlan } from "./typings/datadog";
 
 export class DynamoDBClient {
   private client = new DynamoDB.DocumentClient({
-    endpoint: "http://localhost:8000",
+    endpoint: "http://dynamodb:8000",
     region: "ap-north-east1",
   });
 
