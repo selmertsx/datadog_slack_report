@@ -4,10 +4,12 @@ CMDDIR="$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$0")")"
 
 case "${1:-}" in
   local) shift 1; exec "$CMDDIR/datadog-reporter-local" "$@";;
+  deploy) shift 1; exec "$CMDDIR/datadog-reporter-deploy" "$@";;
   *)
     echo 'Usage: datadog-reporter <subcommand> [<args>]'
     echo
     echo 'Subcommands of datadog-reporter:'
     echo '  local: invoke the lambda function on development environments'
+    echo '  deploy: deploy the lambda function'
     ;;
 esac

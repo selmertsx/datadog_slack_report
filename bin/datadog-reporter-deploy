@@ -1,0 +1,21 @@
+#!/bin/sh -eu
+
+cd "$(dirname "$(perl -e 'use Cwd "abs_path";print abs_path(shift)' $0)")" || exit 1
+cd ../
+BASE_DIR="$PWD"
+
+npm run build
+
+sam package --template-file template.yaml \
+  --s3-bucket datadog-slack-reporter \
+  --output-template-file tmp/packaged.yaml
+
+aws cloudformation deploy \
+  --template-file ./tmp/packaged.yaml \
+  --capabilities CAPABILITY_IAM \
+  --stack-name datadog-slack-reporter \
+  --parameter-overrides \
+      "SlackToken=${SLACK_TOKEN}" \
+      "AppKey=${APP_KEY}" \
+      "ApiKey=${API_KEY}" \
+      "ChannelId=${CHANNEL_ID}"
