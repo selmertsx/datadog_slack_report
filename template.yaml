@@ -3,6 +3,17 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Description: Datadog Billing Report
 Resources:
+  DynamoDBTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: DatadogPlan
+      PrimaryKey:
+        Name: Product
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
   DatadogReport:
     Type: AWS::Serverless::Function
     Properties:
@@ -18,6 +29,9 @@ Resources:
           Properties:
             Path: /datadog_report
             Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDBTable
       Environment:
         Variables:
           APP_KEY: !Ref AppKey
