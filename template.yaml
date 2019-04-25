@@ -20,20 +20,16 @@ Resources:
             Method: get
       Environment:
         Variables:
-          APP_KEY: !Ref APP_KEY
-          API_KEY: !Ref API_KEY
-          SLACK_TOKEN: !Ref SLACK_TOKEN
-          CHANNEL_ID: !Ref CHANNEL_ID
+          APP_KEY: !Ref AppKey
+          API_KEY: !Ref ApiKey
+          SLACK_TOKEN: !Ref SlackToken
+          CHANNEL_ID: !Ref ChannelId
 Parameters:
-  APP_KEY:
-    Default: ""
+  AppKey:
     Type: String
-  API_KEY:
-    Default: ""
+  ApiKey:
     Type: String
-  SLACK_TOKEN:
-    Default: ""
+  SlackToken:
     Type: String
-  CHANNEL_ID:
-    Default: ""
+  ChannelId:
     Type: String
