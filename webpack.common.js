@@ -4,7 +4,7 @@ module.exports = {
   entry: "./src/index.ts",
   target: 'node',
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, ".build"),
     filename: 'index.js',
     libraryTarget: 'this'
   },

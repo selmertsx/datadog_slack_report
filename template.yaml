@@ -8,7 +8,7 @@ Resources:
     Properties:
       Handler: index.datadog_handler
       Runtime: nodejs8.10
-      CodeUri: .
+      CodeUri: ./.build
       Description: 'Datadog Billing Report'
       MemorySize: 256
       Timeout: 50
