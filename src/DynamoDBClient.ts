@@ -3,8 +3,7 @@ import { ReservedPlan } from "./typings/datadog";
 
 export class DynamoDBClient {
   private client = new DynamoDB.DocumentClient({
-    endpoint: "http://dynamodb:8000",
-    region: "ap-north-east1",
+    region: "ap-northeast-1",
   });
 
   public getReservedPlans(): Promise<ReservedPlan[]> {
