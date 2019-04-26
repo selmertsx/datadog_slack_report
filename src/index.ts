@@ -1,7 +1,10 @@
 import { APIGatewayEvent, Callback, Context } from "aws-lambda";
 import moment from "moment-timezone";
 import "source-map-support/register";
-import { Billing } from "./Billing";
+import { BillingReport } from "./BillingReport";
+import { DatadogClient } from "./DatadogClient";
+import { DynamoDBClient } from "./DynamoDBClient";
+import { Products } from "./Products";
 import { SlackClient } from "./SlackClient";
 
 export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
@@ -16,16 +19,19 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     .format("X");
 
   try {
-    const billing = new Billing();
-    const report = await billing.calculate(fromTime, toTime);
+    const datadogClient = new DatadogClient();
+    const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
+    const dynamoDBClient = new DynamoDBClient();
+    const reservedPlans = await dynamoDBClient.getReservedPlans();
+    const products = Products.create(reservedPlans, datadogHostMetrics);
+    const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
+
     const slackClient = new SlackClient();
     await slackClient.post(report.slackMessageDetail());
 
     callback(null, {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
       body: JSON.stringify({ status: 200, message: "OK" }),
     });
   } catch (err) {
