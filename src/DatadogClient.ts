@@ -2,8 +2,8 @@
  * https://docs.datadoghq.com/ja/api/?lang=console#metrics-query
  *
  * Any query used for a graph can be used here. See here for more details.
- * The time between from and to should be less than 24 hours. If it is longer, you will receive points with less granularity.
- *
+ * The time between from and to should be less than 24 hours.
+ * If it is longer, you will receive points with less granularity.
  */
 
 import axios, { AxiosInstance } from "axios";
@@ -28,11 +28,12 @@ export class DatadogClient {
   }
 
   /**
+   * datadogで監視しているhost数をカウントする
    *
-   * @param from
-   * @param to
+   * @param from metricsを取得する際の開始時間
+   * @param to metricsを取得する際の終了時間
    *
-   * @returns
+   * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    */
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countHost, from, to };
@@ -48,16 +49,17 @@ export class DatadogClient {
   }
 
   /**
+   * datadogで監視しているapmの数をカウントする
    *
-   * @param from
-   * @param to
+   * @param from metricsを取得する際の開始時間
+   * @param to metricsを取得する際の終了時間
    *
-   * @returns
+   * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    */
   public async countAPMHosts(from: string, to: string): Promise<any> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
     const res: DatadogQueryReponse = await this.request.get("/query", { params });
-    return res.data.series.map((productsMetrics: any) => {
+    return res.data.series.map((productsMetrics: SeriesMetrics) => {
       console.log(productsMetrics);
     });
   }
