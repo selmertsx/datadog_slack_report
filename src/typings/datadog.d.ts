@@ -7,8 +7,18 @@ export interface CountHostRequest {
 }
 
 export interface SeriesMetrics {
+  end: number;
+  attributes: any;
+  metric: string;
+  interval: number;
+  start: number;
+  length: number;
+  query_index: number;
+  aggr: string;
   scope: string;
   pointlist: [number[]];
+  expression: string;
+  display_name: string;
 }
 
 export interface DatadogQueryReponse {
