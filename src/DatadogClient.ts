@@ -3,6 +3,7 @@
  *
  * Any query used for a graph can be used here. See here for more details.
  * The time between from and to should be less than 24 hours. If it is longer, you will receive points with less granularity.
+ *
  */
 
 import axios, { AxiosInstance } from "axios";
@@ -11,21 +12,13 @@ import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, SeriesMetric
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
 
-interface RequestParams {
-  baseURL: string;
-  timeout: number;
-}
-
-const requestParams: RequestParams = {
+const requestParams = {
   baseURL: "https://api.datadoghq.com/api/v1/",
   timeout: 1000000,
 };
 
-const getRequestParams = {
-  api_key: API_KEY,
-  application_key: APP_KEY,
-  query: "count:system.cpu.user{*} by {product}.rollup(count, 3600)",
-};
+const countHost = "count:system.cpu.user{*} by {product}.rollup(count, 3600)";
+const countAPMHost = "count:datadog.apm.host_instance{*} by {host, product}.rollup(count, 3600)";
 
 export class DatadogClient {
   private request: AxiosInstance;
@@ -34,8 +27,15 @@ export class DatadogClient {
     this.request = axios.create(requestParams);
   }
 
+  /**
+   *
+   * @param from
+   * @param to
+   *
+   * @returns
+   */
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
-    const params: CountHostRequest = { ...getRequestParams, from, to };
+    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countHost, from, to };
     const res: DatadogQueryReponse = await this.request.get("/query", { params });
 
     return res.data.series.map((productsMetrics: SeriesMetrics) => {
@@ -44,6 +44,21 @@ export class DatadogClient {
         pointlists.set(metrics[0], metrics[1]);
       }
       return { product: productsMetrics.scope.replace(/^product:/, ""), pointlists };
+    });
+  }
+
+  /**
+   *
+   * @param from
+   * @param to
+   *
+   * @returns
+   */
+  public async countAPMHosts(from: string, to: string): Promise<any> {
+    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
+    const res: DatadogQueryReponse = await this.request.get("/query", { params });
+    return res.data.series.map((productsMetrics: any) => {
+      console.log(productsMetrics);
     });
   }
 }
