@@ -27,7 +27,7 @@ const toTime = moment({ hour: 23, minute: 59, second: 59 })
 const getRequestParams = {
   api_key: API_KEY,
   application_key: APP_KEY,
-  query: "count_not_null(datadog.apm.host_instance{*} by {host}.rollup(count, 3600))",
+  query: "count:datadog.apm.host_instance{*} by {host, product}.rollup(count, 3600)",
 };
 
 export class DatadogClient {
@@ -37,12 +37,10 @@ export class DatadogClient {
     this.request = axios.create(requestParams);
   }
 
-  public async countHosts(from: string, to: string): Promise<any> {
+  public async countAPMHosts(from: string, to: string): Promise<any> {
     const params = { ...getRequestParams, from, to };
     const res = await this.request.get("/query", { params });
-
     return res.data.series.map((productsMetrics: any) => {
-      const pointlists = new Map<number, number>();
       console.log(productsMetrics);
     });
   }
@@ -50,5 +48,5 @@ export class DatadogClient {
 
 (async () => {
   const client = new DatadogClient();
-  await client.countHosts(fromTime, toTime);
+  await client.countAPMHosts(fromTime, toTime);
 })();
