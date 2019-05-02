@@ -1,5 +1,7 @@
+import axios from "axios";
 import { DatadogClient } from "../src/DatadogClient";
 
-describe("countHosts", () => {});
+jest.mock("axios");
 
+describe("countHosts", () => {});
 describe("countAPMHosts", () => {});
