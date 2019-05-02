@@ -16,10 +16,12 @@ export interface SeriesMetrics {
   query_index: number;
   aggr: string;
   scope: string;
-  pointlist: [number[]];
+  pointlist: PointList[];
   expression: string;
   display_name: string;
 }
+
+type PointList = [number, number];
 
 export interface DatadogQueryResponse {
   data: {
