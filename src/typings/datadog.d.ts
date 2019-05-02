@@ -19,6 +19,7 @@ export interface SeriesMetrics {
   pointlist: PointList[];
   expression: string;
   display_name: string;
+  unit: null;
 }
 
 type PointList = [number, number];

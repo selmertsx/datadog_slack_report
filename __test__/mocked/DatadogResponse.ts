@@ -1,11 +1,5 @@
 import { DatadogQueryResponse, SeriesMetrics } from "../../src/typings/datadog";
 
-export const CountAPMHostsResponse: DatadogQueryResponse = {
-  data: {
-    series: [product1Host1Response, product1Host2Response, product2Host3Response],
-  },
-};
-
 const product1Host1Response: SeriesMetrics = {
   end: 1556722799000,
   attributes: {},
@@ -22,7 +16,7 @@ const product1Host1Response: SeriesMetrics = {
   display_name: "datadog.apm.host_instance",
 };
 
-const product1Host2Response = {
+const product1Host2Response: SeriesMetrics = {
   end: 1556722799000,
   attributes: {},
   metric: "datadog.apm.host_instance",
@@ -38,7 +32,7 @@ const product1Host2Response = {
   display_name: "datadog.apm.host_instance",
 };
 
-const product2Host3Response = {
+const product2Host3Response: SeriesMetrics = {
   end: 1556722799000,
   attributes: {},
   metric: "datadog.apm.host_instance",
@@ -52,4 +46,10 @@ const product2Host3Response = {
   expression: "count:datadog.apm.host_instance{host:i-hostID3,product:product2}.rollup(count, 3600)",
   unit: null,
   display_name: "datadog.apm.host_instance",
+};
+
+export const CountAPMHostsResponse: DatadogQueryResponse = {
+  data: {
+    series: [product1Host1Response, product1Host2Response, product2Host3Response],
+  },
 };
