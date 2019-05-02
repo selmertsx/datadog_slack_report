@@ -1,5 +1,7 @@
 import { DatadogQueryResponse, SeriesMetrics } from "../../src/typings/datadog";
 
+// TODO: テストデータ作成部分について、Factory methodにしたほうが良いかも知れない。
+// そうすれば、テスト側からどのようなデータを与えているのか分かるし。
 const product1Host1Response: SeriesMetrics = {
   end: 1556722799000,
   attributes: {},
