@@ -1,7 +1,7 @@
 import moment from "moment";
-import { DatadogHostMetrics, ProductReport, ReservedPlan } from "../src/datadog";
 import { Product } from "../src/Product";
 import { Products } from "../src/Products";
+import { DatadogHostMetrics, ProductReport, ReservedPlan } from "../src/typings/datadog";
 
 // tslint:disable: object-literal-sort-keys
 const firstTime = moment({ years: 2018, months: 11, days: 18, hours: 9, minutes: 0, seconds: 0 }).format("x");
