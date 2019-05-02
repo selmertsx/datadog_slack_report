@@ -7,7 +7,7 @@
  */
 
 import axios, { AxiosInstance } from "axios";
-import { CountHostRequest, DatadogHostMetrics, DatadogQueryReponse, SeriesMetrics } from "./typings/datadog";
+import { CountHostRequest, DatadogHostMetrics, DatadogQueryResponse, SeriesMetrics } from "./typings/datadog";
 
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
@@ -37,7 +37,7 @@ export class DatadogClient {
    */
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countHost, from, to };
-    const res: DatadogQueryReponse = await this.request.get("/query", { params });
+    const res: DatadogQueryResponse = await this.request.get("/query", { params });
 
     return res.data.series.map((productsMetrics: SeriesMetrics) => {
       const pointlists = new Map<number, number>();
@@ -58,7 +58,7 @@ export class DatadogClient {
    */
   public async countAPMHosts(from: string, to: string): Promise<any> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
-    const res: DatadogQueryReponse = await this.request.get("/query", { params });
+    const res: DatadogQueryResponse = await this.request.get("/query", { params });
     return res.data.series.map((productsMetrics: SeriesMetrics) => {
       console.log(productsMetrics);
     });

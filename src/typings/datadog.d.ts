@@ -21,7 +21,7 @@ export interface SeriesMetrics {
   display_name: string;
 }
 
-export interface DatadogQueryReponse {
+export interface DatadogQueryResponse {
   data: {
     series: SeriesMetrics[];
   };
