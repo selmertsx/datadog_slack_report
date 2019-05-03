@@ -51,17 +51,37 @@ export class DatadogClient {
   /**
    * datadogで監視しているapmの数をカウントする
    *
+   * @note datadog.apm.host_instanceのqueryを使ってデータを取得する際、理由はわからないが同一ホストにもかかわらずpointlistsが1以上になることがある。
+   * apmはhost数課金なので、数値をそのまま足したりせずにproduct毎にhostをまとめて算出することにする。
+   *
    * @param from metricsを取得する際の開始時間
    * @param to metricsを取得する際の終了時間
    *
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
+   *
    */
   public async countAPMHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
     const res: DatadogQueryResponse = await this.request.get("/query", { params });
-    const result = res.data.series.map((productsMetrics: SeriesMetrics) => {
-      console.log(productsMetrics);
+
+    const tmp = res.data.series.map((productsMetrics: SeriesMetrics) => {
+      const unixTimes = productsMetrics.pointlist.map(point => point[0]);
+      const [hostStr, productStr] = productsMetrics.scope.split(",");
+      return {
+        product: productStr.replace(/^product:/, ""),
+        hostID: hostStr.replace(/^host:/, ""),
+        unixTimes,
+      };
     });
+
+    const result = [];
+    for (const productHost of tmp) {
+      const product = productHost.product;
+      const pointlists = new Map();
+      productHost.unixTimes.forEach(unixTime => pointlists.set(unixTime, 1));
+      console.log(pointlists.entries());
+      result.push({ product, pointlists });
+    }
 
     return [
       { product: "product1", pointlists: new Map([[1556636400000, 2], [1556719200000, 2]]) },

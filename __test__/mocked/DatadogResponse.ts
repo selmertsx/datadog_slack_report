@@ -12,7 +12,7 @@ const product1Host1Response: SeriesMetrics = {
   query_index: 0,
   aggr: "count",
   scope: "host:i-hostID1,product:product1",
-  pointlist: [[1556636400000, 1], [1556719200000, 1]],
+  pointlist: [[1556636400000, 2], [1556719200000, 2]],
   expression: "count:datadog.apm.host_instance{host:i-hostID1,product:product1}.rollup(count, 3600)",
   unit: null,
   display_name: "datadog.apm.host_instance",
