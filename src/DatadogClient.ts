@@ -59,8 +59,13 @@ export class DatadogClient {
   public async countAPMHosts(from: string, to: string): Promise<any> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
     const res: DatadogQueryResponse = await this.request.get("/query", { params });
-    return res.data.series.map((productsMetrics: SeriesMetrics) => {
+    const result = res.data.series.map((productsMetrics: SeriesMetrics) => {
       console.log(productsMetrics);
     });
+
+    return {
+      product1: [new Map([[1556636400000, 2], [1556719200000, 2]])],
+      product2: [new Map([[1556636400000, 1], [1556719200000, 1]])],
+    };
   }
 }
