@@ -1,6 +1,6 @@
 // https://jestjs.io/docs/ja/manual-mocks
 // この手順に従ってManual Mockを行うことにする
-import { CountAPMHostsResponse } from "../mocked/DatadogResponse";
+import { CountAPMHostsResponse } from "../mocked/DatadogAPMResponse";
 
 const axios = jest.genMockFromModule("fs") as any;
 
