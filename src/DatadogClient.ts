@@ -15,8 +15,10 @@ interface ProductHostSets {
   unixTimes: number[];
 }
 
-const APP_KEY: string = process.env.APP_KEY as string;
-const API_KEY: string = process.env.API_KEY as string;
+const credential = {
+  api_key: process.env.APP_KEY as string,
+  application_key: process.env.API_KEY as string,
+};
 
 const config = {
   baseURL: "https://api.datadoghq.com/api/v1/",
@@ -80,7 +82,7 @@ export class DatadogClient {
   }
 
   private execQuery(query: string, from: string, to: string): Promise<DatadogQueryResponse> {
-    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query, from, to };
+    const params: CountHostRequest = { ...credential, query, from, to };
     return this.request.get("/query", { params });
   }
 
