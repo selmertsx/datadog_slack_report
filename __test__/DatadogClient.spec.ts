@@ -9,11 +9,9 @@ describe("countHosts", () => {});
 describe("countAPMHosts", () => {
   test("", () => {
     const client = new DatadogClient();
-    const expected = [
-      { product: "product1", pointlists: new Map([[1556636400000, 2], [1556719200000, 2]])},
-      { product: "product2", pointlists: new Map([[1556636400000, 1], [1556719200000, 1]])},
-    ];
-
+    const expected = new Map();
+    expected.set("product1", new Map([[1556636400000, 2], [1556719200000, 2]]));
+    expected.set("product2", new Map([[1556636400000, 1], [1556719200000, 1]]));
     return expect(client.countAPMHosts(fromTime, toTime)).resolves.toEqual(expected);
   });
 });

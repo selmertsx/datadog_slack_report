@@ -9,6 +9,12 @@
 import axios, { AxiosInstance } from "axios";
 import { CountHostRequest, DatadogHostMetrics, DatadogQueryResponse, SeriesMetrics } from "./typings/datadog";
 
+interface ProductHostSets {
+  product: string;
+  hostID: string;
+  unixTimes: number[];
+}
+
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
 
@@ -60,11 +66,11 @@ export class DatadogClient {
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    *
    */
-  public async countAPMHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
+  public async countAPMHosts(from: string, to: string): Promise<any> {
     const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
     const res: DatadogQueryResponse = await this.request.get("/query", { params });
 
-    const tmp = res.data.series.map((productsMetrics: SeriesMetrics) => {
+    const metrics = res.data.series.map((productsMetrics: SeriesMetrics) => {
       const unixTimes = productsMetrics.pointlist.map(point => point[0]);
       const [hostStr, productStr] = productsMetrics.scope.split(",");
       return {
@@ -74,18 +80,36 @@ export class DatadogClient {
       };
     });
 
-    const result = [];
-    for (const productHost of tmp) {
-      const product = productHost.product;
-      const pointlists = new Map();
-      productHost.unixTimes.forEach(unixTime => pointlists.set(unixTime, 1));
-      console.log(pointlists.entries());
-      result.push({ product, pointlists });
+    return ProductHostMetris.create(metrics);
+  }
+}
+
+/**
+ * @todo refactoring
+ */
+
+class ProductHostMetris {
+  public static create(metrics: ProductHostSets[]) {
+    const productHostMetricsMap = new Map();
+
+    for (const productHostMetric of metrics) {
+      const productName = productHostMetric.product;
+      const pointLists = productHostMetricsMap.get(productName);
+      if (!pointLists) {
+        const newPointLists = new Map();
+        for (const unixTime of productHostMetric.unixTimes) {
+          newPointLists.set(unixTime, 1);
+        }
+        productHostMetricsMap.set(productName, newPointLists);
+      } else {
+        for (const unixTime of productHostMetric.unixTimes) {
+          const hostCount = pointLists.get(unixTime) | 1;
+          pointLists.set(unixTime, hostCount + 1);
+        }
+        productHostMetricsMap.set(productName, pointLists);
+      }
     }
 
-    return [
-      { product: "product1", pointlists: new Map([[1556636400000, 2], [1556719200000, 2]]) },
-      { product: "product2", pointlists: new Map([[1556636400000, 1], [1556719200000, 1]]) },
-    ];
+    return productHostMetricsMap;
   }
 }
