@@ -18,23 +18,22 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     .subtract(1, "days")
     .format("X");
 
-  try {
-    const datadogClient = new DatadogClient();
-    const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
-    const dynamoDBClient = new DynamoDBClient();
-    const reservedPlans = await dynamoDBClient.getReservedPlans();
-    const products = Products.create(reservedPlans, datadogHostMetrics);
-    const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
+  const datadogClient = new DatadogClient();
+  const datadogHostMetrics = await datadogClient.countHosts(fromTime, toTime);
+  const datadogAPMHostMap = await datadogClient.countAPMHosts(fromTime, toTime);
 
-    const slackClient = new SlackClient();
-    await slackClient.post(report.slackMessageDetail());
+  const dynamoDBClient = new DynamoDBClient();
+  const reservedPlans = await dynamoDBClient.getReservedPlans();
 
-    callback(null, {
-      statusCode: 200,
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
-      body: JSON.stringify({ status: 200, message: "OK" }),
-    });
-  } catch (err) {
-    throw new Error(err);
-  }
+  const products = Products.create(reservedPlans, datadogHostMetrics);
+  const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
+
+  const slackClient = new SlackClient();
+  await slackClient.post(report.slackMessageDetail());
+
+  callback(null, {
+    statusCode: 200,
+    headers: { "Content-Type": "application/json;charset=UTF-8" },
+    body: JSON.stringify({ status: 200, message: "OK" }),
+  });
 }
