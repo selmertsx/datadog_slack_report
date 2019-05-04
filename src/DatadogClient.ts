@@ -18,19 +18,19 @@ interface ProductHostSets {
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
 
-const requestParams = {
+const RequestParams = {
   baseURL: "https://api.datadoghq.com/api/v1/",
   timeout: 1000000,
 };
 
-const countHost = "count:system.cpu.user{*} by {product}.rollup(count, 3600)";
-const countAPMHost = "count:datadog.apm.host_instance{*} by {host, product}.rollup(count, 3600)";
+const CountHost = "count:system.cpu.user{*} by {product}.rollup(count, 3600)";
+const CountAPMHost = "count:datadog.apm.host_instance{*} by {host, product}.rollup(count, 3600)";
 
 export class DatadogClient {
   private request: AxiosInstance;
 
   constructor() {
-    this.request = axios.create(requestParams);
+    this.request = axios.create(RequestParams);
   }
 
   /**
@@ -42,9 +42,7 @@ export class DatadogClient {
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    */
   public async countHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
-    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countHost, from, to };
-    const res: DatadogQueryResponse = await this.request.get("/query", { params });
-
+    const res: DatadogQueryResponse = await this.execQuery(CountHost, from, to);
     return res.data.series.map((productsMetrics: SeriesMetrics) => {
       const pointlists = new Map<number, number>();
       for (const metrics of productsMetrics.pointlist) {
@@ -67,9 +65,7 @@ export class DatadogClient {
    *
    */
   public async countAPMHosts(from: string, to: string): Promise<any> {
-    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query: countAPMHost, from, to };
-    const res: DatadogQueryResponse = await this.request.get("/query", { params });
-
+    const res: DatadogQueryResponse = await this.execQuery(CountAPMHost, from, to);
     const metrics = res.data.series.map((productsMetrics: SeriesMetrics) => {
       const unixTimes = productsMetrics.pointlist.map(point => point[0]);
       const [hostStr, productStr] = productsMetrics.scope.split(",");
@@ -80,16 +76,18 @@ export class DatadogClient {
       };
     });
 
-    return ProductHostMetris.create(metrics);
+    return this.setAPMHostMetricsToMap(metrics);
   }
-}
 
-/**
- * @todo refactoring
- */
+  private execQuery(query: string, from: string, to: string): Promise<DatadogQueryResponse> {
+    const params: CountHostRequest = { api_key: API_KEY, application_key: APP_KEY, query, from, to };
+    return this.request.get("/query", { params });
+  }
 
-class ProductHostMetris {
-  public static create(metrics: ProductHostSets[]) {
+  /**
+   * @todo refactoring
+   */
+  private setAPMHostMetricsToMap(metrics: ProductHostSets[]) {
     const productHostMetricsMap = new Map();
 
     for (const productHostMetric of metrics) {
