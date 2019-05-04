@@ -18,7 +18,7 @@ interface ProductHostSets {
 const APP_KEY: string = process.env.APP_KEY as string;
 const API_KEY: string = process.env.API_KEY as string;
 
-const RequestParams = {
+const config = {
   baseURL: "https://api.datadoghq.com/api/v1/",
   timeout: 1000000,
 };
@@ -30,7 +30,7 @@ export class DatadogClient {
   private request: AxiosInstance;
 
   constructor() {
-    this.request = axios.create(RequestParams);
+    this.request = axios.create(config);
   }
 
   /**
