@@ -20,6 +20,12 @@ const credential = {
   application_key: process.env.API_KEY as string,
 };
 
+type UnixTime = number;
+type CountedHost = number;
+type PointLists = Map<UnixTime, CountedHost>;
+type ProductName = string;
+type ProductHostMetricsMap = Map<ProductName, PointLists>;
+
 const config = {
   baseURL: "https://api.datadoghq.com/api/v1/",
   timeout: 1000000,
@@ -66,7 +72,7 @@ export class DatadogClient {
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    *
    */
-  public async countAPMHosts(from: string, to: string): Promise<any> {
+  public async countAPMHosts(from: string, to: string): Promise<ProductHostMetricsMap> {
     const res: DatadogQueryResponse = await this.execQuery(CountAPMHost, from, to);
     const metrics = res.data.series.map((productsMetrics: SeriesMetrics) => {
       const unixTimes = productsMetrics.pointlist.map(point => point[0]);
@@ -89,7 +95,7 @@ export class DatadogClient {
   /**
    * @todo refactoring
    */
-  private setAPMHostMetricsToMap(metrics: ProductHostSets[]) {
+  private setAPMHostMetricsToMap(metrics: ProductHostSets[]): ProductHostMetricsMap {
     const productHostMetricsMap = new Map();
 
     for (const productHostMetric of metrics) {
