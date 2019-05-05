@@ -24,6 +24,18 @@ export interface SeriesMetrics {
 
 type PointList = [number, number];
 
+type UnixTime = number;
+type CountedHost = number;
+type PointLists = Map<UnixTime, CountedHost>;
+type ProductName = string;
+export type ProductHostMetricsMap = Map<ProductName, PointLists>;
+
+export interface ProductHostSets {
+  product: string;
+  hostID: string;
+  unixTimes: number[];
+}
+
 export interface DatadogQueryResponse {
   data: {
     series: SeriesMetrics[];

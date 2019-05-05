@@ -7,24 +7,20 @@
  */
 
 import axios, { AxiosInstance } from "axios";
-import { CountHostRequest, DatadogHostMetrics, DatadogQueryResponse, SeriesMetrics } from "./typings/datadog";
 
-interface ProductHostSets {
-  product: string;
-  hostID: string;
-  unixTimes: number[];
-}
+import {
+  CountHostRequest,
+  DatadogHostMetrics,
+  DatadogQueryResponse,
+  ProductHostMetricsMap,
+  ProductHostSets,
+  SeriesMetrics,
+} from "./typings/datadog";
 
 const credential = {
   api_key: process.env.APP_KEY as string,
   application_key: process.env.API_KEY as string,
 };
-
-type UnixTime = number;
-type CountedHost = number;
-type PointLists = Map<UnixTime, CountedHost>;
-type ProductName = string;
-type ProductHostMetricsMap = Map<ProductName, PointLists>;
 
 const config = {
   baseURL: "https://api.datadoghq.com/api/v1/",
