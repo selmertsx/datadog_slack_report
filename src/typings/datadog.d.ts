@@ -23,17 +23,18 @@ export interface SeriesMetrics {
 }
 
 type PointList = [number, number];
-
 type UnixTime = number;
 type CountedHost = number;
-type PointLists = Map<UnixTime, CountedHost>;
+type HostNumber = number;
 type ProductName = string;
-export type ProductHostMetricsMap = Map<ProductName, PointLists>;
+type PointListMap = Map<UnixTime, CountedHost>;
+
+export type ProductHostMetricsMap = Map<ProductName, PointListMap>;
 
 export interface ProductHostSets {
-  product: string;
+  product: ProductName;
   hostID: string;
-  unixTimes: number[];
+  unixTimes: UnixTime[];
 }
 
 export interface DatadogQueryResponse {
@@ -42,34 +43,37 @@ export interface DatadogQueryResponse {
   };
 }
 
-type unixTime = number;
-type hostNumber = number;
-
-export interface Metrics extends Map<unixTime, hostNumber> {}
+export interface Metrics extends Map<UnixTime, HostNumber> {}
 
 export interface DatadogHostMetrics {
-  product: string;
+  product: ProductName;
   pointlists: Metrics;
 }
 
 export interface ReservedPlan {
-  productName: string;
+  productName: ProductName;
   plannedHostCount: number;
 }
-
-type productName = string;
 
 /**
  * Map interface that is consisted of product name key and monitored host count value.
  * This interface is used to get host counts for each product and for each unix time.
  * **e.g. Map<'productA', 24>**
  */
-export interface ProductHostMap extends Map<productName, hostNumber> {}
 
-export interface OverProductsMap extends Map<number, ProductHostMap> {}
+export interface ProductHostMap extends Map<ProductName, HostNumber> {}
 
+/**
+ *
+ */
+
+export interface OverProductsMap extends Map<UnixTime, ProductHostMap> {}
+
+/**
+ *
+ */
 export interface ProductReport {
-  name: string;
+  name: ProductName;
   exceedHostCount: number;
   plannedHost: number;
 }
