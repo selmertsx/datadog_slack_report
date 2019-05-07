@@ -1,18 +1,19 @@
-import { Product } from "./Product";
-import { DatadogHostMetrics, DatadogMonitoringPlan, ProductReport } from "./typings/datadog";
+import { BillingReport } from "./BillingReport";
+import { DatadogHostMetrics, DatadogMonitoringPlan } from "./typings/datadog";
+import { ProductReport } from "./typings/products";
 
-export class Products {
-  get productList(): Product[] {
+export class BillingReports {
+  get productList(): BillingReport[] {
     return Array.from(this.list.values());
   }
 
-  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): Products {
-    const result = new Products();
+  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): BillingReports {
+    const result = new BillingReports();
 
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
       if (productMetrics) {
-        const product = new Product(plan.productName, plan.plannedInfraHosts, productMetrics.pointlists);
+        const product = new BillingReport(plan.productName, plan.plannedInfraHosts, productMetrics.pointlists);
         result.list.set(plan.productName, product);
       }
     }
@@ -20,7 +21,7 @@ export class Products {
     return result;
   }
 
-  public list: Map<string, Product> = new Map();
+  public list: Map<string, BillingReport> = new Map();
 
   public overPlanProducts(): ProductReport[] {
     const result: ProductReport[] = [];
@@ -31,7 +32,7 @@ export class Products {
       if (exceedHostCount > 0) {
         result.push({
           exceedHostCount,
-          name: product.name,
+          productName: product.productName,
           plannedHost: product.desiredHostCount,
         });
       }

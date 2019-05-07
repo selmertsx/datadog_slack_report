@@ -1,11 +1,11 @@
 import { APIGatewayEvent, Callback, Context } from "aws-lambda";
 import moment from "moment-timezone";
 import "source-map-support/register";
-import { BillingReport } from "./BillingReport";
 import { DatadogClient } from "./DatadogClient";
 import { DynamoDBClient } from "./DynamoDBClient";
-import { Products } from "./Products";
+import { BillingReports } from "./BillingReports";
 import { SlackClient } from "./SlackClient";
+import { SlackMessage } from "./SlackMessage";
 
 export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
@@ -25,11 +25,11 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
   const dynamoDBClient = new DynamoDBClient();
   const monitoringPlans = await dynamoDBClient.fetchMonitoringPlans();
 
-  const products = Products.create(monitoringPlans, infraHosts);
-  const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
+  const products = BillingReports.create(monitoringPlans, infraHosts);
+  const message = new SlackMessage(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
 
   const slackClient = new SlackClient();
-  await slackClient.post(report.slackMessage());
+  await slackClient.post(message.body());
 
   callback(null, {
     statusCode: 200,

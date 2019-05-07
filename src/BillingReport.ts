@@ -1,7 +1,7 @@
 import { Metrics } from "./typings/datadog";
 
-export class Product {
-  constructor(public name: string, public desiredHostCount: number, public metrics: Metrics) {}
+export class BillingReport {
+  constructor(public productName: string, public desiredHostCount: number, public metrics: Metrics) {}
 
   public overCount(unixTime: number) {
     const hostCount = this.metrics.get(unixTime);

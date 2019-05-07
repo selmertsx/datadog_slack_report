@@ -16,7 +16,7 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*.ts", "src/BillingReport.tsx"
+    "src/**/*.ts", "src/SlackMessage.tsx"
   ],
   "exclude": [
     "node_modules",

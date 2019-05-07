@@ -4,7 +4,7 @@ import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 import { ProductReport } from "./typings/products";
 
-export class BillingReport {
+export class SlackMessage {
   constructor(
     private fromTime: string,
     private toTime: string,
@@ -67,7 +67,7 @@ export class BillingReport {
     return result;
   }
 
-  public slackMessage() {
+  public body() {
     return JSXSlack(
       <Block>
         { this.outline() }
