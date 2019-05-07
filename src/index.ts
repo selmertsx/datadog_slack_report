@@ -30,8 +30,8 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
   const message = new InfraReportsMessage(
     fromTime,
     toTime,
-    billingReports.exceededInfraPeriods(),
-    billingReports.exceededInfraProducts()
+    billingReports.exceededPeriods(),
+    billingReports.exceededProducts()
   );
 
   const slackClient = new SlackClient();

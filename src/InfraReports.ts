@@ -23,9 +23,9 @@ export class InfraReports {
 
   public list: Map<string, InfraReport> = new Map();
 
-  public exceededInfraProducts(): ProductReport[] {
+  public exceededProducts(): ProductReport[] {
     const result: ProductReport[] = [];
-    const periods = this.exceededInfraPeriods();
+    const periods = this.exceededPeriods();
 
     for (const product of this.productList) {
       const exceedHostCount = periods.map(period => product.overCount(period)).reduce((acc, cur) => acc + cur, 0);
@@ -44,7 +44,7 @@ export class InfraReports {
   /**
    * @return {number[]} unix time list that sum of the monitored host counts was larger than the applied plan.
    */
-  public exceededInfraPeriods(): number[] {
+  public exceededPeriods(): number[] {
     const desiredHostCount = this.productList
       .map(product => product.desiredHostCount)
       .reduce((sum, num) => sum + num, 0);

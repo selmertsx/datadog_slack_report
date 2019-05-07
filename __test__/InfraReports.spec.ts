@@ -73,23 +73,23 @@ describe("exceededInfraProducts", () => {
         exceedHostCount: sampleA.maxInfraHosts - sampleA.plannedInfraHosts,
       },
     ];
-    expect(infraReports.exceededInfraProducts()).toEqual(expectedResponse);
+    expect(infraReports.exceededProducts()).toEqual(expectedResponse);
   });
 
   test("if datadog host metrics does not exceed planned number", () => {
     const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
-    expect(infraReports.exceededInfraProducts()).toEqual([]);
+    expect(infraReports.exceededProducts()).toEqual([]);
   });
 });
 
 describe("exceededInfraPeriods", () => {
   test("if datadog host metrics exceed planed number", () => {
     const infraReports = InfraReports.create(reservedPlans, metrics);
-    expect(infraReports.exceededInfraPeriods()).toEqual([parseInt(firstTime, 10)]);
+    expect(infraReports.exceededPeriods()).toEqual([parseInt(firstTime, 10)]);
   });
 
   test("if datadog host metrics don't exceed planned number", () => {
     const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
-    expect(infraReports.exceededInfraPeriods()).toHaveLength(0);
+    expect(infraReports.exceededPeriods()).toHaveLength(0);
   });
 });
