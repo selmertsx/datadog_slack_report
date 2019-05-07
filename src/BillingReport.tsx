@@ -2,7 +2,7 @@
 import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 
 import moment from "moment-timezone";
-import { ProductReport } from "./typings/datadog";
+import { ProductReport } from "./typings/products";
 
 export class BillingReport {
   constructor(
@@ -34,7 +34,7 @@ export class BillingReport {
     for(const report of this.productReports){
       const message = (
         <Field>
-        <b> {report.name} </b>
+        <b> {report.productName} </b>
         <br />
         予定監視ホスト数: {report.plannedHost} <br />
         超過分(超過ホスト数×超過時間): {report.exceedHostCount} <br />

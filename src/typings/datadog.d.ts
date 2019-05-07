@@ -22,12 +22,13 @@ export interface SeriesMetrics {
   unit: null;
 }
 
-type PointList = [number, number];
-type UnixTime = number;
-type CountedHost = number;
-type HostNumber = number;
-type ProductName = string;
-type PointListMap = Map<UnixTime, CountedHost>;
+export type PointList = [number, number];
+export type UnixTime = number;
+export type CountedHost = number;
+export type HostNumber = number;
+export type ProductName = string;
+
+export type PointListMap = Map<UnixTime, CountedHost>;
 
 export type ProductHostMetricsMap = Map<ProductName, PointListMap>;
 
@@ -68,12 +69,3 @@ export interface ProductHostMap extends Map<ProductName, HostNumber> {}
  */
 
 export interface OverProductsMap extends Map<UnixTime, ProductHostMap> {}
-
-/**
- *
- */
-export interface ProductReport {
-  name: ProductName;
-  exceedHostCount: number;
-  plannedHost: number;
-}
