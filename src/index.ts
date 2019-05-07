@@ -19,8 +19,8 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     .format("X");
 
   const datadogClient = new DatadogClient();
-  const datadogHostMetrics = await datadogClient.countInfraHosts(fromTime, toTime);
-  const datadogAPMHostMap = await datadogClient.countAPMHosts(fromTime, toTime);
+  const datadogHostMetrics = await datadogClient.fetchInfraHosts(fromTime, toTime);
+  const datadogAPMHostMap = await datadogClient.fetchAPMHosts(fromTime, toTime);
 
   const dynamoDBClient = new DynamoDBClient();
   const reservedPlans = await dynamoDBClient.getReservedPlans();

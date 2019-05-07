@@ -45,7 +45,7 @@ export class DatadogClient {
    *
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    */
-  public async countInfraHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
+  public async fetchInfraHosts(from: string, to: string): Promise<DatadogHostMetrics[]> {
     const res: DatadogQueryResponse = await this.execQuery(CountHost, from, to);
     return res.data.series.map((productsMetrics: SeriesMetrics) => {
       const pointlists = new Map<number, number>();
@@ -68,7 +68,7 @@ export class DatadogClient {
    * @returns [ { product: xxx, pointlists: Map<unixTime, countHosts > } ]
    *
    */
-  public async countAPMHosts(from: string, to: string): Promise<ProductHostMetricsMap> {
+  public async fetchAPMHosts(from: string, to: string): Promise<ProductHostMetricsMap> {
     const res: DatadogQueryResponse = await this.execQuery(CountAPMHost, from, to);
     const metrics = res.data.series.map((productsMetrics: SeriesMetrics) => {
       const unixTimes = productsMetrics.pointlist.map(point => point[0]);
