@@ -1,7 +1,8 @@
 import moment from "moment";
-import { Product } from "../src/Product";
-import { Products } from "../src/Products";
-import { DatadogHostMetrics, DatadogMonitoringPlan, ProductReport } from "../src/typings/datadog";
+import { InfraReport } from "../src/InfraReport";
+import { InfraReports } from "../src/InfraReports";
+import { DatadogHostMetrics, DatadogMonitoringPlan } from "../src/typings/datadog";
+import { ProductReport } from "../src/typings/products";
 
 // tslint:disable: object-literal-sort-keys
 const firstTime = moment({ years: 2018, months: 11, days: 18, hours: 9, minutes: 0, seconds: 0 }).format("x");
@@ -52,43 +53,43 @@ const reservedPlans: DatadogMonitoringPlan[] = [
 
 describe("create", () => {
   test("", () => {
-    const products = Products.create(reservedPlans, metrics);
+    const products = InfraReports.create(reservedPlans, metrics);
     expect(products.list.get(sampleA.name)).toEqual(
-      new Product(sampleA.name, sampleA.plannedInfraHosts, sampleAMetrics.pointlists)
+      new InfraReport(sampleA.name, sampleA.plannedInfraHosts, sampleAMetrics.pointlists)
     );
     expect(products.list.get(sampleB.name)).toEqual(
-      new Product(sampleB.name, sampleB.plannedInfraHosts, sampleBMetrics.pointlists)
+      new InfraReport(sampleB.name, sampleB.plannedInfraHosts, sampleBMetrics.pointlists)
     );
   });
 });
 
-describe("overPlanProducts", () => {
+describe("exceededInfraProducts", () => {
   test("if datadog host metrics exceed planed number", () => {
-    const products = Products.create(reservedPlans, metrics);
+    const infraReports = InfraReports.create(reservedPlans, metrics);
     const expectedResponse: ProductReport[] = [
       {
-        name: sampleA.name,
+        productName: sampleA.name,
         plannedHost: sampleA.plannedInfraHosts,
         exceedHostCount: sampleA.maxInfraHosts - sampleA.plannedInfraHosts,
       },
     ];
-    expect(products.overPlanProducts()).toEqual(expectedResponse);
+    expect(infraReports.exceededInfraProducts()).toEqual(expectedResponse);
   });
 
   test("if datadog host metrics does not exceed planned number", () => {
-    const products = Products.create(reservedPlans, metricsUnderLimit);
-    expect(products.overPlanProducts()).toEqual([]);
+    const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
+    expect(infraReports.exceededInfraProducts()).toEqual([]);
   });
 });
 
-describe("overPeriod", () => {
+describe("exceededInfraPeriods", () => {
   test("if datadog host metrics exceed planed number", () => {
-    const products = Products.create(reservedPlans, metrics);
-    expect(products.overPeriod()).toEqual([parseInt(firstTime, 10)]);
+    const infraReports = InfraReports.create(reservedPlans, metrics);
+    expect(infraReports.exceededInfraPeriods()).toEqual([parseInt(firstTime, 10)]);
   });
 
   test("if datadog host metrics don't exceed planned number", () => {
-    const products = Products.create(reservedPlans, metricsUnderLimit);
-    expect(products.overPeriod()).toHaveLength(0);
+    const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
+    expect(infraReports.exceededInfraPeriods()).toHaveLength(0);
   });
 });
