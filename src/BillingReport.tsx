@@ -47,7 +47,7 @@ export class BillingReport {
     return ( result.length === 0 ) ? [] : (<Section>{result}</Section>)
   }
 
-  private headerMessage(){
+  private outline(){
     const exceedHours = this.exceedHours();
     const result = (exceedHours === 0) ? (
       <Section>
@@ -67,10 +67,10 @@ export class BillingReport {
     return result;
   }
 
-  public slackMessageDetail() {
+  public slackMessage() {
     return JSXSlack(
       <Block>
-        { this.headerMessage() }
+        { this.outline() }
         <Divider />
         { this.productDetailMessage() }
       </Block>

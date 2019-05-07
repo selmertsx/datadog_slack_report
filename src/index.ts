@@ -29,7 +29,7 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
   const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
 
   const slackClient = new SlackClient();
-  await slackClient.post(report.slackMessageDetail());
+  await slackClient.post(report.slackMessage());
 
   callback(null, {
     statusCode: 200,
