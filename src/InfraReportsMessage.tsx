@@ -3,14 +3,20 @@ import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 
 import moment from "moment-timezone";
 import { ProductReport } from "./typings/products";
+import { InfraReports } from './InfraReports';
 
 export class InfraReportsMessage {
-  constructor(
-    private fromTime: string,
-    private toTime: string,
-    private overPeriods: number[],
-    private productReports: ProductReport[]
-  ) {}
+  private readonly fromTime: string;
+  private readonly toTime: string;
+  private readonly overPeriods: number[];
+  private readonly productReports: ProductReport[];
+
+  constructor(fromTime: string, toTime: string, infraReports: InfraReports) {
+    this.fromTime = fromTime;
+    this.toTime = toTime;
+    this.overPeriods = infraReports.exceededPeriods();
+    this.productReports = infraReports.exceededProducts();
+  }
 
   private monitoredTime(): string {
     const fromTime = moment
