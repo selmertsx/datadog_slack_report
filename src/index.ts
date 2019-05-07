@@ -27,8 +27,14 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
 
   const infraReports = InfraReports.create(monitoringPlans, infraHosts);
   const infraReportsMessage = new InfraReportsMessage(fromTime, toTime, infraReports);
+
+  // const apmReports = APMReports.create(monitoringPlans, apmHosts);
+  // const apmReportsMessage = new APMreportsMessage(fromTime, toTime, apmReports);
+
   const slackClient = new SlackClient();
   await slackClient.post(infraReportsMessage.body());
+
+  // await slackClient.post(apmReportsMessage.body());
 
   callback(null, {
     statusCode: 200,
