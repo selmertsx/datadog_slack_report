@@ -6,6 +6,11 @@ export class DynamoDBClient {
     region: "ap-northeast-1",
   });
 
+  /**
+   * @todo DynamoDBのカテゴリ名を書き換える。
+   * PlannedHostCountから PlannedInfraHostsにする
+   * そして、新しく PlannedAPMHostsを追加する
+   */
   public fetchMonitoringPlans(): Promise<DatadogMonitoringPlan[]> {
     return new Promise<any>((resolve: any, rejects: any) => {
       this.client.scan({ TableName: "DatadogPlan" }, (error, data) => {
