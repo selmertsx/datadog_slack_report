@@ -6,7 +6,7 @@ export class DynamoDBClient {
     region: "ap-northeast-1",
   });
 
-  public getReservedPlans(): Promise<DatadogMonitoringPlan[]> {
+  public fetchMonitoringPlans(): Promise<DatadogMonitoringPlan[]> {
     return new Promise<any>((resolve: any, rejects: any) => {
       this.client.scan({ TableName: "DatadogPlan" }, (error, data) => {
         if (error) {

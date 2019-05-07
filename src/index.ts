@@ -19,13 +19,13 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     .format("X");
 
   const datadogClient = new DatadogClient();
-  const datadogHostMetrics = await datadogClient.fetchInfraHosts(fromTime, toTime);
-  const datadogAPMHostMap = await datadogClient.fetchAPMHosts(fromTime, toTime);
+  const infraHosts = await datadogClient.fetchInfraHosts(fromTime, toTime);
+  const apmHosts = await datadogClient.fetchAPMHosts(fromTime, toTime);
 
   const dynamoDBClient = new DynamoDBClient();
-  const reservedPlans = await dynamoDBClient.getReservedPlans();
+  const monitoringPlans = await dynamoDBClient.fetchMonitoringPlans();
 
-  const products = Products.create(reservedPlans, datadogHostMetrics);
+  const products = Products.create(monitoringPlans, infraHosts);
   const report = new BillingReport(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
 
   const slackClient = new SlackClient();
