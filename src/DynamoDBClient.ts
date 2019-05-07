@@ -1,12 +1,12 @@
 import { DynamoDB } from "aws-sdk";
-import { ReservedPlan } from "./typings/datadog";
+import { DatadogMonitoringPlan } from "./typings/datadog";
 
 export class DynamoDBClient {
   private client = new DynamoDB.DocumentClient({
     region: "ap-northeast-1",
   });
 
-  public getReservedPlans(): Promise<ReservedPlan[]> {
+  public getReservedPlans(): Promise<DatadogMonitoringPlan[]> {
     return new Promise<any>((resolve: any, rejects: any) => {
       this.client.scan({ TableName: "DatadogPlan" }, (error, data) => {
         if (error) {
@@ -14,9 +14,9 @@ export class DynamoDBClient {
         } else if (data.Items == undefined) {
           resolve([]);
         } else {
-          const results: ReservedPlan[] = [];
+          const results: DatadogMonitoringPlan[] = [];
           data.Items.forEach(item => {
-            results.push({ productName: item.Product, plannedHostCount: item.PlannedHostCount });
+            results.push({ productName: item.Product, plannedInfraHosts: item.PlannedHostCount });
           });
           resolve(results);
         }

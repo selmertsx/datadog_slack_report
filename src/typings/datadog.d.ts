@@ -50,9 +50,9 @@ export interface DatadogHostMetrics {
   pointlists: Metrics;
 }
 
-export interface ReservedPlan {
+export interface DatadogMonitoringPlan {
   productName: ProductName;
-  plannedHostCount: number;
+  plannedInfraHosts: number;
 }
 
 /**

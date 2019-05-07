@@ -1,4 +1,4 @@
-import { DatadogHostMetrics, ProductReport, ReservedPlan } from "./typings/datadog";
+import { DatadogHostMetrics, ProductReport, DatadogMonitoringPlan } from "./typings/datadog";
 import { Product } from "./Product";
 
 export class Products {
@@ -6,12 +6,12 @@ export class Products {
     return Array.from(this.list.values());
   }
 
-  public static create(plans: ReservedPlan[], hostMetrics: DatadogHostMetrics[]): Products {
+  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): Products {
     const result = new Products();
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
       if (productMetrics) {
-        const product = new Product(plan.productName, plan.plannedHostCount, productMetrics.pointlists);
+        const product = new Product(plan.productName, plan.plannedInfraHosts, productMetrics.pointlists);
         result.list.set(plan.productName, product);
       }
     }
