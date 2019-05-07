@@ -17,7 +17,7 @@ describe("countHosts", () => {
     const expected = [];
     expected.push({ product: "product1", pointlists: new Map([[1556636400000, 3], [1556719200000, 3]]) });
     expected.push({ product: "product2", pointlists: new Map([[1556636400000, 1], [1556719200000, 1]]) });
-    return expect(client.countHosts(fromTime, toTime)).resolves.toEqual(expected);
+    return expect(client.fetchInfraHosts(fromTime, toTime)).resolves.toEqual(expected);
   });
 });
 
@@ -28,6 +28,6 @@ describe("countAPMHosts", () => {
     const expected = new Map();
     expected.set("product1", new Map([[1556636400000, 2], [1556719200000, 2]]));
     expected.set("product2", new Map([[1556636400000, 1], [1556719200000, 1]]));
-    return expect(client.countAPMHosts(fromTime, toTime)).resolves.toEqual(expected);
+    return expect(client.fetchAPMHosts(fromTime, toTime)).resolves.toEqual(expected);
   });
 });

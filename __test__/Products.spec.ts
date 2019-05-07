@@ -1,43 +1,43 @@
 import moment from "moment";
 import { Product } from "../src/Product";
 import { Products } from "../src/Products";
-import { DatadogHostMetrics, ProductReport, ReservedPlan } from "../src/typings/datadog";
+import { DatadogHostMetrics, DatadogMonitoringPlan, ProductReport } from "../src/typings/datadog";
 
 // tslint:disable: object-literal-sort-keys
 const firstTime = moment({ years: 2018, months: 11, days: 18, hours: 9, minutes: 0, seconds: 0 }).format("x");
 const lastTime = moment({ years: 2018, months: 11, days: 18, hours: 10, minutes: 0, seconds: 0 }).format("x");
-const sampleA = { maxHostCount: 40, minHostCount: 20, name: "sampleA", plannedHostCount: 30 };
-const sampleB = { maxHostCount: 30, minHostCount: 20, name: "sampleB", plannedHostCount: 30 };
+const sampleA = { maxInfraHosts: 40, minInfraHosts: 20, name: "sampleA", plannedInfraHosts: 30 };
+const sampleB = { maxInfraHosts: 30, minInfraHosts: 20, name: "sampleB", plannedInfraHosts: 30 };
 // tslint:enable: object-literal-sort-keys
 
 const sampleAMetrics = {
   pointlists: new Map([
-    [parseInt(firstTime, 10), sampleA.maxHostCount],
-    [parseInt(lastTime, 10), sampleA.minHostCount],
+    [parseInt(firstTime, 10), sampleA.maxInfraHosts],
+    [parseInt(lastTime, 10), sampleA.minInfraHosts],
   ]),
   product: sampleA.name,
 };
 
 const sampleBMetrics = {
   pointlists: new Map([
-    [parseInt(firstTime, 10), sampleB.maxHostCount],
-    [parseInt(lastTime, 10), sampleB.minHostCount],
+    [parseInt(firstTime, 10), sampleB.maxInfraHosts],
+    [parseInt(lastTime, 10), sampleB.minInfraHosts],
   ]),
   product: sampleB.name,
 };
 
 const sampleAMetricsUnderLimit = {
   pointlists: new Map([
-    [parseInt(firstTime, 10), sampleA.minHostCount],
-    [parseInt(lastTime, 10), sampleA.minHostCount],
+    [parseInt(firstTime, 10), sampleA.minInfraHosts],
+    [parseInt(lastTime, 10), sampleA.minInfraHosts],
   ]),
   product: sampleA.name,
 };
 
 const sampleBMetricsUnderLimit = {
   pointlists: new Map([
-    [parseInt(firstTime, 10), sampleB.minHostCount],
-    [parseInt(lastTime, 10), sampleB.minHostCount],
+    [parseInt(firstTime, 10), sampleB.minInfraHosts],
+    [parseInt(lastTime, 10), sampleB.minInfraHosts],
   ]),
   product: sampleB.name,
 };
@@ -45,19 +45,19 @@ const sampleBMetricsUnderLimit = {
 const metrics: DatadogHostMetrics[] = [sampleAMetrics, sampleBMetrics];
 const metricsUnderLimit: DatadogHostMetrics[] = [sampleAMetricsUnderLimit, sampleBMetricsUnderLimit];
 
-const reservedPlans: ReservedPlan[] = [
-  { productName: sampleA.name, plannedHostCount: sampleA.plannedHostCount },
-  { productName: sampleB.name, plannedHostCount: sampleB.plannedHostCount },
+const reservedPlans: DatadogMonitoringPlan[] = [
+  { productName: sampleA.name, plannedInfraHosts: sampleA.plannedInfraHosts },
+  { productName: sampleB.name, plannedInfraHosts: sampleB.plannedInfraHosts },
 ];
 
 describe("create", () => {
   test("", () => {
     const products = Products.create(reservedPlans, metrics);
     expect(products.list.get(sampleA.name)).toEqual(
-      new Product(sampleA.name, sampleA.plannedHostCount, sampleAMetrics.pointlists)
+      new Product(sampleA.name, sampleA.plannedInfraHosts, sampleAMetrics.pointlists)
     );
     expect(products.list.get(sampleB.name)).toEqual(
-      new Product(sampleB.name, sampleB.plannedHostCount, sampleBMetrics.pointlists)
+      new Product(sampleB.name, sampleB.plannedInfraHosts, sampleBMetrics.pointlists)
     );
   });
 });
@@ -68,8 +68,8 @@ describe("overPlanProducts", () => {
     const expectedResponse: ProductReport[] = [
       {
         name: sampleA.name,
-        plannedHost: sampleA.plannedHostCount,
-        exceedHostCount: sampleA.maxHostCount - sampleA.plannedHostCount,
+        plannedHost: sampleA.plannedInfraHosts,
+        exceedHostCount: sampleA.maxInfraHosts - sampleA.plannedInfraHosts,
       },
     ];
     expect(products.overPlanProducts()).toEqual(expectedResponse);
