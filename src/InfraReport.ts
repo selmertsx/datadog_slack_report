@@ -1,6 +1,6 @@
 import { Metrics } from "./typings/datadog";
 
-export class BillingReport {
+export class InfraReport {
   constructor(public productName: string, public desiredHostCount: number, public metrics: Metrics) {}
 
   public overCount(unixTime: number) {

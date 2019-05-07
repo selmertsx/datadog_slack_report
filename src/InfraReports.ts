@@ -1,19 +1,19 @@
-import { BillingReport } from "./BillingReport";
+import { InfraReport } from "./InfraReport";
 import { DatadogHostMetrics, DatadogMonitoringPlan } from "./typings/datadog";
 import { ProductReport } from "./typings/products";
 
-export class BillingReports {
-  get productList(): BillingReport[] {
+export class InfraReports {
+  get productList(): InfraReport[] {
     return Array.from(this.list.values());
   }
 
-  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): BillingReports {
-    const result = new BillingReports();
+  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): InfraReports {
+    const result = new InfraReports();
 
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
       if (productMetrics) {
-        const product = new BillingReport(plan.productName, plan.plannedInfraHosts, productMetrics.pointlists);
+        const product = new InfraReport(plan.productName, plan.plannedInfraHosts, productMetrics.pointlists);
         result.list.set(plan.productName, product);
       }
     }
@@ -21,11 +21,11 @@ export class BillingReports {
     return result;
   }
 
-  public list: Map<string, BillingReport> = new Map();
+  public list: Map<string, InfraReport> = new Map();
 
-  public overPlanProducts(): ProductReport[] {
+  public exceededInfraProducts(): ProductReport[] {
     const result: ProductReport[] = [];
-    const periods = this.overPeriod();
+    const periods = this.exceededInfraPeriods();
 
     for (const product of this.productList) {
       const exceedHostCount = periods.map(period => product.overCount(period)).reduce((acc, cur) => acc + cur, 0);
@@ -44,7 +44,7 @@ export class BillingReports {
   /**
    * @return {number[]} unix time list that sum of the monitored host counts was larger than the applied plan.
    */
-  public overPeriod(): number[] {
+  public exceededInfraPeriods(): number[] {
     const desiredHostCount = this.productList
       .map(product => product.desiredHostCount)
       .reduce((sum, num) => sum + num, 0);

@@ -3,9 +3,9 @@ import moment from "moment-timezone";
 import "source-map-support/register";
 import { DatadogClient } from "./DatadogClient";
 import { DynamoDBClient } from "./DynamoDBClient";
-import { BillingReports } from "./BillingReports";
+import { InfraReportsMessage } from "./InfraReportsMessage";
+import { InfraReports } from "./InfraReports";
 import { SlackClient } from "./SlackClient";
-import { SlackMessage } from "./SlackMessage";
 
 export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
   const fromTime = moment({ hour: 0, minute: 0, second: 0 })
@@ -25,8 +25,14 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
   const dynamoDBClient = new DynamoDBClient();
   const monitoringPlans = await dynamoDBClient.fetchMonitoringPlans();
 
-  const products = BillingReports.create(monitoringPlans, infraHosts);
-  const message = new SlackMessage(fromTime, toTime, products.overPeriod(), products.overPlanProducts());
+  const billingReports = InfraReports.create(monitoringPlans, infraHosts);
+
+  const message = new InfraReportsMessage(
+    fromTime,
+    toTime,
+    billingReports.exceededInfraPeriods(),
+    billingReports.exceededInfraProducts()
+  );
 
   const slackClient = new SlackClient();
   await slackClient.post(message.body());

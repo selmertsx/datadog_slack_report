@@ -4,7 +4,7 @@ import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 import moment from "moment-timezone";
 import { ProductReport } from "./typings/products";
 
-export class SlackMessage {
+export class InfraReportsMessage {
   constructor(
     private fromTime: string,
     private toTime: string,
@@ -29,8 +29,9 @@ export class SlackMessage {
     return this.overPeriods.length;
   }
 
-  private productDetailMessage(){
+  private details(){
     const result = [];
+
     for(const report of this.productReports){
       const message = (
         <Field>
@@ -49,7 +50,7 @@ export class SlackMessage {
 
   private outline(){
     const exceedHours = this.exceedHours();
-    const result = (exceedHours === 0) ? (
+    return (exceedHours === 0) ? (
       <Section>
         <b>Datadog監視レポート</b> <br />
         {this.monitoredTime()} <br />
@@ -63,8 +64,6 @@ export class SlackMessage {
         内訳は下記のようになります。
       </Section>
     )
-
-    return result;
   }
 
   public body() {
@@ -72,7 +71,7 @@ export class SlackMessage {
       <Block>
         { this.outline() }
         <Divider />
-        { this.productDetailMessage() }
+        { this.details() }
       </Block>
     )
   }
