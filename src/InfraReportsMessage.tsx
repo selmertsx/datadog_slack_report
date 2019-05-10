@@ -25,10 +25,6 @@ export class InfraReportsMessage {
     return `${fromTime} ~ ${toTime}`;
   }
 
-  private exceedHours() {
-    return this.overPeriods.length;
-  }
-
   private details(){
     const result = [];
 
@@ -37,8 +33,7 @@ export class InfraReportsMessage {
         <Field>
         <b> {report.productName} </b>
         <br />
-        予定監視ホスト数: {report.plannedHost} <br />
-        超過分(超過ホスト数×超過時間): {report.exceedHostCount} <br />
+        超過分: {report.exceedHostCount} <br />
         追加請求分(単位$): { report.exceedHostCount * 0.03  } <br />
       </Field>
       )
@@ -48,32 +43,19 @@ export class InfraReportsMessage {
     return ( result.length === 0 ) ? [] : (<Section>{result}</Section>)
   }
 
-  private outline(){
-    const exceedHours = this.exceedHours();
-    if (exceedHours === 0){
-      return (
-        <Section>
-          <b>Datadog監視レポート</b> <br />
-          {this.monitoredTime()} <br />
-          上記の期間において予定を超過した数のホストは監視されませんでした
-        </Section>
-      )
-    } else {
-      return (
-        <Section>
-          <b>Datadog監視レポート</b> <br />
-          {this.monitoredTime()} <br />
-          {exceedHours}時間分、予定した数のホストを超過して監視しました <br/>
-          内訳は下記のようになります。
-        </Section>
-      )
-    }
+  private header(){
+    return (
+      <Section>
+        <b>Datadog監視レポート</b> <br />
+        {this.monitoredTime()} <br />
+      </Section>
+    );
   }
 
   public body() {
     return JSXSlack(
       <Block>
-        { this.outline() }
+        { this.header() }
         <Divider />
         { this.details() }
       </Block>
