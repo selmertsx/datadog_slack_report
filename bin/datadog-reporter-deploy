@@ -18,4 +18,5 @@ aws cloudformation deploy \
       "SlackToken=${SLACK_TOKEN}" \
       "AppKey=${APP_KEY}" \
       "ApiKey=${API_KEY}" \
-      "ChannelId=${CHANNEL_ID}"
+      "ChannelId=${CHANNEL_ID}" \
+      "Env=production"
