@@ -3,6 +3,7 @@ import { DatadogMonitoringPlan } from "./typings/datadog";
 
 export class DynamoDBClient {
   private client = new DynamoDB.DocumentClient({
+    endpoint: "http://dynamodb:8000",
     region: "ap-northeast-1",
   });
 

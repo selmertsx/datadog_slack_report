@@ -18,8 +18,8 @@ import {
 } from "./typings/datadog";
 
 const credential = {
-  api_key: process.env.APP_KEY as string,
-  application_key: process.env.API_KEY as string,
+  api_key: process.env.API_KEY as string,
+  application_key: process.env.APP_KEY as string,
 };
 
 const config = {
