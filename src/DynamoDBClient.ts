@@ -1,11 +1,19 @@
 import { DynamoDB } from "aws-sdk";
 import { DatadogMonitoringPlan } from "./typings/datadog";
 
+const devConfig = {
+  endpoint: "http://dynamodb:8000",
+  region: "ap-northeast-1",
+};
+
+const prodConfig = {
+  region: "ap-northeast-1",
+};
+
+const config = process.env.ENV === "development" ? devConfig : prodConfig;
+
 export class DynamoDBClient {
-  private client = new DynamoDB.DocumentClient({
-    endpoint: "http://dynamodb:8000",
-    region: "ap-northeast-1",
-  });
+  private client = new DynamoDB.DocumentClient(config);
 
   /**
    * @todo DynamoDBのカテゴリ名を書き換える。
