@@ -31,11 +31,7 @@ const CountHost = "count:system.cpu.user{*} by {product}.rollup(count, 3600)";
 const CountAPMHost = "count:datadog.apm.host_instance{*} by {host, product}.rollup(count, 3600)";
 
 export class DatadogClient {
-  private request: AxiosInstance;
-
-  constructor() {
-    this.request = axios.create(config);
-  }
+  private request: AxiosInstance = axios.create(config);
 
   /**
    * datadogで監視しているhost数をカウントする
