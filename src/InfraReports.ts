@@ -44,7 +44,7 @@ export class InfraReports {
   /**
    * @return {number[]} unix time list that sum of the monitored host counts was larger than the applied plan.
    */
-  public exceededPeriods(): number[] {
+  private exceededPeriods(): number[] {
     const desiredHostCount = this.productList
       .map(product => product.desiredHostCount)
       .reduce((sum, num) => sum + num, 0);

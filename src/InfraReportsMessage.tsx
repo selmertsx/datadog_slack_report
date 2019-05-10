@@ -8,13 +8,11 @@ import { InfraReports } from './InfraReports';
 export class InfraReportsMessage {
   private readonly fromTime: string;
   private readonly toTime: string;
-  private readonly overPeriods: number[];
   private readonly productReports: ProductReport[];
 
   constructor(fromTime: string, toTime: string, infraReports: InfraReports) {
     this.fromTime = fromTime;
     this.toTime = toTime;
-    this.overPeriods = infraReports.exceededPeriods();
     this.productReports = infraReports.exceededProducts();
   }
 
