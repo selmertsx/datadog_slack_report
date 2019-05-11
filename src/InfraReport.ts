@@ -3,7 +3,12 @@ import { Metrics } from "./typings/datadog";
 export class InfraReport {
   constructor(public productName: string, public desiredHostCount: number, public metrics: Metrics) {}
 
-  public overCount(unixTime: number) {
+  get maxCount(): number {
+    const hostCounts = Array.from(this.metrics.values());
+    return Math.max.apply(null, hostCounts);
+  }
+
+  public overCount(unixTime: number): number {
     const hostCount = this.metrics.get(unixTime);
     return (hostCount ? hostCount : 0) - this.desiredHostCount;
   }
