@@ -23,7 +23,7 @@ export class InfraReportsMessage {
     return `${fromTime} ~ ${toTime}`;
   }
 
-  private details(){
+  private exceededDetail(){
     const result = [];
 
     for(const report of this.productReports){
@@ -38,7 +38,11 @@ export class InfraReportsMessage {
       result.push(message);
     }
 
-    return ( result.length === 0 ) ? [] : (<Section>{result}</Section>)
+    return ( result.length === 0 ) ? [] : result;
+  }
+
+  private monitoredDetail(){
+    return "ここに監視項目を書くよ";
   }
 
   private header(){
@@ -54,8 +58,18 @@ export class InfraReportsMessage {
     return JSXSlack(
       <Block>
         { this.header() }
+
         <Divider />
-        { this.details() }
+        <Section>
+          <b>[Infra] 監視内容</b> <br />
+          { this.monitoredDetail()}
+        </Section>
+
+        <Divider />
+        <Section>
+          [<b>Infra] 超過分 </b><br />
+          { this.exceededDetail() }
+        </Section>
       </Block>
     )
   }
