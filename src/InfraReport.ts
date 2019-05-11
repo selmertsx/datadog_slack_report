@@ -11,11 +11,11 @@ export class InfraReport {
     return Array.from(this.metrics.keys());
   }
 
-  public get maxCount(): number {
+  public maxCount(): number {
     return Math.max.apply(null, this.hostCounts);
   }
 
-  public get minCount(): number {
+  public minCount(): number {
     return Math.min.apply(null, this.hostCounts);
   }
 
