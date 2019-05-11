@@ -62,7 +62,7 @@ export class InfraReports {
   private sumMetricsForEachPeriod(): Map<number, number> {
     const result = new Map();
     for (const product of this.productList) {
-      for (const unixTime of product.unixTimes()) {
+      for (const unixTime of product.unixTimes) {
         const count = result.get(unixTime);
         const setCount = count ? product.metrics.get(unixTime) + count : product.metrics.get(unixTime);
         result.set(unixTime, setCount);
