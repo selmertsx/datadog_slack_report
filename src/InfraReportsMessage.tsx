@@ -33,8 +33,7 @@ export class InfraReportsMessage {
 
         <Divider />
         <Section>
-          [<b>Infra] 超過分 </b>
-          <br />
+          [<b>Infra] 超過分 </b> <br />
           {this.exceededDetail()}
         </Section>
       </Block>
@@ -82,7 +81,6 @@ export class InfraReportsMessage {
 
       const message = (
         <Field>
-          {" "}
           {product.productName} ({count})
         </Field>
       );
@@ -95,10 +93,8 @@ export class InfraReportsMessage {
   private header() {
     return (
       <Section>
-        <b>Datadog Monitoringレポート</b>
-        <br />
-        {this.monitoredTime()}
-        <br />
+        <b>Datadog Monitoringレポート</b> <br />
+        {this.monitoredTime()} <br />
       </Section>
     );
   }
