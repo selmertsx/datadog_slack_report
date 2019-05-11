@@ -1,7 +1,7 @@
 import { Metrics } from "./typings/datadog";
 
 export class InfraReport {
-  constructor(public productName: string, public desiredHostCount: number, public metrics: Metrics) {}
+  constructor(public productName: string, public desiredHostCount: number, private metrics: Metrics) {}
 
   private get hostCounts(): number[] {
     return Array.from(this.metrics.values());
@@ -17,6 +17,10 @@ export class InfraReport {
 
   public get minCount(): number {
     return Math.min.apply(null, this.hostCounts);
+  }
+
+  public getHostCount(unixTime: number): number | undefined {
+    return this.metrics.get(unixTime);
   }
 
   public overCount(unixTime: number): number {

@@ -64,7 +64,7 @@ export class InfraReports {
     for (const product of this.productList) {
       for (const unixTime of product.unixTimes) {
         const count = result.get(unixTime);
-        const setCount = count ? product.metrics.get(unixTime) + count : product.metrics.get(unixTime);
+        const setCount = count ? product.getHostCount(unixTime) + count : product.getHostCount(unixTime);
         result.set(unixTime, setCount);
       }
     }
