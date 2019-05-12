@@ -21,7 +21,7 @@ export class InfraReports {
     return result;
   }
 
-  public list: Map<string, InfraReport> = new Map();
+  private list: Map<string, InfraReport> = new Map();
 
   public exceededProducts(): ProductReport[] {
     const result: ProductReport[] = [];
