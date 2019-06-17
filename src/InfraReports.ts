@@ -9,8 +9,15 @@ export class InfraReports {
     return Array.from(this.list.values());
   }
 
-  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): InfraReports {
+  public static create(
+    plans: DatadogMonitoringPlan[],
+    hostMetrics: DatadogHostMetrics[],
+    fromTime: string,
+    toTime: string
+  ): InfraReports {
     const result = new InfraReports();
+    result.fromTime = fromTime;
+    result.toTime = toTime;
 
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
@@ -23,6 +30,8 @@ export class InfraReports {
     return result;
   }
 
+  public fromTime: string = "";
+  public toTime: string = "";
   private list: Map<string, InfraReport> = new Map();
 
   public exceededProducts(): ProductReport[] {
