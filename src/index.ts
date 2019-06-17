@@ -1,8 +1,8 @@
 import { APIGatewayEvent, Callback, Context } from "aws-lambda";
 import moment from "moment-timezone";
 import "source-map-support/register";
-import * as DatadogReport from "./DatadogReport";
 import { DynamoDBClient } from "./DynamoDBClient";
+import * as InfraReportClient from "./InfraReportClient";
 import { SlackClient } from "./SlackClient";
 
 export async function datadog_handler(event: any, context: any, callback: Callback) {
@@ -11,9 +11,9 @@ export async function datadog_handler(event: any, context: any, callback: Callba
 
   let i;
   for (i = 1; i < 10; i++) {
-    const datadogReport = await DatadogReport.fetchDatadogMetrics(fromTime(i), toTime(i), monitoringPlans);
+    const infraReport = await InfraReportClient.fetchDatadogMetrics(fromTime(i), toTime(i), monitoringPlans);
     const slackClient = new SlackClient();
-    await slackClient.post(datadogReport.body());
+    await slackClient.post(infraReport.body());
     // await slackClient.post(apmReportsMessage.body());
   }
 
