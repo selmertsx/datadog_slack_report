@@ -5,10 +5,13 @@ import * as DatadogReport from "./DatadogReport";
 import { SlackClient } from "./SlackClient";
 
 export async function datadog_handler(event: any, context: any, callback: Callback) {
-  const datadogReport = await DatadogReport.fetchDatadogMetrics(fromTime(), toTime());
-  const slackClient = new SlackClient();
-  await slackClient.post(datadogReport.body());
-  // await slackClient.post(apmReportsMessage.body());
+  let i;
+  for (i = 1; i < 10; i++) {
+    const datadogReport = await DatadogReport.fetchDatadogMetrics(fromTime(i), toTime(i));
+    const slackClient = new SlackClient();
+    await slackClient.post(datadogReport.body());
+    // await slackClient.post(apmReportsMessage.body());
+  }
 
   callback(null, {
     statusCode: 200,
@@ -17,17 +20,17 @@ export async function datadog_handler(event: any, context: any, callback: Callba
   });
 }
 
-function fromTime() {
+function fromTime(subtract: number): string {
   return moment({ hour: 0, minute: 0, second: 0 })
     .tz("Asia/Tokyo")
-    .subtract(1, "days")
+    .subtract(subtract, "days")
     .format("X");
 }
 
-function toTime() {
+function toTime(subtract: number): string {
   return moment({ hour: 23, minute: 59, second: 59 })
     .tz("Asia/Tokyo")
-    .subtract(1, "days")
+    .subtract(subtract, "days")
     .format("X");
 }
 

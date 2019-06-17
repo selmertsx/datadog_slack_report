@@ -1,5 +1,7 @@
 import { InfraReport } from "./InfraReport";
 import { DatadogHostMetrics, DatadogMonitoringPlan } from "./typings/datadog";
+
+// NOTE: ProductReportという名前があんまりよくないかも
 import { ProductReport } from "./typings/products";
 
 export class InfraReports {
