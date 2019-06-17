@@ -23,8 +23,8 @@ const sampleB: DatadogMetricsFactory.DatadogMetricsFactoryInput = {
 };
 // tslint:enable: object-literal-sort-keys
 
-const sampleAMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleA);
-const sampleBMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleB);
+const sampleAMetrics = DatadogMetricsFactory.createExceededMetrics(firstTime, lastTime, sampleA);
+const sampleBMetrics = DatadogMetricsFactory.createExceededMetrics(firstTime, lastTime, sampleB);
 const sampleAMetricsUnderLimit = DatadogMetricsFactory.createLowerMetrics(firstTime, lastTime, sampleA);
 const sampleBMetricsUnderLimit = DatadogMetricsFactory.createLowerMetrics(firstTime, lastTime, sampleB);
 
