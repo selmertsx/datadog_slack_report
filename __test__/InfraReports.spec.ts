@@ -1,5 +1,4 @@
 import moment from "moment";
-import { InfraReport } from "../src/InfraReport";
 import { InfraReports } from "../src/InfraReports";
 import { DatadogHostMetrics, DatadogMonitoringPlan } from "../src/typings/datadog";
 import { ProductReport } from "../src/typings/products";
