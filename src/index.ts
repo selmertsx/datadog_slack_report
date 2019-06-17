@@ -1,39 +1,13 @@
 import { APIGatewayEvent, Callback, Context } from "aws-lambda";
 import moment from "moment-timezone";
 import "source-map-support/register";
-import { DatadogClient } from "./DatadogClient";
-import { DynamoDBClient } from "./DynamoDBClient";
-import { InfraReports } from "./InfraReports";
-import { InfraReportsMessage } from "./InfraReportsMessage";
+import * as DatadogReport from "./DatadogReport";
 import { SlackClient } from "./SlackClient";
 
 export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
-  const fromTime = moment({ hour: 0, minute: 0, second: 0 })
-    .tz("Asia/Tokyo")
-    .subtract(1, "days")
-    .format("X");
-
-  const toTime = moment({ hour: 23, minute: 59, second: 59 })
-    .tz("Asia/Tokyo")
-    .subtract(1, "days")
-    .format("X");
-
-  const datadogClient = new DatadogClient();
-  const infraHosts = await datadogClient.fetchInfraHosts(fromTime, toTime);
-  // const apmHosts = await datadogClient.fetchAPMHosts(fromTime, toTime);
-
-  const dynamoDBClient = new DynamoDBClient();
-  const monitoringPlans = await dynamoDBClient.fetchMonitoringPlans();
-
-  const infraReports = InfraReports.create(monitoringPlans, infraHosts);
-  const infraReportsMessage = new InfraReportsMessage(fromTime, toTime, infraReports);
-
-  // const apmReports = APMReports.create(monitoringPlans, apmHosts);
-  // const apmReportsMessage = new APMreportsMessage(fromTime, toTime, apmReports);
-
+  const datadogReport = await DatadogReport.fetchDatadogMetrics(fromTime(), toTime());
   const slackClient = new SlackClient();
-  await slackClient.post(infraReportsMessage.body());
-
+  await slackClient.post(datadogReport.body());
   // await slackClient.post(apmReportsMessage.body());
 
   callback(null, {
@@ -41,4 +15,18 @@ export async function datadog_handler(event: APIGatewayEvent, context: Context, 
     headers: { "Content-Type": "application/json;charset=UTF-8" },
     body: JSON.stringify({ status: 200, message: "OK" }),
   });
+}
+
+function fromTime() {
+  return moment({ hour: 0, minute: 0, second: 0 })
+    .tz("Asia/Tokyo")
+    .subtract(1, "days")
+    .format("X");
+}
+
+function toTime() {
+  return moment({ hour: 23, minute: 59, second: 59 })
+    .tz("Asia/Tokyo")
+    .subtract(1, "days")
+    .format("X");
 }
