@@ -25,11 +25,8 @@ const sampleB: DatadogMetricsFactory.DatadogMetricsFactoryInput = {
 
 const sampleAMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleA);
 const sampleBMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleB);
-
-const sampleAmin = { ...sampleA, maxInfraHosts: sampleA.minInfraHosts };
-const sampleAMetricsUnderLimit = DatadogMetricsFactory.create(firstTime, lastTime, sampleAmin);
-const sampleBmin = { ...sampleB, maxInfraHosts: sampleB.minInfraHosts };
-const sampleBMetricsUnderLimit = DatadogMetricsFactory.create(firstTime, lastTime, sampleBmin);
+const sampleAMetricsUnderLimit = DatadogMetricsFactory.createLowerMetrics(firstTime, lastTime, sampleA);
+const sampleBMetricsUnderLimit = DatadogMetricsFactory.createLowerMetrics(firstTime, lastTime, sampleB);
 
 const metrics: DatadogHostMetrics[] = [sampleAMetrics, sampleBMetrics];
 const metricsUnderLimit: DatadogHostMetrics[] = [sampleAMetricsUnderLimit, sampleBMetricsUnderLimit];
