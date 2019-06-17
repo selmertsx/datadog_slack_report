@@ -26,25 +26,13 @@ const sampleB: DatadogMetricsFactory.DatadogMetricsFactoryInput = {
 const sampleAMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleA);
 const sampleBMetrics = DatadogMetricsFactory.create(firstTime, lastTime, sampleB);
 
-const sampleAMetricsUnderLimit = {
-  pointlists: new Map([
-    [parseInt(firstTime, 10), sampleA.minInfraHosts],
-    [parseInt(lastTime, 10), sampleA.minInfraHosts],
-  ]),
-  product: sampleA.name,
-};
-
-const sampleBMetricsUnderLimit = {
-  pointlists: new Map([
-    [parseInt(firstTime, 10), sampleB.minInfraHosts],
-    [parseInt(lastTime, 10), sampleB.minInfraHosts],
-  ]),
-  product: sampleB.name,
-};
+const sampleAmin = { ...sampleA, maxInfraHosts: sampleA.minInfraHosts };
+const sampleAMetricsUnderLimit = DatadogMetricsFactory.create(firstTime, lastTime, sampleAmin);
+const sampleBmin = { ...sampleB, maxInfraHosts: sampleB.minInfraHosts };
+const sampleBMetricsUnderLimit = DatadogMetricsFactory.create(firstTime, lastTime, sampleBmin);
 
 const metrics: DatadogHostMetrics[] = [sampleAMetrics, sampleBMetrics];
 const metricsUnderLimit: DatadogHostMetrics[] = [sampleAMetricsUnderLimit, sampleBMetricsUnderLimit];
-
 const reservedPlans: DatadogMonitoringPlan[] = [
   { productName: sampleA.name, plannedInfraHosts: sampleA.plannedInfraHosts },
   { productName: sampleB.name, plannedInfraHosts: sampleB.plannedInfraHosts },
