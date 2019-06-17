@@ -9,15 +9,32 @@ export class InfraReports {
     return Array.from(this.list.values());
   }
 
-  public static create(
-    plans: DatadogMonitoringPlan[],
-    hostMetrics: DatadogHostMetrics[],
-    fromTime: string,
-    toTime: string
-  ): InfraReports {
+  get fromTime(): string {
+    const unixTimes = [];
+
+    for (const product of this.productList) {
+      for (const unixTime of product.unixTimes) {
+        unixTimes.push(unixTime);
+      }
+    }
+    const minUnixTime = Math.min(...unixTimes);
+    return new Date(minUnixTime).toLocaleString();
+  }
+
+  get toTime(): string {
+    const unixTimes = [];
+
+    for (const product of this.productList) {
+      for (const unixTime of product.unixTimes) {
+        unixTimes.push(unixTime);
+      }
+    }
+    const maxUnixTime = Math.max(...unixTimes);
+    return new Date(maxUnixTime).toLocaleString();
+  }
+
+  public static create(plans: DatadogMonitoringPlan[], hostMetrics: DatadogHostMetrics[]): InfraReports {
     const result = new InfraReports();
-    result.fromTime = fromTime;
-    result.toTime = toTime;
 
     for (const plan of plans) {
       const productMetrics = hostMetrics.find(metrics => metrics.product === plan.productName);
@@ -30,10 +47,7 @@ export class InfraReports {
     return result;
   }
 
-  public fromTime: string = "";
-  public toTime: string = "";
   private list: Map<string, InfraReport> = new Map();
-
   public exceededProducts(): ProductReport[] {
     const result: ProductReport[] = [];
     const periods = this.exceededPeriods();

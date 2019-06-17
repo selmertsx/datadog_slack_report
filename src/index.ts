@@ -12,7 +12,7 @@ export async function datadog_handler(event: any, context: any, callback: Callba
   const monitoringPlans = await dynamoDBClient.fetchMonitoringPlans();
 
   let i;
-  for (i = 1; i < 10; i++) {
+  for (i = 1; i < 3; i++) {
     const infraReports = await InfraReportClient.fetch(fromTime(i), toTime(i), monitoringPlans);
     // const apmReport = await APMReportClient.fetch(fromTime(i), toTime(i), monitoringPlans);
     const slackClient = new SlackClient();

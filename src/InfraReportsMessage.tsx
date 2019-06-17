@@ -41,16 +41,7 @@ export class InfraReportsMessage {
   }
 
   private monitoredTime(): string {
-    const fromTime = moment
-      .unix(parseInt(this.fromTime, 10))
-      .format("LLL")
-      .toString();
-    const toTime = moment
-      .unix(parseInt(this.toTime, 10))
-      .format("LLL")
-      .toString();
-
-    return `${fromTime} ~ ${toTime}`;
+    return `${this.fromTime} ~ ${this.toTime}`;
   }
 
   private exceededDetail() {
