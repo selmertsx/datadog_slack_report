@@ -12,9 +12,9 @@ export class InfraReportsMessage {
   private readonly exceedProductReports: ProductReport[];
   private readonly productReports: InfraReport[];
 
-  constructor(fromTime: string, toTime: string, infraReports: InfraReports) {
-    this.fromTime = fromTime;
-    this.toTime = toTime;
+  constructor(infraReports: InfraReports) {
+    this.fromTime = infraReports.fromTime;
+    this.toTime = infraReports.toTime;
     this.exceedProductReports = infraReports.exceededProducts();
     this.productReports = infraReports.productList;
   }
@@ -41,16 +41,7 @@ export class InfraReportsMessage {
   }
 
   private monitoredTime(): string {
-    const fromTime = moment
-      .unix(parseInt(this.fromTime, 10))
-      .format("LLL")
-      .toString();
-    const toTime = moment
-      .unix(parseInt(this.toTime, 10))
-      .format("LLL")
-      .toString();
-
-    return `${fromTime} ~ ${toTime}`;
+    return `${this.fromTime} ~ ${this.toTime}`;
   }
 
   private exceededDetail() {

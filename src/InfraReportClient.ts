@@ -13,6 +13,6 @@ export async function fetch(fromTime: string, toTime: string, monitoringPlans: D
   const datadogClient = new DatadogClient();
   const infraHosts = await datadogClient.fetchInfraHosts(fromTime, toTime);
   const infraReports = InfraReports.create(monitoringPlans, infraHosts);
-  const infraReportsMessage = new InfraReportsMessage(fromTime, toTime, infraReports);
+  const infraReportsMessage = new InfraReportsMessage(infraReports);
   return infraReportsMessage;
 }

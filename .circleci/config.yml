@@ -18,9 +18,6 @@ jobs:
       - run:
           command: npm test -- --ci
       - run:
-          description: tslint
-          command: node_modules/tslint/bin/tslint -p tsconfig.json
-      - run:
           description: webpack build
           command: npm run build
       - store_test_results:
