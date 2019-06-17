@@ -51,18 +51,6 @@ const reservedPlans: DatadogMonitoringPlan[] = [
   { productName: sampleB.name, plannedInfraHosts: sampleB.plannedInfraHosts },
 ];
 
-describe("create", () => {
-  test("", () => {
-    const products = InfraReports.create(reservedPlans, metrics);
-    expect(products.list.get(sampleA.name)).toEqual(
-      new InfraReport(sampleA.name, sampleA.plannedInfraHosts, sampleAMetrics.pointlists)
-    );
-    expect(products.list.get(sampleB.name)).toEqual(
-      new InfraReport(sampleB.name, sampleB.plannedInfraHosts, sampleBMetrics.pointlists)
-    );
-  });
-});
-
 describe("exceededInfraProducts", () => {
   test("if datadog host metrics exceed planed number", () => {
     const infraReports = InfraReports.create(reservedPlans, metrics);
@@ -79,17 +67,5 @@ describe("exceededInfraProducts", () => {
   test("if datadog host metrics does not exceed planned number", () => {
     const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
     expect(infraReports.exceededProducts()).toEqual([]);
-  });
-});
-
-describe("exceededInfraPeriods", () => {
-  test("if datadog host metrics exceed planed number", () => {
-    const infraReports = InfraReports.create(reservedPlans, metrics);
-    expect(infraReports.exceededPeriods()).toEqual([parseInt(firstTime, 10)]);
-  });
-
-  test("if datadog host metrics don't exceed planned number", () => {
-    const infraReports = InfraReports.create(reservedPlans, metricsUnderLimit);
-    expect(infraReports.exceededPeriods()).toHaveLength(0);
   });
 });
