@@ -4,7 +4,7 @@ import "source-map-support/register";
 import * as DatadogReport from "./DatadogReport";
 import { SlackClient } from "./SlackClient";
 
-export async function datadog_handler(event: APIGatewayEvent, context: Context, callback: Callback) {
+export async function datadog_handler(event: any, context: any, callback: Callback) {
   const datadogReport = await DatadogReport.fetchDatadogMetrics(fromTime(), toTime());
   const slackClient = new SlackClient();
   await slackClient.post(datadogReport.body());
@@ -30,3 +30,6 @@ function toTime() {
     .subtract(1, "days")
     .format("X");
 }
+
+// 取り急ぎの対応
+(async () => await datadog_handler("a", "b", () => {}))();

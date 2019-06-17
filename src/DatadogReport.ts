@@ -3,6 +3,12 @@ import { DynamoDBClient } from "./DynamoDBClient";
 import { InfraReports } from "./InfraReports";
 import { InfraReportsMessage } from "./InfraReportsMessage";
 
+/**
+ *
+ * @param fromTime
+ * @param toTime
+ */
+
 export async function fetchDatadogMetrics(fromTime: string, toTime: string) {
   const datadogClient = new DatadogClient();
   const infraHosts = await datadogClient.fetchInfraHosts(fromTime, toTime);
