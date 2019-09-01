@@ -41,6 +41,7 @@
     "axios": "^0.18.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "mem": ">=4.0.0"
   }
 }
