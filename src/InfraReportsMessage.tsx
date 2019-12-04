@@ -1,7 +1,6 @@
 /** @jsx JSXSlack.h */
 import JSXSlack, { Block, Divider, Field, Section } from "@speee-js/jsx-slack";
 
-import moment from "moment-timezone";
 import { InfraReport } from "./InfraReport";
 import { InfraReports } from "./InfraReports";
 import { ProductReport } from "./typings/products";
